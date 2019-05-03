@@ -74,7 +74,7 @@
   (exwm-input-set-key (kbd "<s-return>") 'ace-window)
   (exwm-input-set-key (kbd "s-/") 'winner-undo)
   (exwm-input-set-key (kbd "s-?") 'winner-redo)
-  (exwm-input-set-key (kbd "s-1") 'delete-other-windows)
+  (exwm-input-set-key (kbd "s-1") 'delete-other-whindows)
   (exwm-input-set-key (kbd "s-2") 'split-window-below)
   (exwm-input-set-key (kbd "s-3") 'split-window-right)
   (exwm-input-set-key (kbd "s-0") 'delete-window)

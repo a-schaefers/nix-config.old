@@ -16,8 +16,9 @@ environment.variables.LIBVIRT_DEFAULT_URI = "qemu:///system";
 environment.systemPackages = with pkgs; [
 OVMF
 virtmanager
-pkgs.gnome3.dconf # https://github.com/NixOS/nixpkgs/issues/42433
 ];
+
+programs.dconf.enable = true;  # https://github.com/NixOS/nixpkgs/issues/42433
 
 virtualisation.libvirtd.onShutdown = "shutdown";
 

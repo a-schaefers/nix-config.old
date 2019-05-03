@@ -32,6 +32,6 @@ x11-bypass-compositor=yes
 EOF
 
 dotfiles="/nix-config/dotfiles"
-[ ! -d "$HOME/.emacs.d/" ] &&  mkdir "$HOME/.emacs.d/"
+[ ! -d "$HOME/.emacs.d/" ] &&  mkdir "$HOME/.emacs.d"
 ln -s "$dotfiles/.emacs.d/"* "$HOME/.emacs.d"
 ln -s "$dotfiles" "$HOME"

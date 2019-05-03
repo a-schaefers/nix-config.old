@@ -10,14 +10,8 @@ glxinfo libva-utils vdpauinfo
 
 ffmpeg mpv youtube-dl
 
+chromium
 ];
-
-programs.firejail = {
-enable = true;
-wrappedBinaries = {
-chromium = "${lib.getBin pkgs.chromium}/bin/chromium";
-};
-};
 
 };
 }

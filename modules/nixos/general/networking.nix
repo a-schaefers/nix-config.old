@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
 services.openssh.enable = false;
-services.openssh.permitRootLogin = "yes";
 
 networking = {
 

@@ -22,23 +22,19 @@
 (require 'dev-programming)
 
 ;;  support for things like docker and various configuration file formats
-;; (require 'dev-ops)
+(require 'dev-ops)
 
 ;; programming configs, mostly adapted from prelude. https://github.com/bbatsov
 (require 'lang-shell)
-;; (require 'lang-c)
 (require 'lang-lisp-generic)
 (require 'lang-elisp)
+(require 'lang-nix)
 ;; (require 'lang-common-lisp)
 ;; (require 'lang-clojure)
 ;; (require 'lang-scheme)
-(require 'lang-nix)
 ;; (require 'lang-web)
 ;; (require 'lang-css)
 ;; (require 'lang-js)
-;; (require 'lang-perl)
-;; (require 'lang-python)
-;; (require 'lang-ruby)
 
 ;; applications
 (require 'apps-gnus) ; email client
@@ -46,6 +42,7 @@
 (require 'apps-emms) ; mpv player front-end
 (require 'apps-pdf-tools) ; more performant pdf viewer
 
+;; startup shell commands
 (with-eval-after-load 'exwm
   (defun my-startup ()
     ;; minimal apps

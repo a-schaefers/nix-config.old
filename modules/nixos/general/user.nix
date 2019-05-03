@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
 
-security.sudo.wheelNeedsPassword = false;
+security.sudo.wheelNeedsPassword = true;
 
 nix.allowedUsers = [ "root" "@wheel" ];
 nix.trustedUsers = [ "root" "@wheel" ];

@@ -55,16 +55,10 @@
   (smartparens-mode 1))
 (add-hook 'org-mode-hook 'my-org-hook)
 
-;; RADIAN [code below] is a really nice Emacs project from the author of
-;; straight-use-package and el-patch
-;; https://github.com/raxod502/radian
-
 ;; Enable all disabled commands.
 (setq disabled-command-function nil)
 
-;; Disable warnings from obsolete advice system. They don't provide
-;; useful diagnostic information and often they can't be fixed except
-;; by changing packages upstream.
+;; Disable warnings from obsolete advice system.
 (setq ad-redefinition-action 'accept)
 
 ;; savehist keeps track of some history
@@ -104,17 +98,5 @@
   ;; Use Emacs-style regular expressions by default, instead of
   ;; Python-style.
   (setq vr/engine 'emacs))
-
-;; Original code from
-;; https://github.com/PythonNut/emacs-config/blob/1a92a1ff1d563fa6a9d7281bbcaf85059c0c40d4/modules/config-intel.el#L130-L137,
-;; thanks!
-(radian-defadvice radian--advice-disable-eldoc-on-flycheck
-    (&rest _)
-  :after-while eldoc-display-message-no-interference-p
-  "Disable ElDoc when point is on a Flycheck overlay.
-This prevents ElDoc and Flycheck from fighting over the echo
-area."
-  (not (and (bound-and-true-p flycheck-mode)
-            (flycheck-overlay-errors-at (point)))))
 
 (provide 'cfg-general)

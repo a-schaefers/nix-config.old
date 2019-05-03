@@ -81,10 +81,6 @@
   (exwm-input-set-key (kbd "s--") 'kill-this-buffer)
   (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
   (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
-  (exwm-input-set-key (kbd "<f10>") 'my-compton-toggle)
-  (exwm-input-set-key (kbd "<f11>") 'my-redshift-toggle)
-  (exwm-input-set-key (kbd "<f12>") 'my-theme-select-random)
-  (exwm-input-set-key (kbd "<s-escape>") 'exwm-workspace-move-window)
 
   ;; disable annoying minibuffer click that is often misclicked while using systray
   (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
@@ -309,7 +305,6 @@
   (defhydra init (:exit t)
     "init.el"
     ("i" (my-find-user-init-file) "init.el edit")
-    ("r" (radian-reload-init) "reload init")
     ("q" nil "Quit"))
 
   (defhydra windows-hydra ()

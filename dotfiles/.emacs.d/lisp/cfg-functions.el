@@ -49,28 +49,8 @@
   (remove-hook 'before-save-hook 'whitespace-cleanup)
   (message "whitespace cleanup disabled"))
 
-(defun radian--flycheck-disable-checkers (&rest checkers)
-  "Disable the given Flycheck syntax CHECKERS, symbols.
-This function affects only the current buffer, and neither causes
-nor requires Flycheck to be loaded."
-  (unless (boundp 'flycheck-disabled-checkers)
-    (setq flycheck-disabled-checkers nil))
-  (make-local-variable 'flycheck-disabled-checkers)
-  (dolist (checker checkers)
-    (cl-pushnew checker flycheck-disabled-checkers)))
-
-(defun radian-reload-init ()
-  (interactive)
-  (message "Reloading init-file...")
-  (load user-init-file nil 'nomessage)
-  (message "Reloading init-file...done"))
-
 (defun my-compton-toggle ()
   (interactive)
   (start-process-shell-command "compton" nil "pkill compton || compton --backend glx"))
-
-(defun my-redshift-toggle ()
-  (interactive)
-  (start-process-shell-command "redshift" nil "pkill -USR1 redshift || redshift -l 43.3665:-124.2179"))
 
 (provide 'cfg-functions)

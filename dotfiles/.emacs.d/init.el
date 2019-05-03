@@ -9,6 +9,15 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'boiler-plate) ; where the magic happens
 
+;; startup shell commands
+(with-eval-after-load 'exwm
+  (defun my-startup ()
+    ;; minimal apps
+    (start-process-shell-command "xset" nil "xset r rate 250 50")
+    (start-process-shell-command "compton" nil "compton --backend glx")
+    (start-process-shell-command "setxkbmap" nil "setxkbmap -option ctrl:swap_lalt_lctl -option caps:menu"))
+  (add-hook 'exwm-init-hook 'my-startup))
+
 ;; core configuration
 (require 'cfg-even-better-defaults) ; like `better-defaults', but even better
 (require 'cfg-functions) ; misc. handy functions
@@ -29,26 +38,17 @@
 (require 'lang-lisp-generic)
 (require 'lang-elisp)
 (require 'lang-nix)
-;; (require 'lang-common-lisp)
-;; (require 'lang-clojure)
-;; (require 'lang-scheme)
-;; (require 'lang-web)
-;; (require 'lang-css)
-;; (require 'lang-js)
+(require 'lang-common-lisp)
+(require 'lang-clojure)
+(require 'lang-scheme)
+(require 'lang-web)
+(require 'lang-css)
+(require 'lang-js)
 
 ;; applications
 (require 'apps-gnus) ; email client
 (require 'apps-erc) ; irc client
 (require 'apps-emms) ; mpv player front-end
 (require 'apps-pdf-tools) ; more performant pdf viewer
-
-;; startup shell commands
-(with-eval-after-load 'exwm
-  (defun my-startup ()
-    ;; minimal apps
-    (start-process-shell-command "xset" nil "xset r rate 250 50")
-    (start-process-shell-command "compton" nil "compton --backend glx")
-    (start-process-shell-command "setxkbmap" nil "setxkbmap -option ctrl:swap_lalt_lctl -option caps:menu"))
-  (add-hook 'exwm-init-hook 'my-startup))
 
 ;;; init.el ends here

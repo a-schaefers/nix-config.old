@@ -94,9 +94,6 @@
 ;; and resolving Git merge conflicts.
 (use-package smerge-mode)
 
-;; github integration
-(use-package gist :disabled) ; broken
-
 ;; enabling flycheck globally is unsafe so enable per-buffer when needed instead.
 ;; TODO consider a projectile mode hook?
 (use-package flycheck

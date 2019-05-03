@@ -2,11 +2,6 @@
 
 ;; NOTE: currently installing ebuild-mode via emerge...
 
-(use-package keychain-environment
-  :load-path (lambda () (expand-file-name "lisp-extra" user-emacs-directory))
-  :commands keychain-refresh-environment
-  :ensure nil)
-
 (use-package terraform-mode :defer t)
 
 (use-package dockerfile-mode :defer t)

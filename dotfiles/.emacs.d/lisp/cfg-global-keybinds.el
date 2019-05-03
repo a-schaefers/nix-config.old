@@ -310,8 +310,6 @@
   ;; subhydras
   (defhydra gist (:exit t)
     "gist and webpaste"
-    ("l" (gist-list) "gist list")
-    ("g" (call-interactively #'gist-region-or-buffer) "gist")
     ("p" (call-interactively #'webpaste-paste-region) "webpaste region")
     ("P" (webpaste-paste-buffer) "webpaste buffer")
     ("q" nil "Quit"))

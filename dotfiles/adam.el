@@ -3,8 +3,6 @@
 (find-file "~/org/calendar.org")
 (find-file "~/org/clock.org")
 (find-file "~/org/todo.org")
-
 (find-file "~/Private/contacts.el")
-(find-file "~/Private/.passwd.gpg")
 
 (+ 3 2) ;; calculator

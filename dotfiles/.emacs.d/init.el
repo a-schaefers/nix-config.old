@@ -22,7 +22,7 @@
 (require 'dev-programming)
 
 ;;  support for things like docker and various configuration file formats
-(require 'dev-ops)
+;; (require 'dev-ops)
 
 ;; programming configs, mostly adapted from prelude. https://github.com/bbatsov
 (require 'lang-shell)
@@ -31,7 +31,7 @@
 (require 'lang-elisp)
 ;; (require 'lang-common-lisp)
 ;; (require 'lang-clojure)
-(require 'lang-scheme)
+;; (require 'lang-scheme)
 (require 'lang-nix)
 ;; (require 'lang-web)
 ;; (require 'lang-css)

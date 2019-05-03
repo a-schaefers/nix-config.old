@@ -9,15 +9,6 @@ alias l="ls -CF"
 
 alias tm='tmux new -A -s "$USER"'
 
-wget_crawler() { wget --no-clobber --convert-links --random-wait -r -p --level 1 -E -e robots=off -U mozilla "$@"; }
-
-keychain_unlock() {
-    keychain -q --gpg2 --agents ssh,gpg --eval id_rsa 59AF55B230F3A044AF17DB6D09C5261E6305B722
-    pgrep emacs && emacsclient -e "(keychain-refresh-environment)"
-}
-
-keychain_lock() { keychain -k all --agents ssh,gpg ; }
-
 source_emacs_dumb_term() {
     export PAGER="cat"
     export TERM="xterm-256color"

@@ -73,9 +73,9 @@
 ;; keep up to date
 (use-package auto-package-update :config
   (setq auto-package-update-delete-old-versions t
-        auto-package-update-interval 1 ; once a day
+        auto-package-update-interval 30 ; monthly
         auto-package-update-prompt-before-update nil)
-  ;; this sucks, but basically dont start using this until the third run of Emacs
+  ;; this sucks, but basically dont start using this auto-update feature until the third run of Emacs
   (if (and (file-exists-p (concat user-emacs-directory ".first_run"))
            (file-exists-p (concat user-emacs-directory ".second_run")))
       (auto-package-update-maybe)

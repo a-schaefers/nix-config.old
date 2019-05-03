@@ -13,12 +13,9 @@
                                        "#commanduser"
                                        "##apoptosis"
                                        "#funtoo-report"
-                                       "##catholic"
                                        "#emacs"
-                                       ;; "#gentoo"
-                                       ;; "#archlinux"
-                                       ;; "#nixos "
-                                       ;; "#zfsonlinux "
+                                       "#nixos"
+                                       ;; "#zfsonlinux"
                                        ))
         )
   (erc-tls :server "chat.freenode.net" :port "6697"))

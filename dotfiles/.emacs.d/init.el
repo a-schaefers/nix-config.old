@@ -46,4 +46,12 @@
 (require 'apps-emms) ; mpv player front-end
 (require 'apps-pdf-tools) ; more performant pdf viewer
 
+(with-eval-after-load 'exwm
+  (defun my-startup ()
+    ;; minimal apps
+    (start-process-shell-command "xset" nil "xset r rate 250 50")
+    (start-process-shell-command "compton" nil "compton --backend glx")
+    (start-process-shell-command "setxkbmap" nil "setxkbmap -option ctrl:swap_lalt_lctl -option caps:menu"))
+  (add-hook 'exwm-init-hook 'my-startup))
+
 ;;; init.el ends here

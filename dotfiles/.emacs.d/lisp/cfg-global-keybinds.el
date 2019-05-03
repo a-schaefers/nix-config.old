@@ -11,13 +11,6 @@
   :config
   (setq exwm-workspace-number 8)
 
-  (defun my-startup ()
-    ;; minimal apps
-    (start-process-shell-command "xset" nil "xset r rate 250 50")
-    (start-process-shell-command "compton" nil "compton --backend glx")
-    (start-process-shell-command "setxkbmap" nil "setxkbmap -option ctrl:swap_lalt_lctl -option caps:menu"))
-  (add-hook 'exwm-init-hook 'my-startup)
-
   ;; randr
   (require 'exwm-randr)
   (setq exwm-randr-workspace-output-plist '(0 "VGA-1" 1 "VGA-1" 2 "VGA-1" 3 "VGA-1"
@@ -293,7 +286,6 @@
     ("+" (operate-on-number-at-point)))
 
   ;; esc/f1 hydra
-  (define-key key-translation-map (kbd "ESC") (kbd "<f1>"))
   (defhydra f1-hydra (:exit t)
     "Main Menu"
     ("a" (apps-hydra/body) "apps")

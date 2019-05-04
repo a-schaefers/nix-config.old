@@ -161,7 +161,6 @@
   ;; esc/f1 hydra
   (defhydra f1-hydra (:exit t)
     "Main Menu"
-    ("a" (apps-hydra/body) "apps")
     ("c" (call-interactively #'display-time-mode) "clock")
     ("o" (org-hydra/body) "org")
     ("i" (init/body) "init")
@@ -209,17 +208,6 @@
     ("s-2" (split-window-below) "")
     ("3" (split-window-right) "")
     ("s-3" (split-window-right) "")
-    ("q" nil "Quit"))
-
-  (defhydra apps-hydra (:exit t)
-    "Applications"
-    ("g" (gnus) "gnus")
-    ("e" (erc-connect) "erc")
-    ("c" (start-process-shell-command "chrome" nil
-                                      "wmctrl -a Chromium || chrome") "google-chrome")
-    ("m" (emms-hydra/body) "Emacs Multimedia System")
-    ("p" (helm-run-external-command "pavucontrol") "pavucontrol")
-    ("v" (helm-run-external-command "virt-manager") "virt-manager")
     ("q" nil "Quit"))
 
   (defhydra emms-hydra (:exit t)

@@ -5,14 +5,12 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'boiler-plate)
-
 (require 'cfg-even-better-defaults)
 (require 'cfg-functions)
 (require 'cfg-general)
 (require 'cfg-global-keybinds)
 (require 'cfg-theme)
-
-(require 'lang-generic)
+(require 'lang-programming-tools)
 (require 'lang-nix)
 (require 'lang-shell)
 (require 'lang-lisp-generic)

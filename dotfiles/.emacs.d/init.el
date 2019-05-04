@@ -3,8 +3,6 @@
 (setq user-full-name "Adam Schaefers"
       user-mail-address "paxchristi888@gmail.com")
 
-(toggle-frame-maximized)
-
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'boiler-plate)
 
@@ -14,7 +12,7 @@
 (require 'cfg-global-keybinds)
 (require 'cfg-theme)
 
-(require 'dev-programming)
+(require 'lang-generic)
 (require 'lang-nix)
 (require 'lang-shell)
 (require 'lang-lisp-generic)

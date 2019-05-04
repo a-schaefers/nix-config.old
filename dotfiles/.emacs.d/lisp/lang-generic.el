@@ -119,4 +119,4 @@
 ;; command-line pastebins.
 (use-package webpaste :defer t)
 
-(provide 'dev-programming)
+(provide 'lang-generic)

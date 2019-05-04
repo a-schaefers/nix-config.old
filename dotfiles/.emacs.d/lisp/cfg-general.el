@@ -24,20 +24,10 @@
   (midnight-mode 1))
 
 ;; org-mode setup
-
-;; nag in prog-mode if not clocked in
-;; TODO use a projectile mode hook instead
-(use-package org-nag-clock :disabled
-  :load-path (lambda () (expand-file-name "lisp-extra" user-emacs-directory))
-  :config
-  ;; enable / disable
-  (org-nag-clock-mode 1))
-
 (setq org-agenda-files
       (append
        (file-expand-wildcards "~/org/*.org")))
 (setq org-confirm-babel-evaluate nil)
-
 (defun my-org-hook ()
   (company-mode 1)
   (smartparens-mode 1))

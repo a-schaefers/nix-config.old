@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-message=$*; [[ $message ]] || message=$(cat)
-message=${message//[^[:alnum:][:space:]]}
-emacsclient -e "(message \"$message\")"

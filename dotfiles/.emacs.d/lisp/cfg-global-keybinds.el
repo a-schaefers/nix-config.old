@@ -459,7 +459,7 @@
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 (with-eval-after-load 'org
   (define-key org-mode-map (kbd "<C-tab>") 'spacemacs/alternate-buffer))
-(global-set-key (kbd "<s-backspace>") 'my-kill-buffer-and-window)
+(global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (global-set-key (kbd "s--") 'kill-this-buffer)
 (global-set-key (kbd "s-1") 'delete-other-windows)
 (global-set-key (kbd "s-2") 'split-window-below)

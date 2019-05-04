@@ -7,7 +7,8 @@ in
 options.modules.desktop.exwm.enable = mkEnableOption "modules.desktop.exwm";
 config = mkIf config.modules.desktop.exwm.enable {
 
-services.xserver.desktopManager = {
+services.xserver = {
+desktopManager = {
 session = [ {
 manage = "desktop";
 name = "emacs";
@@ -16,6 +17,7 @@ ${myEmacs}/bin/emacs &
 waitPID=$!
 '';
 } ];
+};
 };
 
 environment.sessionVariables = {
@@ -26,11 +28,13 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-myEmacs keychain
-
-# xorg / minimal wm helpers
-compton wmctrl scrot feh xorg.setxkbmap xorg.xset xorg.xrdb xclip xsel
+myEmacs
 ];
+
+# services.compton = {
+# enable = true;
+# backend = "glx";
+# };
 
 };
 }

@@ -9,28 +9,19 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'boiler-plate) ; where the magic happens
 
-;; startup shell commands
-(with-eval-after-load 'exwm
-  (defun my-startup ()
-    ;; minimal apps
-    (start-process-shell-command "xset" nil "xset r rate 250 50")
-    (start-process-shell-command "compton" nil "compton --backend glx")
-    (start-process-shell-command "setxkbmap" nil "setxkbmap -option ctrl:swap_lalt_lctl -option caps:menu"))
-  (add-hook 'exwm-init-hook 'my-startup))
-
 ;; core configuration
 (require 'cfg-even-better-defaults) ; like `better-defaults', but even better
-(require 'cfg-functions) ; misc. handy functions
-(require 'cfg-general) ; misc. settings and enhancements
-(require 'cfg-global-keybinds) ; `exwm', `helm', `hydra', `smartparens', `crux' etc.
-(require 'cfg-theme) ; everything theme-related
+(require 'cfg-functions)            ; misc. handy functions
+(require 'cfg-general)              ; misc. settings and enhancements
+(require 'cfg-global-keybinds)      ; `exwm', `helm', `hydra', `smartparens', `crux' etc.
+(require 'cfg-theme)                ; everything theme-related
 
-;; from here to EOF lazy-load (:defer) everything
+;; from here to EOF explicitly lazy-load (:defer) everything
 
 ;; ide-like features
 (require 'dev-programming)
 
-;;  support for things like docker and various configuration file formats
+;;  support for things like docker and various config formats
 (require 'dev-ops)
 
 ;; programming configs, mostly adapted from prelude. https://github.com/bbatsov
@@ -46,9 +37,9 @@
 (require 'lang-js)
 
 ;; applications
-(require 'apps-gnus) ; email client
-(require 'apps-erc) ; irc client
-(require 'apps-emms) ; mpv player front-end
+(require 'apps-gnus)      ; email client
+(require 'apps-erc)       ; irc client
+(require 'apps-emms)      ; mpv player front-end
 (require 'apps-pdf-tools) ; more performant pdf viewer
 
 ;;; init.el ends here

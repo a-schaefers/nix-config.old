@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 with lib;
 {
-options.modules.desktop.dm.enable = mkEnableOption "modules.desktop.dm";
-config = mkIf config.modules.desktop.dm.enable {
+options.modules.desktop.sddm.enable = mkEnableOption "modules.desktop.sddm";
+config = mkIf config.modules.desktop.sddm.enable {
 
 services.xserver = {
 
@@ -15,7 +15,12 @@ sddm.enable = true;
 sddm.autoLogin.enable = true;
 sddm.autoLogin.relogin = false;
 sddm.autoLogin.user = "adam";
-
+sddm.autoNumlock = true;
+sddm.extraConfig = ''
+[Autologin]
+User=adam
+Session=plasma.desktop
+'';
 };
 };
 };

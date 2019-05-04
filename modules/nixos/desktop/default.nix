@@ -9,7 +9,7 @@ config = mkIf config.modules.desktop.enable {
 sound.enable = true;
 
 # cups
-# services.printing.enable = true;
+services.printing.enable = true;
 
 # polkit
 security.polkit.enable = true;
@@ -31,8 +31,9 @@ modules.desktop = enableMultiple [
 "pulse"
 "xorg"
 "opengl"
-"dm"
+"sddm"
 "exwm"
+"plasma"
 ];
 
 };

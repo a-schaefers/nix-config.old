@@ -49,8 +49,4 @@
   (remove-hook 'before-save-hook 'whitespace-cleanup)
   (message "whitespace cleanup disabled"))
 
-(defun my-compton-toggle ()
-  (interactive)
-  (start-process-shell-command "compton" nil "pkill compton || compton --backend glx"))
-
 (provide 'cfg-functions)

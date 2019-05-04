@@ -1,8 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; skip gnome-keyring and use loopback
-;; (setq epa-pinentry-mode 'loopback)
-
 ;; default browser
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "chrome")
@@ -10,19 +7,10 @@
 ;; clickable code comments e.g. http://www.google.com
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; set helm + which-key to the same, 25% window height
-(use-package shackle :disabled
-  :config
-  (setq helm-display-function 'pop-to-buffer)
-  (setq shackle-rules '(("\\`\\*helm.*?\\*\\'" :regexp t :align t :size 0.30)))
-  (shackle-mode 1))
 (use-package which-key
   :config
-  ;; (setq which-key-side-window-max-height 0.30)
   (setq which-key-idle-delay 0.0)
   (which-key-mode))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; make dired transactions asynchronous
 (use-package async :config
@@ -87,16 +75,5 @@
 ;; type.
 (use-package visual-regexp :defer t
   :bind (("M-%" . vr/query-replace)))
-
-;; Package `visual-regexp-steroids' allows `visual-regexp' to use
-;; regexp engines other than Emacs'; for example, Python or Perl
-;; regexps.
-(use-package visual-regexp-steroids :defer t
-  :bind (("C-r" . vr/isearch-backward)
-         ("C-s" . vr/isearch-forward))
-  :init
-  ;; Use Emacs-style regular expressions by default, instead of
-  ;; Python-style.
-  (setq vr/engine 'emacs))
 
 (provide 'cfg-general)

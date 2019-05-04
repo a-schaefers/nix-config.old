@@ -11,6 +11,7 @@ glxinfo libva-utils vdpauinfo
 ffmpeg mpv youtube-dl
 
 chromium
+thunderbird
 ];
 
 };

@@ -31,10 +31,10 @@ environment.systemPackages = with pkgs; [
 myEmacs
 ];
 
-# services.compton = {
-# enable = true;
-# backend = "glx";
-# };
+services.compton = {
+enable = true;
+backend = "glx";
+};
 
 };
 }

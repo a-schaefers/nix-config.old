@@ -16,11 +16,6 @@ sddm.autoLogin.enable = true;
 sddm.autoLogin.relogin = false;
 sddm.autoLogin.user = "adam";
 sddm.autoNumlock = true;
-sddm.extraConfig = ''
-[Autologin]
-User=adam
-Session=plasma.desktop
-'';
 };
 };
 };

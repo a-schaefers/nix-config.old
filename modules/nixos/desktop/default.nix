@@ -32,7 +32,7 @@ modules.desktop = enableMultiple [
 "xorg"
 "opengl"
 "sddm"
-"exwm"
+# "exwm"
 "plasma"
 ];
 

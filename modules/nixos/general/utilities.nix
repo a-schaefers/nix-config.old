@@ -35,6 +35,9 @@ linuxPackages.perf
 wget
 tmux
 cryptsetup
+parted
+gparted
+syslinux
 ];
 
 }

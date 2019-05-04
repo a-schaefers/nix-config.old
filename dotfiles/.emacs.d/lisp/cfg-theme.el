@@ -49,7 +49,7 @@
   (global-hl-line-mode -1)
 
   ;; font
-  (setq my-font "Source Code Pro-13")
+  (setq my-font "Source Code Pro-15")
   (set-face-attribute 'default nil :font my-font)
 
   ;; left-fringe is flycheck, right-fringe is diff-hl

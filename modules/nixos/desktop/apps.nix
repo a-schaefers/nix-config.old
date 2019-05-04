@@ -10,6 +10,8 @@ glxinfo libva-utils vdpauinfo
 
 ffmpeg mpv youtube-dl
 
+konversation
+spotify
 chromium
 thunderbird
 ];

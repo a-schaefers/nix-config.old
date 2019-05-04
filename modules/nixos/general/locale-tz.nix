@@ -2,8 +2,8 @@
 {
 
 i18n = {
-consoleFont = "Lat2-Terminus16";
-consoleKeyMap = "us";
+consoleUseXkbConfig = true;
+consoleFont = "Lat2-Terminus18";
 defaultLocale = "en_US.UTF-8";
 };
 

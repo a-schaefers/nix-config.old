@@ -68,7 +68,7 @@ nix_zfs_extra_auto_snapshot_monthly="0"
 # Use NixOs automatic garbage collection?
 nix_zfs_extra_gc_automatic="true"
 nix_zfs_extra_gc_dates="weekly"
-nix_zfs_extra_gc_options="--delete-older-than 30d"
+nix_zfs_extra_gc_options="--delete-older-than 7d"
 
 # Clean /tmp automatically on boot.
 nix_zfs_extra_clean_tmp_dir="true"

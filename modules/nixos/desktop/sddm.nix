@@ -13,7 +13,7 @@ xterm.enable = false;
 displayManager = {
 sddm.enable = true;
 sddm.autoLogin.enable = true;
-sddm.autoLogin.relogin = false;
+sddm.autoLogin.relogin = true;
 sddm.autoLogin.user = "adam";
 sddm.autoNumlock = true;
 };

@@ -5,14 +5,16 @@ with import ../../../util;
 options.modules.desktop.enable = mkEnableOption "modules.desktop";
 config = mkIf config.modules.desktop.enable {
 
+# polkit
+security.polkit.enable = true;
+
 # alsa
 sound.enable = true;
 
-# cups
+# services
+services.colord.enable = true;
 services.printing.enable = true;
-
-# polkit
-security.polkit.enable = true;
+services.samba.enable = true;
 
 # some basic fonts
 fonts.fonts = with pkgs; [

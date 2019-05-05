@@ -1,4 +1,4 @@
-{ config, pkgs, lib, callPackage, ... }:
+{ config, pkgs, lib, ... }:
 with lib;
 {
 options.modules.desktop.plasma.enable = mkEnableOption "modules.desktop.plasma";

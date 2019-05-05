@@ -8,12 +8,13 @@ config = mkIf config.modules.desktop.apps.enable {
 environment.systemPackages = with pkgs; [
 glxinfo libva-utils vdpauinfo
 
-ffmpeg mpv youtube-dl
+ffmpeg mpv youtube-dl vlc dragon
 
-konversation
-spotify
-chromium
-thunderbird
+kgpg k3b kate kcalc k3b akonadi
+
+libreoffice gimp krita inkscape kdenlive blender
+
+chromium google-chrome thunderbird konversation spotify
 ];
 
 };

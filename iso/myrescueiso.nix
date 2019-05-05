@@ -16,6 +16,9 @@ wireless.enable = false;
 nameservers = [ "8.8.8.8" "8.8.4.4" ];
 };
 
-boot.supportedFilesystems = [ "zfs" ];
 environment.systemPackages = with pkgs; [ git themelios ];
+
+boot.supportedFilesystems = [ "zfs" ];
+boot.zfs.enableUnstable = true;
+boot.zfs.requestEncryptionCredentials = true;
 }

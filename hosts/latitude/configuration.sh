@@ -59,13 +59,14 @@ nix_zfs_extra_auto_scrub="true"
 
 # Enable the (OpenSolaris-compatible) ZFS auto-snapshotting service.
 nix_zfs_extra_auto_snapshot_enabled="true"
-nix_zfs_extra_auto_snapshot_frequent="8" # take a snapshot every 15 minutes and keep 8 in rotation
+nix_zfs_extra_auto_snapshot_frequent="8"
 nix_zfs_extra_auto_snapshot_hourly="24"
 nix_zfs_extra_auto_snapshot_daily="0"
 nix_zfs_extra_auto_snapshot_weekly="0"
 nix_zfs_extra_auto_snapshot_monthly="0"
 
-# Use NixOs automatic garbage collection?
+# Use NixOs automatic garbage collection and autoOtimiseStore?
+nix_zfs_extra_auto_optimise_store="true"
 nix_zfs_extra_gc_automatic="true"
 nix_zfs_extra_gc_dates="weekly"
 nix_zfs_extra_gc_options="--delete-older-than 7d"

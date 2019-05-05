@@ -42,7 +42,6 @@
   (setq dired-clean-confirm-killing-deleted-buffers nil)
   (setq dired-auto-revert-buffer t)
   (setq dired-omit-verbose nil)
-  (global-unset-key (kbd "C-x C-e"))
   (global-unset-key (kbd "C-z"))
   (setq ring-bell-function #'ignore)
   (setq echo-keystrokes 1e-6)

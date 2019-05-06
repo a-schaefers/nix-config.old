@@ -31,7 +31,7 @@
 
 ;; Make Emacs verify tls certificates (depends: gnutls-cli certifi)
 (start-process-shell-command  "check-for-gnutls" nil "which gnutls-cli || notify-send \"MISSING gnutls-cli\"")
-(start-process-shell-command "check-for-certifi" nil "python -m certifi | grep .pem || notify-send \"MISSING certifi!\"")
+(start-process-shell-command "check-for-certifi" nil "python -m certifi | grep .pem || notify-send \"MISSING certifi\"")
 (setq tls-checktrust t)
 (let ((trustfile
        (replace-regexp-in-string

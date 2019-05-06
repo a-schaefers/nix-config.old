@@ -49,4 +49,4 @@
   (remove-hook 'before-save-hook 'whitespace-cleanup)
   (message "whitespace cleanup disabled"))
 
-(provide 'cfg-functions)
+(provide 'cfg-helper-functions)

@@ -7,6 +7,7 @@
 (add-hook 'after-init-hook 'my-kill-scratch)
 (add-hook 'after-init-hook 'my-custom-startup)
 
+
 ;; Faster startup time for Emacs and potentially better perf on modern pc's.
 (setq gc-cons-threshold 64000000)
 (add-hook 'after-init-hook
@@ -29,6 +30,8 @@
   (setq gnutls-min-prime-bits 3072))
 
 ;; Make Emacs verify tls certificates (depends: gnutls-cli certifi)
+(start-process-shell-command  "check-for-gnutls" nil "which gnutls-cli || notify-send \"MISSING gnutls-cli\"")
+(start-process-shell-command "check-for-certifi" nil "python -m certifi | grep .pem || notify-send \"MISSING certifi!\"")
 (setq tls-checktrust t)
 (let ((trustfile
        (replace-regexp-in-string

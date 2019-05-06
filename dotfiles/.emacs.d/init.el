@@ -6,11 +6,11 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'boiler-plate)
 (require 'cfg-even-better-defaults)
-(require 'cfg-functions)
-(require 'cfg-general)
-(require 'cfg-global-keybinds)
+(require 'cfg-helper-functions)
+(require 'cfg-general-settings)
+(require 'cfg-global-keybinds) ;; helm,hydra,crux,smartparens,etc.
 (require 'cfg-theme)
-(require 'lang-programming-tools)
+(require 'lang-programming-tools) ;; yasnippet,company,dumbjump,projectile,magit,flycheck,etc.
 (require 'lang-nix)
 (require 'lang-shell)
 (require 'lang-lisp-generic)

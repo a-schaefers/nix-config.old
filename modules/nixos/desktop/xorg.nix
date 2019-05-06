@@ -16,7 +16,7 @@ useGlamor = true;
 
 environment.systemPackages = with pkgs; [
 # xorg / minimal wm helpers
-wmctrl scrot feh xclip xsel
+wmctrl scrot feh xclip xsel libnotify
 ];
 
 };

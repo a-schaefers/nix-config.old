@@ -2,7 +2,7 @@
 
 ;; default browser
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "chrome")
+      browse-url-generic-program "google-chrome-stable")
 
 ;; clickable code comments e.g. http://www.google.com
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)
@@ -33,12 +33,6 @@
   (smartparens-mode 1))
 (add-hook 'org-mode-hook 'my-org-hook)
 
-;; Enable all disabled commands.
-(setq disabled-command-function nil)
-
-;; Disable warnings from obsolete advice system.
-(setq ad-redefinition-action 'accept)
-
 ;; savehist keeps track of some history
 (require 'savehist)
 (setq savehist-additional-variables
@@ -54,16 +48,12 @@
        recentf-max-menu-items 15)
 (recentf-mode +1)
 
+;; displays useful elisp information in the echo area
 (require 'eldoc)
-;; Always truncate ElDoc messages to one line. This prevents the
-;; echo area from resizing itself unexpectedly when point is on a
-;; variable with a multiline docstring.
 (setq eldoc-echo-area-use-multiline-p nil)
 
-;; Package `visual-regexp' provides an alternate version of
-;; `query-replace' which highlights matches and replacements as you
-;; type.
+;; visual find and replace
 (use-package visual-regexp :defer t
   :bind (("M-%" . vr/query-replace)))
 
-(provide 'cfg-general)
+(provide 'cfg-general-settings)

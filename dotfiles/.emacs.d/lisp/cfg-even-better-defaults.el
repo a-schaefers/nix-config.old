@@ -24,6 +24,10 @@
   (require 'winner)
   (winner-mode 1)
 
+  (setq disabled-command-function nil)
+
+  (setq ad-redefinition-action 'accept)
+
   (setq tramp-default-method "ssh")
   (setq tramp-copy-size-limit nil)
 

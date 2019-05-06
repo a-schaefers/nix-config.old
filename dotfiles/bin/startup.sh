@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-sleep 5
+sleep 10
 thunderbird &
-sleep 1
-konversation &

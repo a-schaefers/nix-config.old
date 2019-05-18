@@ -15,8 +15,6 @@ ffmpeg mpv youtube-dl vlc
 libreoffice gimp krita inkscape kdenlive blender
 
 google-chrome thunderbird konversation spotify
-
-unetbootin wimlib
 ];
 
 };

@@ -39,6 +39,8 @@ parted
 gparted
 syslinux
 efibootmgr
+unetbootin
+wimlib
 ];
 
 }

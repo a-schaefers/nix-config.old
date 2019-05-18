@@ -17,6 +17,8 @@ libreoffice gimp krita inkscape kdenlive blender
 google-chrome thunderbird konversation spotify
 
 unetbootin wimlib
+
+redshift redshift-plasma-applet geoclue2
 ];
 
 };

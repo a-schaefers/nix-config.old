@@ -6,12 +6,9 @@ config = mkIf config.modules.desktop.plasma.enable {
 
 services.xserver.desktopManager.plasma5.enable = true;
 
-services.redshift = {
-enable = false;
-latitude = "43.3665";
-longitude = "-124.2179";
-};
-
+environment.systemPackages = with pkgs; [
+kgpg k3b kate kcalc k3b akonadi latte-dock
+];
 
 };
 }

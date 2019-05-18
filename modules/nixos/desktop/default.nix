@@ -5,6 +5,9 @@ with import ../../../util;
 options.modules.desktop.enable = mkEnableOption "modules.desktop";
 config = mkIf config.modules.desktop.enable {
 
+# windows 10 dual-boot compat
+time.hardwareClockInLocalTime = true;
+
 # polkit
 security.polkit.enable = true;
 

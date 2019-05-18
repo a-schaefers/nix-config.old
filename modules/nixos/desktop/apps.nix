@@ -14,9 +14,9 @@ kgpg k3b kate kcalc k3b akonadi
 
 libreoffice gimp krita inkscape kdenlive blender
 
-chromium google-chrome thunderbird konversation spotify
+google-chrome thunderbird konversation spotify
 
-unetbootin
+unetbootin wimlib
 ];
 
 };

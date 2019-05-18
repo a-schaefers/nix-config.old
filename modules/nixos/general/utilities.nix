@@ -38,6 +38,7 @@ cryptsetup
 parted
 gparted
 syslinux
+efibootmgr
 ];
 
 }

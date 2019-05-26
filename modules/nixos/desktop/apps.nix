@@ -8,9 +8,7 @@ config = mkIf config.modules.desktop.apps.enable {
 environment.systemPackages = with pkgs; [
 redshift redshift-plasma-applet geoclue2
 
-glxinfo libva-utils vdpauinfo
-
-ffmpeg mpv youtube-dl vlc
+glxinfo libva-utils vdpauinfo ffmpeg vlc phonon phonon-backend-vlc
 
 libreoffice gimp krita inkscape kdenlive blender
 

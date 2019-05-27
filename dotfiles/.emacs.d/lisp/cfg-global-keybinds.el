@@ -6,7 +6,7 @@
 (use-package xelb :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM"))
 (use-package exwm :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
   :config
-  (setq exwm-workspace-number 1)
+  (setq exwm-workspace-number 8)
 
   (if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
       (progn

@@ -2,7 +2,13 @@
 
 ;; default browser
 (setq browse-url-browser-function 'browse-url-generic
-      browse-url-generic-program "google-chrome-stable")
+      browse-url-generic-program "chromium")
+
+;; install chrome plugin "edit with emacs" to edit chrome textboxes with Emacs
+(use-package edit-server
+  :config
+  (setq edit-server-new-frame nil)
+  (edit-server-start))
 
 ;; clickable code comments e.g. http://www.google.com
 (add-hook 'prog-mode-hook 'goto-address-prog-mode)

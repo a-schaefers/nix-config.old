@@ -9,18 +9,13 @@
         erc-prompt-for-password nil
         erc-nick "adamantium"
         erc-autojoin-channels-alist '(("freenode.net"
-                                       "#cooslug"
                                        "#commanduser"
                                        "##apoptosis"
                                        "#funtoo-report"
-                                       "##catholic"
                                        "#emacs"
-                                       ;; "#gentoo"
-                                       ;; "#archlinux"
-                                       ;; "#nixos "
-                                       ;; "#zfsonlinux "
-                                       ))
-        )
+                                       "#nixos"
+                                       "#tinfoilhats"
+                                       )))
   (erc-tls :server "chat.freenode.net" :port "6697"))
 
 ;; hide join/part/quit messages

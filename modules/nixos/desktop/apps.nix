@@ -6,16 +6,19 @@ config = mkIf config.modules.desktop.apps.enable {
 
 # typical desktop apps
 environment.systemPackages = with pkgs; [
-geoclue2
-
 glxinfo libva-utils vdpauinfo
 
-ffmpeg  mpv youtube-dl
+ffmpeg mpv youtube-dl
 
 libreoffice gimp
-
-google-chrome spotify
 ];
+
+programs.firejail = {
+enable = true;
+wrappedBinaries = {
+chromium = "${lib.getBin pkgs.chromium}/bin/chromium";
+};
+};
 
 };
 }

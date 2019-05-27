@@ -10,6 +10,7 @@
 (require 'cfg-general-settings)
 (require 'cfg-global-keybinds) ;; exwm,helm,hydra,crux,smartparens,etc.
 (require 'cfg-theme)
+
 (require 'lang-programming-tools) ;; yasnippet,company,dumbjump,projectile,magit,flycheck,etc.
 (require 'lang-nix)
 (require 'lang-shell)
@@ -21,6 +22,7 @@
 (require 'lang-web)
 (require 'lang-css)
 (require 'lang-js)
+
 (require 'apps-gnus)
 (require 'apps-erc)
 (require 'apps-pdf-tools)

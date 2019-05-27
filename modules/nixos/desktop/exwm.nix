@@ -42,7 +42,7 @@ services.redshift = {
 enable = true;
 latitude = "43.3665";
 longitude = "-124.2179";
-temperature.night = 3000;
+temperature.night = 2500;
 };
 
 };

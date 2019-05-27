@@ -13,7 +13,7 @@ services.mingetty.helpLine =
 ''
 The "root" account has an empty password.  ${
 optionalString config.services.xserver.enable
-"Type `systemctl start display-manager' or `dm' to start the graphical user interface."}
+"Type `systemctl start display-manager' to start the graphical user interface."}
 '';
 
 };

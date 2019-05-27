@@ -15,7 +15,6 @@ sddm.enable = true;
 sddm.autoLogin.enable = true;
 sddm.autoLogin.relogin = true;
 sddm.autoLogin.user = "adam";
-sddm.autoNumlock = true;
 };
 };
 };

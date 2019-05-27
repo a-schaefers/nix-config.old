@@ -18,4 +18,4 @@ source_emacs_dumb_term() {
 }
 [[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" ]] && source_emacs_dumb_term
 
-export PS1="><> \${?#0}"
+export PS1="> \${?#0}"

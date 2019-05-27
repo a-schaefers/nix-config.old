@@ -38,7 +38,7 @@ modules.desktop = enableMultiple [
 "opengl"
 "console"
 "sddm"
-"plasma"
+"exwm"
 ];
 
 };

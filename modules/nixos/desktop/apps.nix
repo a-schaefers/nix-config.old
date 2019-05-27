@@ -6,13 +6,15 @@ config = mkIf config.modules.desktop.apps.enable {
 
 # typical desktop apps
 environment.systemPackages = with pkgs; [
-redshift redshift-plasma-applet geoclue2
+geoclue2
 
-glxinfo libva-utils vdpauinfo ffmpeg vlc phonon phonon-backend-vlc
+glxinfo libva-utils vdpauinfo
 
-libreoffice gimp krita inkscape kdenlive blender
+ffmpeg  mpv youtube-dl
 
-google-chrome thunderbird konversation spotify
+libreoffice gimp
+
+google-chrome spotify
 ];
 
 };

@@ -94,7 +94,6 @@
   (exwm-enable))
 
 (use-package desktop-environment
-  :disabled
   :config
   (desktop-environment-mode)
   (setq desktop-environment-brightness-get-command "light -G"

@@ -60,7 +60,7 @@
                                     (nnmail-expiry-wait immediate)))
 
   ;; smtp
-  (setq smtpmail-smtp-server "email-smtp.us-west-2.amazonaws.com"
+  (setq smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587
         send-mail-function 'smtpmail-send-it
         message-send-mail-function 'smtpmail-send-it

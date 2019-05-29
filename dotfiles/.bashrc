@@ -39,5 +39,6 @@ if [ "$USER" = "root" ]; then
         echo "Starting graphical in..." ; countdown "00:00:03"
         systemctl restart display-manager
     fi
+
     export PS1="% \${?#0}"
 fi

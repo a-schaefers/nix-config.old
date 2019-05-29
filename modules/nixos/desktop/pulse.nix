@@ -9,7 +9,7 @@ nixpkgs.config.pulseaudio = true;
 hardware.pulseaudio.enable = true;
 hardware.pulseaudio.support32Bit = true;
 
-environment.systemPackages = with pkgs; [ pavucontrol ];
+environment.systemPackages = with pkgs; [ pulseaudioFull pavucontrol ];
 
 };
 }

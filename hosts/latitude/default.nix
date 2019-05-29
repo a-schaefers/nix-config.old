@@ -15,7 +15,7 @@ modules.hardware.platform.latitudeE6430.enable = true;
 modules.desktop.enable = true;
 
 # Services
-modules.services.libvirtd.enable = true;
+# modules.services.libvirtd.enable = true;
 
 # Experimental
 system.autoUpgrade.enable = true;

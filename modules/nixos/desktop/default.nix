@@ -15,9 +15,9 @@ security.polkit.enable = true;
 sound.enable = true;
 
 # services
-services.colord.enable = true;
-services.printing.enable = true;
-services.samba.enable = true;
+# services.colord.enable = true;
+# services.printing.enable = true;
+# services.samba.enable = true;
 
 # some basic fonts
 fonts.fonts = with pkgs; [

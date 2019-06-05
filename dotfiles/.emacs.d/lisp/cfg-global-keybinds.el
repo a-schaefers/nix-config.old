@@ -8,12 +8,11 @@
   :config
   (setq exwm-workspace-number 8)
 
-  (if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
-      (progn
-        ;; systemtray
-        (require 'exwm-systemtray)
-        (exwm-systemtray-enable)
-        (setq exwm-systemtray-height 16)))
+  (progn
+    ;; systemtray
+    (require 'exwm-systemtray)
+    (exwm-systemtray-enable)
+    (setq exwm-systemtray-height 16))
 
   ;; randr
   (require 'exwm-randr)

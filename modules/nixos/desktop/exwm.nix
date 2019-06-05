@@ -30,13 +30,8 @@ environment.systemPackages = with pkgs; [
 myEmacs
 
 # xorg / minimal wm helpers
-wmctrl xclip xsel redshift compton scrot
+wmctrl xclip xsel scrot
 ];
-
-services.compton = {
-enable = true;
-backend = "glx";
-};
 
 services.redshift = {
 enable = true;

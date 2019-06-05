@@ -1,11 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
-;;------------------------------------------------------------------ANNOYANCES
-
-(blink-cursor-mode -1) ; disable the  blinking cursor
-(setq visible-bell nil); disable the frame flash
-
 ;;------------------------------------------------------------------MODELINE
+
+;; hide version control from modeline
+(defun hide-vc ()
+  (when (bound-and-true-p mode-line-format)
+    (setcdr (assq 'vc-mode mode-line-format)
+            '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode))))))
+(hide-vc)
 
 ;; hide mule info from modeline
 (setq-default mode-line-mule-info nil)
@@ -28,14 +30,59 @@
   :config (setf rm-blacklist ""))
 
 ;;------------------------------------------------------------------THEME
-;; highlight active line
-(global-hl-line-mode 1)
 
-;; font
-(setq my-font "Source Code Pro-20")
-(set-face-attribute 'default nil :font my-font)
+(setq my-theme-variant 'dark) ;; light or dark
 
-(use-package plan9-theme)
+(use-package plan9-theme
+  :if (eq my-theme-variant 'light)
+  :config (global-hl-line-mode 1)
+  (load-theme 'plan9 t)
+
+  (setq my-font "Fantasque Sans Mono-20")
+  (set-face-attribute 'default nil :font my-font))
+
+(use-package sexy-monochrome-theme
+  :if (eq my-theme-variant 'dark)
+  :config (load-theme 'sexy-monochrome t)
+  (global-hl-line-mode -1)
+
+  ;; font
+  (setq my-font "Hack-18")
+  (set-face-attribute 'default nil :font my-font)
+
+  ;; theme mods
+  (set-cursor-color "#4870a1")
+
+  (with-eval-after-load 'company
+    (require 'color)
+    (let ((bg (face-attribute 'default :background)))
+      (custom-set-faces
+       `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+       `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+       `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+       `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+       `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
+
+  (with-eval-after-load 'diff-hl
+    (custom-set-faces
+     (custom-set-faces
+      '(diff-hl-change ((t (:foreground "#3a81c3" :background "#3a81c3"))))
+      '(diff-hl-insert ((t (:foreground "#7ccd7c" :background "#7ccd7c"))))
+      '(diff-hl-delete ((t (:foreground "#ee6363" :background "#ee6363")))))
+
+     '(hydra-face-amaranth ((t (:foreground "white" :weight bold))))
+     '(hydra-face-blue ((t (:foreground "white" :weight bold))))
+     '(hydra-face-pink ((t (:foreground "white" :weight bold))))
+     '(hydra-face-red ((t (:foreground "white" :weight bold))))
+     '(hydra-face-teal ((t (:foreground "white" :weight bold))))))
+  (custom-set-faces
+   '(fringe ((t (:background "black"))))
+   '(whitespace-line ((t (:background "gray0" :foreground "dim gray" :underline t))))
+   '(header-line ((t (:box nil)))))
+  (set-face-attribute 'vertical-border nil :foreground "black")
+
+  ;; left-fringe is flycheck, right-fringe is diff-hl
+  (fringe-mode '(3 . 3)))
 
 ;;------------------------------------------------------------------MISC.
 
@@ -47,9 +94,15 @@
   (diff-hl-flydiff-mode 1)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
+;;------------------------------------------------------------------ANNOYANCES
+
+(blink-cursor-mode -1) ; disable the  blinking cursor
+
+(setq visible-bell nil); disable the frame flash
+
+;; flycheck show minimal "|" in left-fringe
 (with-eval-after-load 'flycheck
   (progn
-    ;; flycheck show minimal "|" in left-fringe
     (define-fringe-bitmap 'flycheck-fringe-bitmap-nil
       (vector #b00111111
               #b00111111

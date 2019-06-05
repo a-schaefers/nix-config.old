@@ -24,9 +24,10 @@ fonts.fonts = with pkgs; [
 dejavu_fonts
 source-code-pro
 noto-fonts
-noto-fonts-cjk
-noto-fonts-emoji
 liberation_ttf
+hack-font
+fantasque-sans-mono
+terminus_font
 ];
 
 # components of my desktop setup

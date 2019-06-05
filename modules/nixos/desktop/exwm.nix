@@ -40,7 +40,6 @@ dotfiles="/nix-config/dotfiles"
 [ ! -d "$HOME/.emacs.d/" ] &&  mkdir "$HOME/.emacs.d"
 ln -sf "$dotfiles/.emacs.d/"* "$HOME/.emacs.d"
 
-
 [ ! -d "$HOME/.config/gtk-3.0" ] && mkdir -p "$HOME/.config/gtk-3.0"
 cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
 [Settings]
@@ -62,6 +61,7 @@ session = [ {
 manage = "desktop";
 name = "emacs";
 start = ''
+${myDots}/bin/myDots
 ${myEmacs}/bin/emacs &
 waitPID=$!
 '';
@@ -79,12 +79,12 @@ environment.systemPackages = with pkgs; [
 myDots myEmacs wmctrl xclip xsel scrot
 ];
 
-services.redshift = {
-enable = true;
-latitude = "43.3665";
-longitude = "-124.2179";
-temperature.night = 2000;
-};
+# services.redshift = {
+# enable = true;
+# latitude = "43.3665";
+# longitude = "-124.2179";
+# temperature.night = 2000;
+# };
 
 services.xserver.displayManager.setupCommands = ''
 ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr

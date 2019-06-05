@@ -11,6 +11,8 @@ glxinfo libva-utils vdpauinfo
 ffmpeg mpv youtube-dl
 
 libreoffice gimp
+
+gnome3.gnome-themes-standard gnome3.adwaita-icon-theme
 ];
 
 programs.firejail = {

@@ -1,11 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; All global binds (file is searchable by ";;;;" sections)
-
 ;;;; EXWM
-(use-package xelb :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM"))
-(use-package exwm :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
+(use-package xelb
+  :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
+  :config (require 'xelb))
+(use-package exwm
+  :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
   :config
+  (require 'exwm)
   (setq exwm-workspace-number 8)
 
   (progn

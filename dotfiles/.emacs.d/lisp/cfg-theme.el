@@ -27,44 +27,17 @@
           (rich-minority-mode 1))
   :config (setf rm-blacklist ""))
 
-;;------------------------------------------------------------------THEMES
-(use-package zerodark-theme
-  :init
-  ;; don't show column
-  (defvar zerodark-modeline-position '(:eval (propertize " %l %p " 'face (if (zerodark--active-window-p)
-                                                                             'zerodark-buffer-position-face
-                                                                           'mode-line-inactive)))
-    "Mode line construct for displaying the position in the buffer.")
-  :config
-  (load-theme 'zerodark t)
-  (zerodark-setup-modeline-format)
+;;------------------------------------------------------------------THEME
+;; highlight active line
+(global-hl-line-mode 1)
 
-  (defun my-simple-diff-hl-theme ()
-    (with-eval-after-load 'diff-hl
-      (custom-set-faces
-       '(diff-hl-change ((t (:foreground "#3a81c3" :background "#3a81c3"))))
-       '(diff-hl-insert ((t (:foreground "#7ccd7c" :background "#7ccd7c"))))
-       '(diff-hl-delete ((t (:foreground "#ee6363" :background "#ee6363")))))))
+;; font
+(setq my-font "Source Code Pro-20")
+(set-face-attribute 'default nil :font my-font)
 
-  (global-hl-line-mode -1)
-
-  ;; font
-  (setq my-font "Source Code Pro-18")
-  (set-face-attribute 'default nil :font my-font)
-
-  ;; left-fringe is flycheck, right-fringe is diff-hl
-  (fringe-mode '(2 . 4)))
+(use-package plan9-theme)
 
 ;;------------------------------------------------------------------MISC.
-
-;; bootstrap all the icons font
-(use-package all-the-icons :defer t :init
-  (unless (file-exists-p "~/.local/share/fonts/all-the-icons.ttf")
-    (all-the-icons-install-fonts t)))
-
-;; all the icons for dired
-(use-package all-the-icons-dired :defer t :init
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 ;; git add/remove/changed line highlighting on the right-fringe
 (use-package diff-hl

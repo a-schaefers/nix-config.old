@@ -86,12 +86,6 @@ longitude = "-124.2179";
 temperature.night = 2000;
 };
 
-services.compton = {
-enable = true;
-backend = "glx";
-fade = true;
-};
-
 services.xserver.displayManager.setupCommands = ''
 ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
 '';

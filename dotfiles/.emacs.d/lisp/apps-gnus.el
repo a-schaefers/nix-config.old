@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; remember to 'G p' on INBOX and insert (modeline-notify t)
+
 ;; use my custom address inserter
 (setq my-contacts-file "~/Private/contacts.el")
 (when (file-exists-p my-contacts-file)

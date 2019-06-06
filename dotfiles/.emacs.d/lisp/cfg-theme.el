@@ -2,6 +2,11 @@
 
 ;;------------------------------------------------------------------MODELINE
 
+;; show modeline time
+(setq display-time-default-load-average nil
+      display-time-24hr-format t)
+(display-time-mode 1)
+
 ;; hide version control from modeline
 (defun hide-vc ()
   (when (bound-and-true-p mode-line-format)
@@ -14,11 +19,6 @@
 
 ;; hide mode line remote
 (setq-default mode-line-remote nil)
-
-;; hide modeline time
-(setq display-time-default-load-average nil
-      display-time-24hr-format t)
-(display-time-mode -1)
 
 ;; hide modeline active function name
 (which-function-mode -1)

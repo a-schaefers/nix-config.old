@@ -2,7 +2,18 @@
 with lib;
 let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
+emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
+
 myDots = pkgs.writeScriptBin "myDots" ''
+dotfiles="/nix-config/dotfiles"
+ln -sf "$dotfiles/"* "$HOME"
+ln -sf "$dotfiles/".* "$HOME"
+rm "$HOME/.emacs.d"
+mkdir "$HOME/.emacs.d"
+ln -sf "$dotfiles/.emacs.d/"* "$HOME/.emacs.d"
+mkdir "$HOME/org"
+touch "$HOME/org"/{bookmarks,calendar,clock,todo}.org
+
 cat << EOF > "$HOME/.gitconfig"
 [user]
 name = Adam Schaefers
@@ -35,13 +46,6 @@ interpolation
 tscale=oversample
 x11-bypass-compositor=yes
 EOF
-
-dotfiles="/nix-config/dotfiles"
-ln -sf "$dotfiles/"* "$HOME"
-[ ! -d "$HOME/org" ] && mkdir -p "$HOME/org"
-touch "$HOME/org"/{bookmarks,calendar,clock,todo}.org
-[ ! -d "$HOME/.emacs.d/" ] &&  mkdir "$HOME/.emacs.d"
-ln -sf "$dotfiles/.emacs.d/"* "$HOME/.emacs.d"
 
 [ ! -d "$HOME/.config/gtk-3.0" ] && mkdir -p "$HOME/.config/gtk-3.0"
 cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
@@ -102,11 +106,12 @@ session = [ {
 manage = "desktop";
 name = "emacs";
 start = ''
+[ ! -f "/tmp/.SLOCK" ] && touch /tmp/.SLOCK || /run/wrappers/bin/slock
 [ -f "$HOME/.autostart" ] && /bin/sh ~/.autostart
 ${myDots}/bin/myDots
 ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
 ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
-${myEmacs}/bin/emacs &
+/run/current-system/sw/bin/emacs &
 waitPID=$!
 '';
 } ];
@@ -121,10 +126,18 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 
 environment.systemPackages = with pkgs; [
 myDots
-myEmacs gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
+
+(emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+epkgs.xelb
+epkgs.exwm
+])))
+
+gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 wmctrl xclip xsel scrot
-redshift geoclue2 networkmanagerapplet volumeicon
+redshift networkmanagerapplet volumeicon
 ];
+
+programs.slock.enable = true;
 
 };
 }

@@ -1,106 +1,104 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;;;; EXWM
-(use-package xelb
-  :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
-  :config (require 'xelb))
-(use-package exwm
-  :if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
-  :config
-  (require 'exwm)
-  (setq exwm-workspace-number 8)
+(if (string= (getenv "XDG_CURRENT_DESKTOP") "EXWM")
+    (progn
+      (require 'xelb)
+      (require 'exwm)
+      (setq exwm-workspace-number 8)
 
-  ;; systray
-  (require 'exwm-systemtray)
-  (exwm-systemtray-enable)
-  (setq exwm-systemtray-height 16)
+      ;; systray
+      (require 'exwm-systemtray)
+      (exwm-systemtray-enable)
+      (setq exwm-systemtray-height 16)
 
-  (defun my-startup ()
-    ;; minimal apps
-    (start-process-shell-command "redshift-gtk" nil
-                                 "redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1")
-    (start-process-shell-command "network-manager-applet" nil "nm-applet")
-    (start-process-shell-command "volumeicon" nil "volumeicon"))
+      (defun my-startup ()
+        ;; minimal apps
+        (start-process-shell-command "redshift-gtk" nil
+                                     "redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1")
+        (start-process-shell-command "network-manager-applet" nil "nm-applet")
+        (start-process-shell-command "volumeicon" nil "volumeicon"))
 
-  (add-hook 'exwm-init-hook 'my-startup)
+      (add-hook 'exwm-init-hook 'my-startup)
 
-  ;; randr
-  (require 'exwm-randr)
-  (setq exwm-randr-workspace-output-plist '(0 "VGA-1" 1 "VGA-1" 2 "VGA-1" 3 "VGA-1"
-                                              4"LVDS-1" 5 "LVDS-1" 6 "LVDS-1" 7 "LVDS-1"))
-  (add-hook 'exwm-randr-screen-change-hook
-            (lambda ()
-              (start-process-shell-command
-               "xrandr" nil "xrandr --output VGA-1 --left-of LVDS-1")))
-  (exwm-randr-enable)
+      ;; randr
+      (require 'exwm-randr)
+      (setq exwm-randr-workspace-output-plist '(0 "VGA-1" 1 "VGA-1" 2 "VGA-1" 3 "VGA-1"
+                                                  4"LVDS-1" 5 "LVDS-1" 6 "LVDS-1" 7 "LVDS-1"))
+      (add-hook 'exwm-randr-screen-change-hook
+                (lambda ()
+                  (start-process-shell-command
+                   "xrandr" nil "xrandr --output VGA-1 --left-of LVDS-1")))
+      (exwm-randr-enable)
 
-  (setq exwm-input-global-keys
-        `(
-          ;; 's-r': Reset (to line-mode).
-          ;; ([?\s-r] . exwm-reset)
-          ;; 's-w': Switch workspace.
-          ;; ([?\s-w] . exwm-workspace-switch)
-          ;; 's-&': Launch application.
-          ([?\s-&] . (lambda (command)
-                       (interactive (list (read-shell-command "$ ")))
-                       (start-process-shell-command command nil command)))
-          ;; 's-N': Switch to certain workspace.
-          ,@(mapcar (lambda (i)
-                      ;; `(,(kbd (format "s-%d" i)) .
-                      `(,(kbd (format "<s-f%d>" (1+ i))) .
-                        (lambda ()
-                          (interactive)
-                          (exwm-workspace-switch-create ,i))))
-                    (number-sequence 0 9))))
+      (setq exwm-input-global-keys
+            `(
+              ;; 's-r': Reset (to line-mode).
+              ;; ([?\s-r] . exwm-reset)
+              ;; 's-w': Switch workspace.
+              ;; ([?\s-w] . exwm-workspace-switch)
+              ;; 's-&': Launch application.
+              ([?\s-&] . (lambda (command)
+                           (interactive (list (read-shell-command "$ ")))
+                           (start-process-shell-command command nil command)))
+              ;; 's-N': Switch to certain workspace.
+              ,@(mapcar (lambda (i)
+                          ;; `(,(kbd (format "s-%d" i)) .
+                          `(,(kbd (format "<s-f%d>" (1+ i))) .
+                            (lambda ()
+                              (interactive)
+                              (exwm-workspace-switch-create ,i))))
+                        (number-sequence 0 9))))
 
-  (setq exwm-input-simulation-keys
-        '(
-          ;; movement
-          ([?\C-b] . [left])
-          ([?\C-f] . [right])
-          ([?\C-p] . [up])
-          ([?\C-n] . [down])
-          ([?\C-a] . [home])
-          ([?\C-e] . [end])
-          ([?\M-v] . [prior])
-          ([?\C-v] . [next])
-          ([?\C-d] . [delete])
-          ([?\C-k] . [S-end delete])
-          ;; cut/paste.
-          ([?\C-w] . [?\C-x])
-          ([?\M-w] . [?\C-c])
-          ([?\C-y] . [?\C-v])
-          ;; search
-          ([?\C-s] . [?\C-f])))
+      (setq exwm-input-simulation-keys
+            '(
+              ;; movement
+              ([?\C-b] . [left])
+              ([?\C-f] . [right])
+              ([?\C-p] . [up])
+              ([?\C-n] . [down])
+              ([?\C-a] . [home])
+              ([?\C-e] . [end])
+              ([?\M-v] . [prior])
+              ([?\C-v] . [next])
+              ([?\C-d] . [delete])
+              ([?\C-k] . [S-end delete])
+              ;; cut/paste.
+              ([?\C-w] . [?\C-x])
+              ([?\M-w] . [?\C-c])
+              ([?\C-y] . [?\C-v])
+              ;; search
+              ([?\C-s] . [?\C-f])))
 
-  ;; Make class name the buffer name
-  (add-hook 'exwm-update-class-hook
-            (lambda ()
-              (exwm-workspace-rename-buffer exwm-class-name)))
+      ;; Make class name the buffer name
+      (add-hook 'exwm-update-class-hook
+                (lambda ()
+                  (exwm-workspace-rename-buffer exwm-class-name)))
 
-  ;; misc (some binds already set with global-input-set-key need to be
-  ;; redundantly set here so they will work in gui apps)
-  (exwm-input-set-key (kbd "<home>") 'my-custom-startup)
-  (exwm-input-set-key (kbd "<menu>") 'caps-hydra/body)
-  (exwm-input-set-key (kbd "<f1>" ) 'f1-hydra/body)
-  (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
-  (exwm-input-set-key (kbd "<s-return>") 'ace-window)
-  (exwm-input-set-key (kbd "s-/") 'winner-undo)
-  (exwm-input-set-key (kbd "s-?") 'winner-redo)
-  (exwm-input-set-key (kbd "s-1") 'delete-other-windows)
-  (exwm-input-set-key (kbd "s-2") 'split-window-below)
-  (exwm-input-set-key (kbd "s-3") 'split-window-right)
-  (exwm-input-set-key (kbd "s-0") 'delete-window)
-  (exwm-input-set-key (kbd "s--") 'kill-this-buffer)
-  (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
-  (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
-  (exwm-input-set-key (kbd "<s-escape>") 'exwm-workspace-move-window)
+      ;; misc (some binds already set with global-input-set-key need to be
+      ;; redundantly set here so they will work in gui apps)
+      (exwm-input-set-key (kbd "<home>") 'my-custom-startup)
+      (exwm-input-set-key (kbd "<menu>") 'caps-hydra/body)
+      (exwm-input-set-key (kbd "<f1>" ) 'f1-hydra/body)
+      (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
+      (exwm-input-set-key (kbd "<s-return>") 'ace-window)
+      (exwm-input-set-key (kbd "s-/") 'winner-undo)
+      (exwm-input-set-key (kbd "s-?") 'winner-redo)
+      (exwm-input-set-key (kbd "s-1") 'delete-other-windows)
+      (exwm-input-set-key (kbd "s-2") 'split-window-below)
+      (exwm-input-set-key (kbd "s-3") 'split-window-right)
+      (exwm-input-set-key (kbd "s-0") 'delete-window)
+      (exwm-input-set-key (kbd "s--") 'kill-this-buffer)
+      (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
+      (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
+      (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
+      (exwm-input-set-key (kbd "<s-escape>") 'exwm-workspace-move-window)
 
-  ;; disable annoying minibuffer click that is often misclicked while using systray
-  (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+      ;; disable annoying minibuffer click that is often misclicked while using systray
+      (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
-  ;; Start EXWM
-  (exwm-enable))
+      ;; Start EXWM
+      (exwm-enable)))
 
 (use-package desktop-environment
   :config

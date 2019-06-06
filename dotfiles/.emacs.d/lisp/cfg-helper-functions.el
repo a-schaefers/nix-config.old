@@ -49,4 +49,8 @@
   (remove-hook 'before-save-hook 'whitespace-cleanup)
   (message "whitespace cleanup disabled"))
 
+(defun my-toggle-redshift ()
+  (interactive)
+  (start-process-shell-command "pkill" nil "pkill -USR1 '^redshift'"))
+
 (provide 'cfg-helper-functions)

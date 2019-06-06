@@ -31,18 +31,7 @@
 
 ;;------------------------------------------------------------------THEME
 
-(setq my-theme-variant 'dark) ;; light or dark
-
-(use-package plan9-theme
-  :if (eq my-theme-variant 'light)
-  :config (global-hl-line-mode 1)
-  (load-theme 'plan9 t)
-
-  (setq my-font "Fantasque Sans Mono-20")
-  (set-face-attribute 'default nil :font my-font))
-
 (use-package sexy-monochrome-theme
-  :if (eq my-theme-variant 'dark)
   :config (load-theme 'sexy-monochrome t)
   (global-hl-line-mode -1)
 

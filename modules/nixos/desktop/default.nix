@@ -8,16 +8,8 @@ config = mkIf config.modules.desktop.enable {
 # windows 10 dual-boot compat
 time.hardwareClockInLocalTime = true;
 
-# polkit
-security.polkit.enable = true;
-
 # alsa
 sound.enable = true;
-
-# services
-# services.colord.enable = true;
-# services.printing.enable = true;
-# services.samba.enable = true;
 
 # some basic fonts
 fonts.fonts = with pkgs; [

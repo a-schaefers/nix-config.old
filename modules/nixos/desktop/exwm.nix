@@ -14,6 +14,16 @@ ln -sf "$dotfiles/.emacs.d/"* "$HOME/.emacs.d"
 mkdir "$HOME/org"
 touch "$HOME/org"/{bookmarks,calendar,clock,todo}.org
 
+[ ! -f "$HOME/adam.el" ] && cat << EOF > "$HOME/adam.el"
+;; My persistent scratch ¯\_(ツ)_/¯
+(find-file "~/org/bookmarks.org")
+(find-file "~/org/calendar.org")
+(find-file "~/org/clock.org")
+(find-file "~/org/todo.org")
+
+(+ 3 2) ;; calculator
+EOF
+
 cat << EOF > "$HOME/.gitconfig"
 [user]
 name = Adam Schaefers
@@ -107,7 +117,7 @@ manage = "desktop";
 name = "emacs";
 start = ''
 [ ! -f "/tmp/.SLOCK" ] && touch /tmp/.SLOCK || /run/wrappers/bin/slock
-[ -f "$HOME/.autostart" ] && /bin/sh ~/.autostart
+[ -f "$HOME/.autostart.sh" ] && ~/.autostart.sh &
 ${myDots}/bin/myDots
 ${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
 ${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
@@ -133,11 +143,10 @@ epkgs.exwm
 ])))
 
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-wmctrl xclip xsel scrot
+wmctrl xclip xsel scrot xprintidle-ng
 redshift networkmanagerapplet volumeicon
 ];
 
 programs.slock.enable = true;
-
 };
 }

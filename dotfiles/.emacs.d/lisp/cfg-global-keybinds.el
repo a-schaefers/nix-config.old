@@ -10,11 +10,19 @@
   (require 'exwm)
   (setq exwm-workspace-number 8)
 
-  (progn
-    ;; systemtray
-    (require 'exwm-systemtray)
-    (exwm-systemtray-enable)
-    (setq exwm-systemtray-height 16))
+  ;; systray
+  (require 'exwm-systemtray)
+  (exwm-systemtray-enable)
+  (setq exwm-systemtray-height 16)
+
+  (defun my-startup ()
+    ;; minimal apps
+    (start-process-shell-command "redshift-gtk" nil
+                                 "redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1")
+    (start-process-shell-command "network-manager-applet" nil "nm-applet")
+    (start-process-shell-command "volumeicon" nil "volumeicon"))
+
+  (add-hook 'exwm-init-hook 'my-startup)
 
   ;; randr
   (require 'exwm-randr)

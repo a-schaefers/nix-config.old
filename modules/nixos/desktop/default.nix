@@ -37,7 +37,6 @@ modules.desktop = enableMultiple [
 "pulse"
 "xorg"
 "opengl"
-"console"
 "sddm"
 "exwm"
 ];

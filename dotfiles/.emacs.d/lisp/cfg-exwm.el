@@ -16,7 +16,8 @@
         (start-process-shell-command "redshift-gtk" nil
                                      "redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1")
         (start-process-shell-command "network-manager-applet" nil "nm-applet")
-        (start-process-shell-command "volumeicon" nil "volumeicon"))
+        (start-process-shell-command "volumeicon" nil "volumeicon")
+        (start-process-shell-command "udiskie" nil "udiskie -t"))
 
       (add-hook 'exwm-init-hook 'my-startup)
 
@@ -31,41 +32,32 @@
       (exwm-randr-enable)
       (exwm-enable)))
 
-(use-package desktop-environment
+(use-package desktop-environment :after exwm
   :config
   (desktop-environment-mode)
-  (setq desktop-environment-brightness-get-command "light -G"
-        desktop-environment-brightness-get-regexp "\\([0-9]+\\)"
-        desktop-environment-brightness-set-command "light %s"
-        desktop-environment-brightness-small-increment "-A 5"
-        desktop-environment-brightness-small-decrement "-U 5"
-        desktop-environment-brightness-normal-increment "-A 10"
-        desktop-environment-brightness-normal-decrement "-U 10")
-
-  (with-eval-after-load 'exwm
-    (exwm-input-set-key (kbd "<s-kp-multiply>")
-                        (lambda()
-                          (interactive)
-                          (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 toggle")))
-    (exwm-input-set-key (kbd "<s-kp-add>")
-                        (lambda()
-                          (interactive)
-                          (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%")))
-    (exwm-input-set-key (kbd "<s-kp-subtract>")
-                        (lambda()
-                          (interactive)
-                          (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"))))
-  (global-set-key (kbd "<s-kp-multiply>")
-                  (lambda()
-                    (interactive)
-                    (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 toggle")))
-  (global-set-key (kbd "<s-kp-add>")
-                  (lambda()
-                    (interactive)
-                    (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%")))
-  (global-set-key (kbd "<s-kp-subtract>")
-                  (lambda()
-                    (interactive)
-                    (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"))))
+  (exwm-input-set-key
+   (kbd "<s-kp-multiply>")
+   (lambda()
+     (interactive)
+     (start-process-shell-command
+      "pactl"
+      nil
+      "pactl set-sink-mute 0 toggle")))
+  (exwm-input-set-key
+   (kbd "<s-kp-add>")
+   (lambda()
+     (interactive)
+     (start-process-shell-command
+      "pactl"
+      nil
+      "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%")))
+  (exwm-input-set-key
+   (kbd "<s-kp-subtract>")
+   (lambda()
+     (interactive)
+     (start-process-shell-command
+      "pactl"
+      nil
+      "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"))))
 
 (provide 'cfg-exwm)

@@ -12,7 +12,7 @@ ffmpeg mpv youtube-dl
 
 libreoffice gimp
 
-gnome3.gnome-themes-standard gnome3.adwaita-icon-theme lxappearance
+gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme
 ];
 
 programs.firejail = {

@@ -203,7 +203,7 @@ epkgs.exwm
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 wmctrl xclip xsel scrot imagemagick
 udiskie libnotify dunst perlPackages.FileMimeInfo
-redshift networkmanagerapplet volumeicon
+compton redshift networkmanagerapplet volumeicon
 ];
 
 programs.slock.enable = true;

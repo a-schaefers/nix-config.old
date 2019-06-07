@@ -38,15 +38,6 @@ image/jpeg; emacsclient %s
 image/gif; emacsclient %s
 EOF
 
-[ ! -d "$HOME/.config/mimi" ] && mkdir -p "$HOME/.config/mimi"
-cat << EOF > "$HOME/.config/mimi/mime.conf"
-text/: emacsclient
-application/pdf: emacsclient
-image/: emacsclient
-audio/: mpv
-video/: mpv
-EOF
-
 [ ! -d "$HOME/.config/mpv" ] && mkdir -p "$HOME/.config/mpv"
 cat << EOF > "$HOME/.config/mpv/mpv.conf"
 profile=gpu-hq

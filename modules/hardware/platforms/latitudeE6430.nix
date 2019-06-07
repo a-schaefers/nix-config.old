@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 # generic dell latitude E6430 configuration
 with lib;
-with import ../../../../util;
+with import ../../../util;
 {
 options.modules.hardware.platform.latitudeE6430.enable = mkEnableOption "hardware.platform.latitudeE6430";
 config = mkIf config.modules.hardware.platform.latitudeE6430.enable {

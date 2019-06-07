@@ -1,1 +1,0 @@
-Everything in "general/" is autoloaded, while everything else is an option toggle that may be enabled or disabled in the ../../hosts/machine-name/default.nix file.

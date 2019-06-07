@@ -1,6 +1,6 @@
 { config, pkgs, lib, ... }:
 with lib;
-with import ../../../util;
+with import ../../util;
 {
 options.modules.desktop.enable = mkEnableOption "modules.desktop";
 config = mkIf config.modules.desktop.enable {

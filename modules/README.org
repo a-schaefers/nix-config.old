@@ -1,1 +1,3 @@
 default.nix here only imports ../lib/recimport.nix which recursively imports every file in every directory from here forward.
+
+Everything in "general/" is autoloaded, while everything else is an option toggle that may be enabled or disabled in the ../../hosts/machine-name/default.nix file.

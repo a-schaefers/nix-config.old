@@ -174,13 +174,17 @@ session = [ {
 manage = "desktop";
 name = "emacs";
 start = ''
-[ ! -f "/tmp/.SLOCK" ] && touch /tmp/.SLOCK || /run/wrappers/bin/slock
-[ -f "$HOME/.autostart.sh" ] && ~/.autostart.sh &
-${myDots}/bin/myDots
-${pkgs.xorg.xrdb}/bin/xrdb -merge ~/.Xresources
-${pkgs.xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr
+xset +dpms
+xset s 300
+xset dpms 0 0 360
+compton -b --backend glx
+stupid-power-manager &
+myDots
+xrdb -merge ~/.Xresources
+xsetroot -cursor_name left_ptr
 /run/current-system/sw/bin/emacs &
 waitPID=$!
+trap 'kill $(jobs -p)' EXIT
 '';
 } ];
 };

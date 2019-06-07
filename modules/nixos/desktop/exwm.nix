@@ -148,5 +148,8 @@ redshift networkmanagerapplet volumeicon
 ];
 
 programs.slock.enable = true;
+programs.xss-lock.enable = true;
+programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
+
 };
 }

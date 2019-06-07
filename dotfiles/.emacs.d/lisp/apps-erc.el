@@ -1,11 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
 (require 'erc)
-(use-package erc-image
-  :after erc
-  :config
-  (add-to-list 'erc-modules 'image)
-  (erc-update-modules))
 
 (defun erc-connect ()
   "Connect to an irc server using creds in .authinfo or .authinfo.gpg."
@@ -40,8 +35,7 @@
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                 "324" "329" "332" "333" "353" "477"))
 (setq erc-track-exclude-server-buffer t)
-(setq erc-track-exclude '("chat.freenode.net:6697"
-                          "freenode.net"))
+(setq erc-track-exclude '("chat.freenode.net:6697"))
 
 ;; "bury" private message buffers, but notify also on the modeline.
 (setq erc-auto-query 'bury)

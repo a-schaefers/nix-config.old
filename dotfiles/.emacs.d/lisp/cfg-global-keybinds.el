@@ -64,43 +64,6 @@
   ;; disable minibuffer misclicks in systray area
   (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore))
 
-(use-package desktop-environment
-  :config
-  (desktop-environment-mode)
-  (setq desktop-environment-brightness-get-command "light -G"
-        desktop-environment-brightness-get-regexp "\\([0-9]+\\)"
-        desktop-environment-brightness-set-command "light %s"
-        desktop-environment-brightness-small-increment "-A 5"
-        desktop-environment-brightness-small-decrement "-U 5"
-        desktop-environment-brightness-normal-increment "-A 10"
-        desktop-environment-brightness-normal-decrement "-U 10")
-
-  (with-eval-after-load 'exwm
-    (exwm-input-set-key (kbd "<s-kp-multiply>")
-                        (lambda()
-                          (interactive)
-                          (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 toggle")))
-    (exwm-input-set-key (kbd "<s-kp-add>")
-                        (lambda()
-                          (interactive)
-                          (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%")))
-    (exwm-input-set-key (kbd "<s-kp-subtract>")
-                        (lambda()
-                          (interactive)
-                          (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"))))
-  (global-set-key (kbd "<s-kp-multiply>")
-                  (lambda()
-                    (interactive)
-                    (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 toggle")))
-  (global-set-key (kbd "<s-kp-add>")
-                  (lambda()
-                    (interactive)
-                    (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%")))
-  (global-set-key (kbd "<s-kp-subtract>")
-                  (lambda()
-                    (interactive)
-                    (start-process-shell-command "pactl" nil "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"))))
-
 ;;;; HELM
 
 (use-package helm

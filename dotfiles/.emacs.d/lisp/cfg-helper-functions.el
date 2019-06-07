@@ -3,8 +3,7 @@
 (defun my-custom-startup ()
   (interactive)
   ;; open a persistent scratch buffer
-  (find-file (concat "~/" (user-login-name) ".el"))
-  (cd "~/"))
+  (find-file (concat "~/" (user-login-name) ".el")))
 
 (defun my-find-user-init-file ()
   "Edit the `user-init-file'"

@@ -1,6 +1,11 @@
 ;;; -*- lexical-binding: t; -*-
 
 (require 'erc)
+(use-package erc-image
+  :after erc
+  :config
+  (add-to-list 'erc-modules 'image)
+  (erc-update-modules))
 
 (defun erc-connect ()
   "Connect to an irc server using creds in .authinfo or .authinfo.gpg."
@@ -9,12 +14,8 @@
         erc-prompt-for-password nil
         erc-nick "adamantium"
         erc-autojoin-channels-alist '(("freenode.net"
-                                       "#commanduser"
-                                       "##apoptosis"
-                                       "#funtoo-report"
                                        "#emacs"
                                        "#nixos"
-                                       "#tinfoilhats"
                                        )))
   (erc-tls :server "chat.freenode.net" :port "6697"))
 
@@ -38,6 +39,7 @@
                                       erc-pal-face))
 (setq erc-track-exclude-types '("JOIN" "NICK" "PART" "QUIT" "MODE"
                                 "324" "329" "332" "333" "353" "477"))
+(setq erc-track-exclude-server-buffer t)
 (setq erc-track-exclude '("chat.freenode.net:6697"
                           "freenode.net"))
 
@@ -68,5 +70,10 @@
   (if (string-match-p "\n+" string)
       (setq str nil)))
 (add-hook 'erc-send-pre-hook 'my-erc-multi-line-disable)
+
+(defun reset-erc-track-mode ()
+  (interactive)
+  (setq erc-modified-channels-alist nil)
+  (erc-modified-channels-update))
 
 (provide 'apps-erc)

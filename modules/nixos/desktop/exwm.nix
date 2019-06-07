@@ -143,7 +143,7 @@ epkgs.exwm
 ])))
 
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-wmctrl xclip xsel scrot xprintidle-ng
+wmctrl xclip xsel scrot imagemagick xprintidle-ng
 redshift networkmanagerapplet volumeicon
 ];
 

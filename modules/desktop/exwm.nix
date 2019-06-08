@@ -5,6 +5,7 @@ myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
 myDots = pkgs.writeScriptBin "myDots" ''
+mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 dotfiles="/nix-config/dotfiles"
 ln -sf "$dotfiles/"* "$HOME"
 ln -sf "$dotfiles/".* "$HOME"
@@ -168,12 +169,11 @@ start = ''
 xset +dpms
 xset s 300
 xset dpms 0 0 360
-compton -b --backend glx
 stupid-power-manager &
 myDots
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
-/run/current-system/sw/bin/emacs &
+emacs &
 waitPID=$!
 trap 'kill $(jobs -p)' EXIT
 '';
@@ -198,7 +198,7 @@ epkgs.exwm
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 wmctrl xclip xsel scrot imagemagick
 udiskie libnotify dunst perlPackages.FileMimeInfo
-compton redshift networkmanagerapplet volumeicon
+redshift networkmanagerapplet volumeicon
 ];
 
 programs.slock.enable = true;

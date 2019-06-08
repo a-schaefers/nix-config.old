@@ -35,24 +35,16 @@
     (princ email (current-buffer))))
 
 (with-eval-after-load 'gnus
-  ;; don't screw up window layouts
   (setq gnus-use-full-window nil)
-
-  ;; don't use ~/.gnus, use gnus file with my other lisp files instead.
   (setq gnus-site-init-file "~/.emacs.d/lisp/apps-gnus.el")
-
-  ;; keep clutter out of $HOME
   (setq gnus-save-newsrc-file nil)
   (setq gnus-startup-file "~/.emacs.d/.newsrc")
   (setq message-directory "~/.emacs.d/mail/")
   (setq gnus-directory "~/.emacs.d/news/")
   (setq nnfolder-directory "~/.emacs.d/mail/archive")
   (setq nndraft-directory "~/.emacs.d/mail/drafts")
-
-  ;; yes read dribble file on startup question
   (setq gnus-always-read-dribble-file t)
 
-  ;; imap
   (setq gnus-select-method '(nnimap "gmail"
                                     (nnimap-address "imap.gmail.com")
                                     (nnimap-server-port 993)
@@ -61,7 +53,6 @@
                                     (nnmail-expiry-target "nnimap+gmail:[Gmail]/Trash")
                                     (nnmail-expiry-wait immediate)))
 
-  ;; smtp
   (setq smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587
         send-mail-function 'smtpmail-send-it
@@ -72,14 +63,11 @@
         gnus-message-archive-group "nnimap+gmail:[Gmail]/Sent Mail"
         gnus-gcc-mark-as-read t)
 
-  ;; html mail no thanks
   (with-eval-after-load "mm-decode"
     (add-to-list 'mm-discouraged-alternatives "text/html")
     (add-to-list 'mm-discouraged-alternatives "text/richtext")
     (setq mm-automatic-display (remove "text/html" mm-automatic-display)))
 
-
-  ;; misc settings from spacemacs that I am in the habit of using.
   (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
   (setq gnus-visible-headers
         "^From:\\|^Reply-To\\|^Organization:\\|^To:\\|^Cc:\\|^Newsgroups:\\|^Subject:\\|^Date:\\|^Gnus")
@@ -108,16 +96,11 @@
    smiley-style 'medium
    gnus-keep-backlog '0)
 
-  ;; Don't spam the minibuffer! "No news is good news"
   (setq gnus-no-groups-message "")
 
-  ;; Have Gnus check for new mail every ~5 minutes if idle
   (gnus-demon-add-handler 'gnus-demon-scan-news 5 t)
 
-  ;; work around issue of gnus demon hang emacs upon connection loss
-  ;; (hang for only 3 seconds instead of indefinitely.)
   (defadvice gnus-demon-scan-news (around gnus-demon-timeout activate)
-    "3 second Timeout for Gnus."
     (with-timeout
         (3 (message "Gnus timed out."))
       ad-do-it))
@@ -276,8 +259,6 @@ contains new messages"))
 
 
   (add-hook 'gnus-summary-exit-hook
-            'gnus-mst-show-groups-with-new-messages)
-
-  )
+            'gnus-mst-show-groups-with-new-messages))
 
 (provide 'apps-gnus)

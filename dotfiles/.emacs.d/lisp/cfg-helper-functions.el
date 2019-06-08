@@ -2,7 +2,6 @@
 
 (defun my-custom-startup ()
   (interactive)
-  ;; open a persistent scratch buffer
   (find-file (concat "~/" (user-login-name) ".el")))
 
 (defun my-find-user-init-file ()
@@ -14,8 +13,6 @@
   "Switch back and forth between current and last buffer in the current WINDOW."
   (interactive)
   (let ((current-buffer (window-buffer window)))
-    ;; if no window is found in the windows history, `switch-to-buffer' will
-    ;; default to calling `other-buffer'.
     (switch-to-buffer
      (cl-find-if (lambda (buffer)
                    (not (eq buffer current-buffer)))
@@ -24,9 +21,7 @@
 (defun spacemacs/alternate-window ()
   "Switch back and forth between current and last window in the current frame."
   (interactive)
-  (let (;; switch to first window previously shown in this frame
-        (prev-window (get-mru-window nil t t)))
-    ;; Check window was not found successfully
+  (let ((prev-window (get-mru-window nil t t)))
     (unless prev-window (user-error "Last window not found"))
     (select-window prev-window)))
 

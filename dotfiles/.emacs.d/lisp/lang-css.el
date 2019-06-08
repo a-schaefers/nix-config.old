@@ -1,7 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; css
-
 (use-package rainbow-mode :defer t)
 (with-eval-after-load 'css-mode
   (setq css-indent-offset 2)
@@ -15,12 +13,8 @@
   (add-hook 'css-mode-hook (lambda ()
                              (run-hooks 'prelude-css-mode-hook))))
 
-
-;; scss
-
 (use-package scss-mode :defer t)
 
-;; turn off annoying auto-compile on save
 (setq scss-compile-at-save nil)
 
 (defun prelude-scss-mode-defaults ()

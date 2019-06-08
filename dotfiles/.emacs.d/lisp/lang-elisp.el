@@ -34,7 +34,6 @@ Start `ielm' if it's not already running."
 
 (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
 
-;; ielm is an interactive Emacs Lisp shell
 (defun prelude-ielm-mode-defaults ()
   "Sensible defaults for `ielm'."
   (run-hooks 'prelude-interactive-lisp-coding-hook)
@@ -45,7 +44,6 @@ Start `ielm' if it's not already running."
 (add-hook 'ielm-mode-hook (lambda ()
                             (run-hooks 'prelude-ielm-mode-hook)))
 
-;; enable elisp-slime-nav-mode
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
   (add-hook hook 'elisp-slime-nav-mode))
 
@@ -56,18 +54,10 @@ Start `ielm' if it's not already running."
 
 (add-hook 'minibuffer-setup-hook 'conditionally-enable-smartparens-mode)
 
-;; Feature `checkdoc' provides some tools for validating Elisp
-;; docstrings against common conventions.
 (with-eval-after-load 'checkdoc
-  ;; Not sure why this isn't included by default.
   (put 'checkdoc-package-keywords-flag 'safe-local-variable #'booleanp))
 
-;; Package `elisp-lint', not installed, provides a linting framework
-;; for Elisp code.
 (with-eval-after-load 'elisp-lint
-  ;; From the package. We need this because some packages set this as
-  ;; a file-local variable, but we don't install the package so Emacs
-  ;; doesn't know the variable is safe.
   (put 'elisp-lint-indent-specs 'safe-local-variable #'listp))
 
 (provide 'lang-elisp)

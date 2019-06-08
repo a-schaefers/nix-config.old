@@ -1,45 +1,33 @@
 ;;; -*- lexical-binding: t; -*-
 
-;;------------------------------------------------------------------MODELINE
-
-;; show modeline time
 (setq display-time-default-load-average nil
       display-time-24hr-format t)
 (display-time-mode 1)
 
-;; hide version control from modeline
 (defun hide-vc ()
   (when (bound-and-true-p mode-line-format)
     (setcdr (assq 'vc-mode mode-line-format)
             '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode))))))
 (hide-vc)
 
-;; hide mule info from modeline
 (setq-default mode-line-mule-info nil)
 
-;; hide mode line remote
 (setq-default mode-line-remote nil)
 
-;; hide modeline active function name
 (which-function-mode -1)
 
-;; hide all minor modes from modeline
 (use-package rich-minority
   :init (if (bound-and-true-p rich-minority-mode) nil
           (rich-minority-mode 1))
   :config (setf rm-blacklist ""))
 
-;;------------------------------------------------------------------THEME
-
 (use-package sexy-monochrome-theme
   :config (load-theme 'sexy-monochrome t)
   (global-hl-line-mode -1)
 
-  ;; font
   (setq my-font "Hack-18")
   (set-face-attribute 'default nil :font my-font)
 
-  ;; theme mods
   (set-cursor-color "#4870a1")
 
   (with-eval-after-load 'company
@@ -70,12 +58,9 @@
    '(header-line ((t (:box nil)))))
   (set-face-attribute 'vertical-border nil :foreground "black")
 
-  ;; left-fringe is flycheck, right-fringe is diff-hl
   (fringe-mode '(3 . 3)))
 
-;;------------------------------------------------------------------MISC.
 
-;; git add/remove/changed line highlighting on the right-fringe
 (use-package diff-hl
   :config
   (setq diff-hl-side "right")
@@ -83,13 +68,11 @@
   (diff-hl-flydiff-mode 1)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
-;;------------------------------------------------------------------ANNOYANCES
 
 (blink-cursor-mode -1) ; disable the  blinking cursor
 
 (setq visible-bell nil); disable the frame flash
 
-;; flycheck show minimal "|" in left-fringe
 (with-eval-after-load 'flycheck
   (progn
     (define-fringe-bitmap 'flycheck-fringe-bitmap-nil
@@ -132,7 +115,6 @@
       :fringe-face 'flycheck-fringe-error
       :error-list-face 'flycheck-error-list-error)
 
-    ;; remove flycheck underlined text
     (setq flycheck-highlighting-mode nil)
     (set-face-attribute 'flycheck-warning nil :underline nil)))
 

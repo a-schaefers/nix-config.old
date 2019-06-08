@@ -6,22 +6,19 @@
       (require 'exwm)
       (setq exwm-workspace-number 8)
 
-      ;; systray
       (require 'exwm-systemtray)
       (exwm-systemtray-enable)
       (setq exwm-systemtray-height 16)
 
       (defun my-tray-apps ()
-        ;; minimal apps
         (start-process-shell-command "redshift-gtk" nil
                                      "redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1")
-        (start-process-shell-command "network-manager-applet" nil "nm-applet")
+        (start-process-shell-command "nm-applet" nil "nm-applet")
         (start-process-shell-command "volumeicon" nil "volumeicon")
         (start-process-shell-command "udiskie" nil "udiskie -t"))
 
       (add-hook 'exwm-init-hook 'my-tray-apps)
 
-      ;; randr
       (require 'exwm-randr)
       (setq exwm-randr-workspace-output-plist '(0 "VGA-1" 1 "VGA-1" 2 "VGA-1" 3 "VGA-1"
                                                   4"LVDS-1" 5 "LVDS-1" 6 "LVDS-1" 7 "LVDS-1"))

@@ -8,7 +8,6 @@
 
 (with-eval-after-load 'js2-mode
   (defun prelude-js-mode-defaults ()
-    ;; electric-layout-mode doesn't play nice with smartparens
     (setq-local electric-layout-rules '((?\; . after)))
     (setq mode-name "JS2")
     (js2-imenu-extras-mode +1))

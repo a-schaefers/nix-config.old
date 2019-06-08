@@ -6,8 +6,6 @@
     (setq emms-source-file-default-directory "~/Downloads"))
   (emms-all)
   (emms-default-players)
-
-  ;; don't put anything on the modeline
   (emms-playing-time -1)
   (emms-mode-line -1))
 

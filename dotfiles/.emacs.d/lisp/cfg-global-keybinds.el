@@ -1,16 +1,12 @@
 ;;; -*- lexical-binding: t; -*-
 
-;;;; EXWM
 (with-eval-after-load 'exwm
   (setq exwm-input-global-keys
         `(
-          ;; 's-&': Launch application.
           ([?\s-&] . (lambda (command)
                        (interactive (list (read-shell-command "$ ")))
                        (start-process-shell-command command nil command)))
-          ;; 's-N': Switch to certain workspace.
           ,@(mapcar (lambda (i)
-                      ;; `(,(kbd (format "s-%d" i)) .
                       `(,(kbd (format "<s-f%d>" (1+ i))) .
                         (lambda ()
                           (interactive)
@@ -19,7 +15,6 @@
 
   (setq exwm-input-simulation-keys
         '(
-          ;; movement
           ([?\C-b] . [left])
           ([?\C-f] . [right])
           ([?\C-p] . [up])
@@ -30,20 +25,15 @@
           ([?\C-v] . [next])
           ([?\C-d] . [delete])
           ([?\C-k] . [S-end delete])
-          ;; cut/paste.
           ([?\C-w] . [?\C-x])
           ([?\M-w] . [?\C-c])
           ([?\C-y] . [?\C-v])
-          ;; search
           ([?\C-s] . [?\C-f])))
 
-  ;; Make class name the buffer name
   (add-hook 'exwm-update-class-hook
             (lambda ()
               (exwm-workspace-rename-buffer exwm-class-name)))
 
-  ;; misc (some binds already set with global-input-set-key need to be
-  ;; redundantly set here so they will work in gui apps)
   (exwm-input-set-key (kbd "<home>") 'my-custom-startup)
   (exwm-input-set-key (kbd "<menu>") 'caps-hydra/body)
   (exwm-input-set-key (kbd "<f1>" ) 'f1-hydra/body)
@@ -61,22 +51,17 @@
   (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
   (exwm-input-set-key (kbd "<s-escape>") 'exwm-workspace-move-window)
 
-  ;; disable minibuffer misclicks in systray area
   (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore))
-
-;;;; HELM
 
 (use-package helm
   :init (ido-mode -1)
   :config (require 'helm-config)
 
-  ;; don't show nixos .wrapper-binaries
   (require 'helm-external)
   (setq helm-external-commands-list
         (seq-filter (lambda (v) (not (string-match "^\\." v)))
                     (helm-external-commands-list-1 'sort)))
 
-  ;; raise helm-external windows using wmctrl
   (when (executable-find "wmctrl")
     (setq helm-raise-command "wmctrl -xa %s"))
 
@@ -127,14 +112,10 @@
   (global-set-key (kbd "C-c M-i") 'helm-multi-swoop)
   (global-set-key (kbd "C-x M-i") 'helm-multi-swoop-all)
 
-  ;; When doing isearch, hand the word over to helm-swoop
   (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
-  ;; From helm-swoop to helm-multi-swoop-all
   (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop)
-  ;; Instead of helm-multi-swoop-all, you can also use helm-multi-swoop-current-mode
   (define-key helm-swoop-map (kbd "M-m") 'helm-multi-swoop-current-mode-from-helm-swoop)
 
-  ;; Move up and down like isearch
   (define-key helm-swoop-map (kbd "C-r") 'helm-previous-line)
   (define-key helm-swoop-map (kbd "C-s") 'helm-next-line)
   (define-key helm-multi-swoop-map (kbd "C-r") 'helm-previous-line)
@@ -147,7 +128,6 @@
 (use-package helm-rg :after rg :defer t)
 (use-package helm-ag :after ag :defer t)
 
-;;;; HYDRA
 (use-package ace-window
   :init (setq aw-scope 'frame)
   :bind ("<s-return>" . ace-window)
@@ -156,12 +136,10 @@
 (use-package operate-on-number :defer t)
 (use-package goto-chg :defer t)
 (use-package hydra :defer t
-  ;; :init (setq hydra-lv nil) ; use minibuffer for hints
   :bind (("<f1>" . f1-hydra/body)
          ("<menu>" . caps-hydra/body)) ; on Caps Lock via setxkbmap -option caps:menu
   :config
 
-  ;; caps hydra
   (defhydra caps-hydra (:exit nil)
     "NAVI-MODE"
     ("<menu>" nil)
@@ -220,7 +198,6 @@
     ("/" (helm-swoop))
     ("+" (operate-on-number-at-point)))
 
-  ;; esc/f1 hydra
   (defhydra f1-hydra (:exit t)
     "Main Menu"
     ("a" (apps-hydra/body) "apps")
@@ -234,7 +211,6 @@
     ("w" (windows-hydra/body) "windows")
     ("<f1>" nil))
 
-  ;; subhydras
   (defhydra gist (:exit t)
     "gist and webpaste"
     ("p" (call-interactively #'webpaste-paste-region) "webpaste region")
@@ -326,7 +302,6 @@
     ("r" org-clock-report)))
 
 
-;;;; CRUX
 
 (use-package crux
   :config
@@ -340,7 +315,6 @@
   (global-set-key (kbd "s-D") 'crux-delete-file-and-buffer)
   (global-set-key (kbd "s-r") 'crux-rename-buffer-and-file))
 
-;;;; SMARTPARENS
 
 (use-package smartparens
   :config (require 'smartparens-config)
@@ -352,20 +326,16 @@
   (add-hook 'prog-mode-hook 'smartparens-mode)
   (add-hook 'minibuffer-setup-hook 'turn-on-smartparens-strict-mode)
 
-  ;; Work around https://github.com/Fuco1/smartparens/issues/783.
   (setq sp-escape-quotes-after-insert nil)
 
-  ;; smart curly braces
   (sp-pair "{" nil :post-handlers
            '(((lambda (&rest _ignored)
                 (crux-smart-open-line-above)) "RET")))
 
-  ;; more smartparens binds
   (define-key smartparens-mode-map (kbd "s-k") 'sp-kill-sexp)
   (define-key smartparens-mode-map (kbd "s-f") 'sp-forward-symbol)
   (define-key smartparens-mode-map (kbd "s-b") 'sp-backward-symbol)
 
-  ;; working with pairs
   (define-key smartparens-mode-map (kbd "s-)") 'sp-wrap-round)
   (define-key smartparens-mode-map (kbd "s-]") 'sp-wrap-square)
   (define-key smartparens-mode-map (kbd "s-}") 'sp-wrap-curly)
@@ -375,9 +345,6 @@
   (define-key smartparens-mode-map (kbd "s-[") 'sp-unwrap-sexp)
   (define-key smartparens-mode-map (kbd "s-{") 'sp-unwrap-sexp))
 
-;;;; GENERAL
-
-;; prefer M-SPC and default C-SPC do the same things
 (global-set-key (kbd "M-g") 'keyboard-quit)
 (global-set-key (kbd "M-SPC") 'set-mark-command)
 
@@ -386,7 +353,6 @@
 (global-set-key (kbd "s-/") 'winner-undo)
 (global-set-key (kbd "s-?") 'winner-redo)
 
-;; misc
 (global-set-key (kbd "<f5>") 'compile)
 
 (global-set-key (kbd "C-;") 'comment-line)
@@ -396,7 +362,6 @@
 (with-eval-after-load 'erc
   (define-key erc-mode-map (kbd "<home>") 'my-custom-startup))
 
-;; buffers windows and splits
 (global-set-key (kbd "<s-return>") 'ace-window)
 (global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)

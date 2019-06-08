@@ -2,7 +2,6 @@
 
 (use-package geiser :disabled :defer t
   :config
-  ;; geiser replies on a REPL to provide autodoc and completion
   (setq geiser-mode-start-repl-p t)
 
   (add-hook 'scheme-mode-hook (lambda ()

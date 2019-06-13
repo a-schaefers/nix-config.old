@@ -9,6 +9,8 @@ gitAndTools.gitFull
 shellcheck
 ripgrep
 ag
+
+gimp
 ];
 
 };

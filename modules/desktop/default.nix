@@ -11,7 +11,7 @@ time.hardwareClockInLocalTime = true;
 # alsa
 sound.enable = true;
 
-# some basic fonts
+# fonts
 fonts.fonts = with pkgs; [
 dejavu_fonts
 source-code-pro
@@ -22,9 +22,26 @@ fantasque-sans-mono
 terminus_font
 ];
 
+# apps
+environment.systemPackages = with pkgs; [
+gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme
+glxinfo libva-utils vdpauinfo
+];
+
+programs.firejail = {
+enable = true;
+wrappedBinaries = {
+# chromium = "${lib.getBin pkgs.chromium}/bin/chromium";
+google-chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
+thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
+spotify = "${lib.getBin pkgs.spotify}/bin/spotify";
+mpv = "${lib.getBin pkgs.mpv}/bin/mpv";
+youtube-dl= "${lib.getBin pkgs.youtube-dl}/bin/youtube-dl";
+};
+};
+
 # components of my desktop setup
 modules.desktop = enableMultiple [
-"apps"
 "dev"
 "pulse"
 "xorg"

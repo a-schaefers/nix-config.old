@@ -33,28 +33,10 @@
   :config
   (desktop-environment-mode)
   (exwm-input-set-key
-   (kbd "<s-kp-multiply>")
-   (lambda()
-     (interactive)
-     (start-process-shell-command
-      "pactl"
-      nil
-      "pactl set-sink-mute 0 toggle")))
+   (kbd "<s-kp-multiply>") 'desktop-environment-toggle-mute)
   (exwm-input-set-key
-   (kbd "<s-kp-add>")
-   (lambda()
-     (interactive)
-     (start-process-shell-command
-      "pactl"
-      nil
-      "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +5%")))
+   (kbd "<s-kp-add>") 'desktop-environment-volume-increment)
   (exwm-input-set-key
-   (kbd "<s-kp-subtract>")
-   (lambda()
-     (interactive)
-     (start-process-shell-command
-      "pactl"
-      nil
-      "pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -5%"))))
+   (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement))
 
 (provide 'cfg-exwm)

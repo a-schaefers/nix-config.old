@@ -14,10 +14,5 @@ layout = "us";
 useGlamor = true;
 };
 
-environment.systemPackages = with pkgs; [
-# xorg / minimal wm helpers
-wmctrl scrot feh xclip xsel libnotify
-];
-
 };
 }

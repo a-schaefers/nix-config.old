@@ -32,6 +32,19 @@ name = Adam Schaefers
 email = paxchristi888@gmail.com
 EOF
 
+[ ! -d "$HOME/.config" ] && mkdir -p "$HOME/.config"
+cat << EOF > "$HOME/.config/mimeapps.list"
+[Default Applications]
+application/pdf=emacsclient-usercreated-1.desktop;
+inode/directory=emacsclient-usercreated-1.desktop;
+inode/mount-point=emacsclient-usercreated-1.desktop;
+text/html=google-chrome.desktop
+x-scheme-handler/http=google-chrome.desktop
+x-scheme-handler/https=google-chrome.desktop
+x-scheme-handler/about=google-chrome.desktop
+x-scheme-handler/unknown=google-chrome.desktop
+EOF
+
 cat << EOF > "$HOME/.mailcap"
 application/pdf; emacsclient %s
 image/png; emacsclient %s
@@ -48,6 +61,17 @@ video-sync=display-resample
 interpolation
 tscale=oversample
 x11-bypass-compositor=yes
+EOF
+
+[ ! -d "$HOME/.local/share/applications" ] && mkdir -p "$HOME/.local/share/applications"
+cat << EOF > "$HOME/.local/share/applications/emacsclient-usercreated-1.desktop"
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=emacsclient
+NoDisplay=true
+Exec=emacsclient
 EOF
 
 [ ! -d "$HOME/.config/gtk-3.0" ] && mkdir -p "$HOME/.config/gtk-3.0"

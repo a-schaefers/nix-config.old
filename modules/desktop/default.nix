@@ -34,7 +34,6 @@ wrappedBinaries = {
 # chromium = "${lib.getBin pkgs.chromium}/bin/chromium";
 google-chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
 thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
-spotify = "${lib.getBin pkgs.spotify}/bin/spotify";
 mpv = "${lib.getBin pkgs.mpv}/bin/mpv";
 youtube-dl= "${lib.getBin pkgs.youtube-dl}/bin/youtube-dl";
 };

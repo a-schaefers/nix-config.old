@@ -1,7 +1,23 @@
 ;;; -*- lexical-binding: t; -*-
 
+(setq init-file-debug nil)
+(if init-file-debug
+    (setq use-package-verbose t
+          use-package-expand-minimally nil
+          use-package-compute-statistics t
+          debug-on-error t)
+  (setq use-package-verbose nil
+        use-package-expand-minimally t))
+
+(setq debug-on-error t)
+(setq debug-on-quit t)
+(setq edebug-all-forms t)
+
+(with-eval-after-load 'exwm
+  (exwm-debug 1))
+
 (setq user-full-name "Adam Schaefers"
-      user-mail-address "paxchristi888@gmail.com")
+user-mail-address "paxchristi888@gmail.com")
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (require 'boiler-plate)

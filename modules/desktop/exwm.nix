@@ -7,16 +7,12 @@ emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 myDots = pkgs.writeScriptBin "myDots" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 dotfiles="/nix-config/dotfiles"
-ln -sf "$dotfiles/"* "$HOME"
-ln -sf "$dotfiles/".* "$HOME"
-rm "$HOME/.emacs.d"
-mkdir "$HOME/.emacs.d"
-ln -sf "$dotfiles/.emacs.d/"* "$HOME/.emacs.d"
-[ ! -d "$HOME/org" ] && mkdir "$HOME/org"
-touch "$HOME/org"/{bookmarks,calendar,clock,todo}.org
-[ ! -d "$HOME/.local/share/applications" ] && mkdir -p "$HOME/.local/share/applications"
+ln -sf "$dotfiles"/{*,.*} "$HOME"
+rm "$HOME/.emacs.d" ; mkdir "$HOME/.emacs.d"
+ln -sf "$dotfiles/.emacs.d"/* "$HOME/.emacs.d"
+mkdir "$HOME/org" ; touch "$HOME/org"/{bookmarks,calendar,clock,todo}.org
 
-[ ! -f "$HOME/adam.el" ] && cat << EOF > "$HOME/adam.el"
+[ ! -f "$HOME/$USER.el" ] && cat << EOF > "$HOME/$USER.el"
 ;; My persistent scratch ¯\_(ツ)_/¯
 (find-file "~/org/bookmarks.org")
 (find-file "~/org/calendar.org")
@@ -45,6 +41,17 @@ x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 EOF
 
+[ ! -d "$HOME/.local/share/applications" ] && mkdir -p "$HOME/.local/share/applications"
+cat << EOF > "$HOME/.local/share/applications/emacsclient-usercreated-1.desktop"
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=emacsclient
+NoDisplay=true
+Exec=emacsclient
+EOF
+
 cat << EOF > "$HOME/.mailcap"
 application/pdf; emacsclient %s
 image/png; emacsclient %s
@@ -61,17 +68,6 @@ video-sync=display-resample
 interpolation
 tscale=oversample
 x11-bypass-compositor=yes
-EOF
-
-[ ! -d "$HOME/.local/share/applications" ] && mkdir -p "$HOME/.local/share/applications"
-cat << EOF > "$HOME/.local/share/applications/emacsclient-usercreated-1.desktop"
-[Desktop Entry]
-Version=1.0
-Encoding=UTF-8
-Type=Application
-Name=emacsclient
-NoDisplay=true
-Exec=emacsclient
 EOF
 
 [ ! -d "$HOME/.config/gtk-3.0" ] && mkdir -p "$HOME/.config/gtk-3.0"

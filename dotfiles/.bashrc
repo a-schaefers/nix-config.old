@@ -9,8 +9,6 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 
-alias tm='tmux new -A -s "$USER"'
-
 emacs_dumb_term() {
     export PAGER="cat"
     export TERM="xterm-256color"

@@ -6,21 +6,11 @@ emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
 myDots = pkgs.writeScriptBin "myDots" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
+
 dotfiles="/nix-config/dotfiles"
 ln -sf "$dotfiles"/{*,.*} "$HOME"
 rm "$HOME/.emacs.d" ; mkdir "$HOME/.emacs.d"
-ln -sf "$dotfiles/.emacs.d"/* "$HOME/.emacs.d"
-mkdir "$HOME/org" ; touch "$HOME/org"/{bookmarks,calendar,clock,todo}.org
-
-[ ! -f "$HOME/$USER.el" ] && cat << EOF > "$HOME/$USER.el"
-;; My persistent scratch ¯\_(ツ)_/¯
-(find-file "~/org/bookmarks.org")
-(find-file "~/org/calendar.org")
-(find-file "~/org/clock.org")
-(find-file "~/org/todo.org")
-
-(+ 3 2) ;; calculator
-EOF
+ln -sf "$HOME/repos/emacs.d"/* "$HOME/.emacs.d"
 
 cat << EOF > "$HOME/.gitconfig"
 [user]

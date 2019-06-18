@@ -7,9 +7,7 @@ emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 myDots = pkgs.writeScriptBin "myDots" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 
-dotfiles="/nix-config/dotfiles"
-ln -sf "$dotfiles"/{*,.*} "$HOME"
-rm "$HOME/.emacs.d" ; mkdir "$HOME/.emacs.d"
+mkdir "$HOME/.emacs.d"
 ln -sf "$HOME/repos/emacs.d"/* "$HOME/.emacs.d"
 
 cat << EOF > "$HOME/.gitconfig"
@@ -209,6 +207,7 @@ gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 wmctrl xclip xsel scrot imagemagick
 udiskie libnotify dunst perlPackages.FileMimeInfo
 redshift networkmanagerapplet volumeicon
+aspell aspellDicts.en
 ];
 
 programs.slock.enable = true;
@@ -216,5 +215,22 @@ programs.xss-lock.enable = true;
 programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
 
 services.udisks2.enable = true;
+
+# .bashrc
+programs.bash.interactiveShellInit = ''
+emacs_dumb_term() {
+    export PAGER="cat"
+    export TERM="xterm-256color"
+    man () { /usr/bin/man "$@" | col -bx ; }
+    grep -q "nixos" /etc/issue && man () { /run/current-system/sw/bin/man "$@" | col -bx ; }
+    watch() { while true ; do "$@" ; sleep 2;  echo ; done }
+}
+[[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" ]] && emacs_dumb_term
+'';
+
+# .bash_profile
+programs.bash.loginShellInit = ''
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+'';
 };
 }

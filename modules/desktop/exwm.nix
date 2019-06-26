@@ -8,7 +8,7 @@ myDots = pkgs.writeScriptBin "myDots" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 
 mkdir "$HOME/.emacs.d"
-ln -sf "$HOME/repos/emacs.d"/* "$HOME/.emacs.d"
+ln -sf "/nix-config/dotfiles/.emacs.d"/* "$HOME/.emacs.d"
 
 cat << EOF > "$HOME/.gitconfig"
 [user]

@@ -2,6 +2,10 @@
 
 ;; GENERAL
 
+(defun my-prog-mode-hook ()
+  (goto-address-prog-mode 1))
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
 (require 'better-defaults)
 
 (delete-selection-mode 1)
@@ -67,6 +71,8 @@
 (projectile-mode 1)
 
 (require 'dumb-jump)
+(global-set-key (kbd "C-c .") #'dumb-jump-go)
+(global-set-key (kbd "C-c ,") #'dumb-jump-back)
 (dumb-jump-mode 1)
 
 (require 'flycheck)
@@ -87,7 +93,13 @@
 (global-set-key (kbd "<C-S-return>") #'crux-smart-open-line-above)
 (global-set-key (kbd "<S-return>") #'crux-smart-open-line)
 (global-set-key (kbd "C-c r") #'crux-recentf-find-file)
+(global-set-key (kbd "C-c R") #'crux-rename-buffer-and-file)
 (global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
+(global-set-key (kbd "C-c u") 'crux-view-url)
+(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+(global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
+(global-set-key (kbd "C-c D") #'crux-delete-buffer-and-file)
+(global-set-key (kbd "C-c I") 'crux-find-user-init-file)
 
 (require 'ace-window)
 (global-set-key [remap other-window] 'ace-window)
@@ -99,7 +111,8 @@
 (require 'aggressive-indent)
 (aggressive-indent-global-mode 1)
 
-;; SHELL
+;; BASH
+
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 (setq explicit-shell-file-name "bash")
@@ -116,7 +129,7 @@
                   (async-shell-command (buffer-file-name))))))
 (add-hook 'sh-mode-hook 'my-shell-mode-hook)
 
-;;;;; LISP
+;;;;; EMACS LISP & CLOJURE
 
 (require 'lisp-mode)
 (defun my-ielm ()
@@ -146,8 +159,6 @@
 (add-hook 'lisp-mode-hook 'paredit-mode)
 (add-hook 'eval-expression-minibuffer-setup-hook 'paredit-mode)
 
-;;;; CLOJURE
-
 (require 'clojure-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)
 (add-hook 'clojure-mode-hook 'subword-mode)
@@ -160,13 +171,13 @@
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
-;;;; NIX
-
-(require 'nix-mode)
-
 ;;;; HASKELL
 
 (require 'haskell-mode)
 (add-hook 'haskell-mode-hook 'subword-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'haskell-doc-mode)
+
+;;;; NIX
+
+(require 'nix-mode)

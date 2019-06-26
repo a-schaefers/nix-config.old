@@ -95,7 +95,6 @@
 (global-set-key (kbd "C-c r") #'crux-recentf-find-file)
 (global-set-key (kbd "C-c R") #'crux-rename-buffer-and-file)
 (global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
-(global-set-key (kbd "C-c u") 'crux-view-url)
 (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
 (global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
 (global-set-key (kbd "C-c D") #'crux-delete-buffer-and-file)

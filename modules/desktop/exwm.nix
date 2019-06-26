@@ -222,6 +222,7 @@ epkgs.transpose-frame
 epkgs.hydra
 
 epkgs.bash-completion
+epkgs.xterm-color
 epkgs.elisp-slime-nav
 epkgs.paredit
 epkgs.rainbow-delimiters

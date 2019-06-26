@@ -115,12 +115,12 @@
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 (setq explicit-shell-file-name "bash")
+(require 'bash-completion)
 (autoload 'bash-completion-dynamic-complete
   "bash-completion"
   "BASH completion hook")
 (add-hook 'shell-dynamic-complete-functions
           'bash-completion-dynamic-complete)
-(require 'bash-completion)
 (defun my-shell-mode-hook()
   (setq-local compile-command
               '((lambda()

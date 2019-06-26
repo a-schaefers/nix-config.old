@@ -16,7 +16,7 @@ name = Adam Schaefers
 email = paxchristi888@gmail.com
 EOF
 
-[ ! -d "$HOME/.config" ] && mkdir -p "$HOME/.config"
+mkdir -p "$HOME/.config"
 cat << EOF > "$HOME/.config/mimeapps.list"
 [Default Applications]
 application/pdf=emacsclient-usercreated-1.desktop;
@@ -29,7 +29,7 @@ x-scheme-handler/about=google-chrome.desktop
 x-scheme-handler/unknown=google-chrome.desktop
 EOF
 
-[ ! -d "$HOME/.local/share/applications" ] && mkdir -p "$HOME/.local/share/applications"
+mkdir -p "$HOME/.local/share/applications"
 cat << EOF > "$HOME/.local/share/applications/emacsclient-usercreated-1.desktop"
 [Desktop Entry]
 Version=1.0
@@ -47,7 +47,7 @@ image/jpeg; emacsclient %s
 image/gif; emacsclient %s
 EOF
 
-[ ! -d "$HOME/.config/mpv" ] && mkdir -p "$HOME/.config/mpv"
+mkdir -p "$HOME/.config/mpv"
 cat << EOF > "$HOME/.config/mpv/mpv.conf"
 profile=gpu-hq
 scale=ewa_lanczossharp
@@ -58,7 +58,7 @@ tscale=oversample
 x11-bypass-compositor=yes
 EOF
 
-[ ! -d "$HOME/.config/gtk-3.0" ] && mkdir -p "$HOME/.config/gtk-3.0"
+mkdir -p "$HOME/.config/gtk-3.0"
 cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
 [Settings]
 gtk-theme-name=Adwaita-dark
@@ -78,7 +78,7 @@ gtk-xft-hintstyle=hintslight
 gtk-xft-rgba=rgb
 EOF
 
-[ ! -d "$HOME/.config/dunst" ] && mkdir -p "$HOME/.config/dunst"
+mkdir -p "$HOME/.config/dunst"
 cat << EOF > "$HOME/.config/dunst/dunstrc
 frame_color = "#000000"
 separator_color = "#000000"
@@ -157,7 +157,7 @@ cat << EOF > "$HOME/.Xresources"
 Xcursor.theme: Adwaita
 EOF
 
-[ ! -d "$HOME/.icons/default" ] && mkdir -p "$HOME/.icons/default"
+mkdir -p "$HOME/.icons/default"
 cat << EOF > "$HOME/.icons/default/index.theme"
 [icon theme]
 Inherits=Adwaita
@@ -175,8 +175,8 @@ manage = "desktop";
 name = "emacs";
 start = ''
 xset +dpms
-xset s 300
-xset dpms 0 0 360
+xset s 1800
+xset dpms 0 0 1860
 stupid-power-manager &
 myDots
 xrdb -merge ~/.Xresources
@@ -199,15 +199,43 @@ environment.systemPackages = with pkgs; [
 myDots
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+epkgs.better-defaults
+epkgs.magit
+epkgs.projectile
+epkgs.flycheck
+epkgs.crux
+epkgs.ace-window
+epkgs.webpaste
+epkgs.aggressive-indent
+epkgs.dumb-jump
+epkgs.rich-minority
+epkgs.sexy-monochrome-theme
+epkgs.diff-hl
+
 epkgs.xelb
 epkgs.exwm
+epkgs.desktop-environment
+epkgs.edit-server
+epkgs.pdf-tools
+epkgs.emms
+epkgs.transpose-frame
+epkgs.hydra
+
+epkgs.bash-completion
+epkgs.elisp-slime-nav
+epkgs.paredit
+epkgs.rainbow-delimiters
+epkgs.rainbow-mode
+epkgs.clojure-mode
+epkgs.cider
+epkgs.nix-mode
+epkgs.haskell-mode
 ])))
 
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 wmctrl xclip xsel scrot imagemagick
 udiskie libnotify dunst perlPackages.FileMimeInfo
 redshift networkmanagerapplet volumeicon
-aspell aspellDicts.en
 ];
 
 programs.slock.enable = true;

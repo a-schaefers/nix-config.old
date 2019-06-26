@@ -66,5 +66,3 @@
   (interactive)
   (setq erc-modified-channels-alist nil)
   (erc-modified-channels-update))
-
-(provide 'my-erc)

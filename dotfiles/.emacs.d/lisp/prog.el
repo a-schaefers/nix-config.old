@@ -39,6 +39,11 @@
 (setq whitespace-style '(face tabs empty trailing lines-tail))
 (whitespace-mode 1)
 
+(require 'recentf)
+(setq recentf-max-saved-items 500
+      recentf-max-menu-items 15)
+(recentf-mode +1)
+
 (require 'paren)
 (show-paren-mode 1)
 
@@ -81,7 +86,7 @@
 (global-set-key [remap kill-whole-line] #'crux-kill-whole-line)
 (global-set-key (kbd "<C-S-return>") #'crux-smart-open-line-above)
 (global-set-key (kbd "<S-return>") #'crux-smart-open-line)
-(global-set-key (kbd "s-r") #'crux-recentf-find-file)
+(global-set-key (kbd "C-c r") #'crux-recentf-find-file)
 (global-set-key (kbd "C-<backspace>") #'crux-kill-line-backwards)
 
 (require 'ace-window)
@@ -165,5 +170,3 @@
 (add-hook 'haskell-mode-hook 'subword-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'haskell-doc-mode)
-
-(provide 'my-programming)

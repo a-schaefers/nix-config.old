@@ -260,5 +260,3 @@ contains new messages"))
 
   (add-hook 'gnus-summary-exit-hook
             'gnus-mst-show-groups-with-new-messages))
-
-(provide 'my-gnus)

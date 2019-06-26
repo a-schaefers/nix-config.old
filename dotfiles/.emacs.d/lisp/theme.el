@@ -108,5 +108,3 @@
       :error-list-face 'flycheck-error-list-error)
     (setq flycheck-highlighting-mode nil)
     (set-face-attribute 'flycheck-warning nil :underline nil)))
-
-(provide 'my-theme)

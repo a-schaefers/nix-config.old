@@ -60,5 +60,3 @@
         (list
          (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
                  (if (eq window-system 'w32) ".exe" "") trustfile))))
-
-(provide 'my-functions)

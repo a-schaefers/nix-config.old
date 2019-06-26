@@ -177,5 +177,3 @@
 
 (global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
 (global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
-
-(provide 'my-exwm)

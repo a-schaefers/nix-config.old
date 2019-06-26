@@ -24,6 +24,3 @@ corresponding hosts/machine-name/default.nix file determines which modules shoul
 
 ## Credits
 - Everyone in #nixos and #emacs on freenode, for always helping me out.
-- [ldlework's dotfiles](https://github.com/dustinlacewell/dotfiles), which helped inspire my nix files and the themelios installer.
-
-__"Thanks."__

@@ -121,18 +121,7 @@
 (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
 (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
-
-(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
-
-(require 'desktop-environment)
-(desktop-environment-mode)
-(exwm-input-set-key
- (kbd "<s-kp-multiply>") 'desktop-environment-toggle-mute)
-(exwm-input-set-key
- (kbd "<s-kp-add>") 'desktop-environment-volume-increment)
-(exwm-input-set-key
- (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
-
+;; And again, for cases without exwm
 (global-set-key (kbd "M-g") 'keyboard-quit)
 (global-set-key (kbd "s-/") 'winner-undo)
 (global-set-key (kbd "s-?") 'winner-redo)
@@ -151,3 +140,17 @@
 (global-set-key (kbd "s-0") 'delete-window)
 (global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
 (global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
+
+(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+
+(require 'desktop-environment)
+(desktop-environment-mode)
+(exwm-input-set-key
+ (kbd "<s-kp-multiply>") 'desktop-environment-toggle-mute)
+(exwm-input-set-key
+ (kbd "<s-kp-add>") 'desktop-environment-volume-increment)
+(exwm-input-set-key
+ (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
+
+(require 'browse-kill-ring)
+(global-set-key (kbd "M-y") 'browse-kill-ring)

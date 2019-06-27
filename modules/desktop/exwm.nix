@@ -211,6 +211,7 @@ epkgs.dumb-jump
 epkgs.rich-minority
 epkgs.sexy-monochrome-theme
 epkgs.diff-hl
+epkgs.browse-kill-ring
 
 epkgs.xelb
 epkgs.exwm

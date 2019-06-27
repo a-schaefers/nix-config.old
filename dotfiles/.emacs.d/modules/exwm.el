@@ -1,19 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(defun spacemacs/alternate-buffer (&optional window)
-  (interactive)
-  (let ((current-buffer (window-buffer window)))
-    (switch-to-buffer
-     (cl-find-if (lambda (buffer)
-                   (not (eq buffer current-buffer)))
-                 (mapcar #'car (window-prev-buffers window))))))
-
-(defun spacemacs/alternate-window ()
-  (interactive)
-  (let ((prev-window (get-mru-window nil t t)))
-    (unless prev-window (user-error "Last window not found"))
-    (select-window prev-window)))
-
 (require 'xelb)
 (require 'exwm)
 (setq exwm-workspace-number 8)
@@ -88,21 +74,7 @@
 (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
 (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
-;; And again, for cases without exwm
-(global-set-key (kbd "M-g") 'keyboard-quit)
-(global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
-(global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
-(with-eval-after-load 'org
-  (define-key org-mode-map (kbd "<C-tab>") 'spacemacs/alternate-buffer))
-(global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
-(global-set-key (kbd "s--") 'kill-this-buffer)
-(global-set-key (kbd "s-1") 'delete-other-windows)
-(global-set-key (kbd "s-2") 'split-window-below)
-(global-set-key (kbd "s-3") 'split-window-right)
-(global-set-key (kbd "s-0") 'delete-window)
-(global-set-key (kbd "<s-tab>") 'ace-window)
-(global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
-(global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
+
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
 (require 'desktop-environment)
@@ -116,10 +88,3 @@
 
 (require 'edit-server)
 (edit-server-start)
-
-(require 'midnight)
-(setq midnight-period 7200)
-(midnight-mode 1)
-
-(require 'winner)
-(winner-mode 1)

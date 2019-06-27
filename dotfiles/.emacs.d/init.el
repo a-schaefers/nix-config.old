@@ -8,7 +8,8 @@
       user-mail-address "paxchristi888@gmail.com"
       inhibit-startup-screen nil
       initial-major-mode 'emacs-lisp-mode
-      gc-cons-threshold 100000000)
+      gc-cons-threshold 100000000
+      debug-on-error nil)
 
 (defun load-directory (directory)
   "Load recursively all `.el' files in DIRECTORY."

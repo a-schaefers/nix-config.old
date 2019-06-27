@@ -1,4 +1,4 @@
-;; BASH
+;;;; BASH
 
 (defun my-shell ()
   (interactive)
@@ -35,7 +35,7 @@
             (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
 
-;; EMACS LISP & CLOJURE
+;;;; EMACS LISP & CLOJURE
 
 (require 'lisp-mode)
 (defun my-ielm ()
@@ -77,13 +77,13 @@
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
-;; HASKELL
+;;;; HASKELL
 
 (require 'haskell-mode)
 (add-hook 'haskell-mode-hook 'subword-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'haskell-doc-mode)
 
-;; NIX
+;;;; NIX
 
 (require 'nix-mode)

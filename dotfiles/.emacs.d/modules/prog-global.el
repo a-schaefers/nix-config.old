@@ -1,7 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; MISC
-
 (defun my-prog-mode-hook ()
   (goto-address-prog-mode 1)
   (whitespace-mode 1))

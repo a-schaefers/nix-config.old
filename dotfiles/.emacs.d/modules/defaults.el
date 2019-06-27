@@ -71,3 +71,6 @@
 
 (require 'winner)
 (winner-mode 1)
+
+(require 'edit-server)
+(edit-server-start)

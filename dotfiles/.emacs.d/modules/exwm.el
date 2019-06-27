@@ -85,6 +85,3 @@
  (kbd "<s-kp-add>") 'desktop-environment-volume-increment)
 (exwm-input-set-key
  (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
-
-(require 'edit-server)
-(edit-server-start)

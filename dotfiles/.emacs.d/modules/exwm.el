@@ -1,5 +1,19 @@
 ;;; -*- lexical-binding: t; -*-
 
+(defun spacemacs/alternate-buffer (&optional window)
+  (interactive)
+  (let ((current-buffer (window-buffer window)))
+    (switch-to-buffer
+     (cl-find-if (lambda (buffer)
+                   (not (eq buffer current-buffer)))
+                 (mapcar #'car (window-prev-buffers window))))))
+
+(defun spacemacs/alternate-window ()
+  (interactive)
+  (let ((prev-window (get-mru-window nil t t)))
+    (unless prev-window (user-error "Last window not found"))
+    (select-window prev-window)))
+
 (require 'xelb)
 (require 'exwm)
 (setq exwm-workspace-number 8)

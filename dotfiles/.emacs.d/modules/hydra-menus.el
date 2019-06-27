@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'hydra)
 
 ;; put hydras on <Caps Lock>

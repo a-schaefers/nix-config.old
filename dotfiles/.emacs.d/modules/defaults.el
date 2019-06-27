@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (require 'better-defaults)
 
 (delete-selection-mode 1)

@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; MISC
+
 (defun my-prog-mode-hook ()
   (goto-address-prog-mode 1)
   (whitespace-mode 1))
@@ -10,6 +12,9 @@
 
 (require 'browse-kill-ring)
 (global-set-key (kbd "M-y") 'browse-kill-ring)
+
+(require 'webpaste)
+(global-set-key (kbd "C-c <print>") 'webpaste-paste-region)
 
 (require 'whitespace)
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -75,12 +80,16 @@
 (setq aw-scope 'frame)
 (ace-window-display-mode -1)
 
-(require 'webpaste)
-
 (require 'aggressive-indent)
 (aggressive-indent-global-mode 1)
 
 ;; BASH
+
+(defun my-shell ()
+  (interactive)
+  (if (get-buffer "*shell*")
+      (kill-buffer "*shell*"))
+  (shell))
 
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
@@ -111,7 +120,7 @@
             (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
 
-;;;;; EMACS LISP & CLOJURE
+;; EMACS LISP & CLOJURE
 
 (require 'lisp-mode)
 (defun my-ielm ()
@@ -153,13 +162,13 @@
 (add-hook 'cider-repl-mode-hook 'paredit-mode)
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
-;;;; HASKELL
+;; HASKELL
 
 (require 'haskell-mode)
 (add-hook 'haskell-mode-hook 'subword-mode)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook 'haskell-doc-mode)
 
-;;;; NIX
+;; NIX
 
 (require 'nix-mode)

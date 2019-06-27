@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 ;;pdf-tools breaks without package
 (require 'package)
 (package-initialize)

@@ -1,6 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 (toggle-frame-fullscreen)
+
 (set-face-attribute 'default nil :font "Hack-15")
 
 (setq user-full-name "Adam Schaefers"

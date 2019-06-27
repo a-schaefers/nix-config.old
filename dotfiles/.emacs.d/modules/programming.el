@@ -1,52 +1,20 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; GENERAL
-
 (defun my-prog-mode-hook ()
-  (goto-address-prog-mode 1))
+  (goto-address-prog-mode 1)
+  (whitespace-mode 1))
+
 (add-hook 'prog-mode-hook 'my-prog-mode-hook)
 
-(require 'better-defaults)
+(global-set-key (kbd "<f5>") 'compile)
 
-(delete-selection-mode 1)
-(blink-cursor-mode -1)
-(setq visible-bell nil)
-
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-
-(setq-default indent-tabs-mode nil)
-(setq-default tab-width 8)
-(setq-default fill-column 80)
-
-(global-unset-key (kbd "C-z"))
-
-(setq vc-follow-symlinks t)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-
-(add-hook 'dired-load-hook
-          (function (lambda () (load "dired-x"))))
-
-(setq tab-always-indent 'complete)
-
-(setq tramp-default-method "ssh")
-(setq tramp-copy-size-limit nil)
+(require 'browse-kill-ring)
+(global-set-key (kbd "M-y") 'browse-kill-ring)
 
 (require 'whitespace)
 (add-hook 'before-save-hook 'whitespace-cleanup)
 (setq whitespace-line-column 80)
 (setq whitespace-style '(face tabs empty trailing lines-tail))
-(whitespace-mode 1)
-
-(require 'recentf)
-(setq recentf-max-saved-items 500
-      recentf-max-menu-items 15)
-(recentf-mode +1)
 
 (require 'paren)
 (show-paren-mode 1)
@@ -57,9 +25,11 @@
 (require 'magit)
 (global-set-key (kbd "C-c g") #'magit-status)
 (setq magit-diff-refine-hunk t)
+
 (setq magit-repository-directories '(("~/repos" . 1)))
 (when (file-directory-p "/nix-config")
   (add-to-list 'magit-repository-directories '("/nix-config" . 0)))
+
 (with-eval-after-load 'projectile
   (when (require 'magit nil t)
     (mapc #'projectile-add-known-project

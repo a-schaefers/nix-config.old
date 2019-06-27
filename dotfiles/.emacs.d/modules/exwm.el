@@ -1,53 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(require 'edit-server)
-(edit-server-start)
-
-(require 'midnight)
-(setq midnight-period 7200)
-(midnight-mode 1)
-
-(require 'winner)
-(winner-mode 1)
-
-(package-initialize) ;;pdf-tools breaks without this
-(require 'pdf-tools)
-(pdf-tools-install)
-
-(require 'emms)
-(require 'emms-setup)
-(when (file-directory-p "~/Downloads")
-  (setq emms-source-file-default-directory "~/Downloads"))
-(emms-all)
-(emms-default-players)
-(emms-playing-time -1)
-(emms-mode-line -1)
-
-(require 'transpose-frame)
-
-(require 'hydra)
-(defhydra caps-hydra (:exit t)
-  "Main Menu"
-  ("!" (lambda (command)
-         (interactive (list (read-shell-command "$ ")))
-         (start-process-shell-command command nil command)) "cmd")
-  ("s" (my-shell) "sh")
-  ("w" (windows-hydra/body) "win")
-  ("P" (push-window-configuration) "push-win")
-  ("p" (pop-window-configuration) "pop-win")
-  ("<menu>" nil))
-
-(defhydra windows-hydra ()
-  "Window Management"
-  ("v" (flip-frame) "flip-vertically")
-  ("h" (flop-frame) "flop-horizontally")
-  ("r" (rotate-frame-clockwise) "rotate clockwise")
-  ("<left>" (call-interactively #'shrink-window-horizontally) "shrink-window-horizontally")
-  ("<right>" (call-interactively #'enlarge-window-horizontally) "enlarge-window-horizontally")
-  ("<down>" (call-interactively #'shrink-window) "shrink-window")
-  ("<up>" (call-interactively #'enlarge-window) "enlarge-window")
-  ("q" nil "Quit"))
-
 (require 'xelb)
 (require 'exwm)
 (setq exwm-workspace-number 8)
@@ -55,6 +7,10 @@
 (require 'exwm-systemtray)
 (exwm-systemtray-enable)
 (setq exwm-systemtray-height 16)
+
+(defun my-toggle-redshift ()
+  (interactive)
+  (start-process-shell-command "pkill" nil "pkill -USR1 '^redshift'"))
 
 (defun my-tray-apps ()
   (start-process-shell-command "redshift-gtk" nil
@@ -108,26 +64,18 @@
           (lambda ()
             (exwm-workspace-rename-buffer exwm-class-name)))
 
-(exwm-input-set-key (kbd "<menu>") 'caps-hydra/body)
 (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
-(exwm-input-set-key (kbd "<s-return>") 'ace-window)
-(exwm-input-set-key (kbd "s-/") 'winner-undo)
-(exwm-input-set-key (kbd "s-?") 'winner-redo)
 (exwm-input-set-key (kbd "s-1") 'delete-other-windows)
 (exwm-input-set-key (kbd "s-2") 'split-window-below)
 (exwm-input-set-key (kbd "s-3") 'split-window-right)
 (exwm-input-set-key (kbd "s-0") 'delete-window)
+(exwm-input-set-key (kbd "<s-tab>") 'ace-window)
 (exwm-input-set-key (kbd "s--") 'kill-this-buffer)
 (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
 (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
 ;; And again, for cases without exwm
 (global-set-key (kbd "M-g") 'keyboard-quit)
-(global-set-key (kbd "s-/") 'winner-undo)
-(global-set-key (kbd "s-?") 'winner-redo)
-(global-set-key (kbd "<f5>") 'compile)
-(global-set-key (kbd "C-;") 'comment-line)
-(global-set-key (kbd "<s-return>") 'ace-window)
 (global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 (with-eval-after-load 'org
@@ -138,9 +86,9 @@
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
 (global-set-key (kbd "s-0") 'delete-window)
+(global-set-key (kbd "<s-tab>") 'ace-window)
 (global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
 (global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
-
 (define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
 (require 'desktop-environment)
@@ -152,5 +100,12 @@
 (exwm-input-set-key
  (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
 
-(require 'browse-kill-ring)
-(global-set-key (kbd "M-y") 'browse-kill-ring)
+(require 'edit-server)
+(edit-server-start)
+
+(require 'midnight)
+(setq midnight-period 7200)
+(midnight-mode 1)
+
+(require 'winner)
+(winner-mode 1)

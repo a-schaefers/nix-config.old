@@ -7,11 +7,11 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(which-function-mode 1)
+(which-function-mode -1)
 
 (setq display-time-default-load-average nil
       display-time-24hr-format t)
-(display-time-mode 1)
+(display-time-mode -1)
 
 (when (bound-and-true-p mode-line-format)
   (setcdr (assq 'vc-mode mode-line-format)
@@ -27,8 +27,12 @@
 
 (require 'sexy-monochrome-theme)
 (load-theme 'sexy-monochrome t)
-(set-face-attribute 'default nil :font "Hack-20")
 (set-cursor-color "#4870a1")
+
+(custom-set-faces
+ '(mode-line ((t (:box nil))))
+ '(mode-line-highlight ((t (:box nil))))
+ '(mode-line-inactive ((t (:box nil)))))
 
 (with-eval-after-load 'company
   (require 'color)

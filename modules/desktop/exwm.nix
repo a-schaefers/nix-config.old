@@ -63,7 +63,7 @@ cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
 [Settings]
 gtk-theme-name=Adwaita-dark
 gtk-icon-theme-name=Adwaita
-gtk-font-name=Hack 18
+gtk-font-name=Hack 13
 gtk-cursor-theme-name=Adwaita
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_TEXT
@@ -108,7 +108,7 @@ horizontal_padding = 8
 frame_width = 0
 sort = yes
 idle_threshold = 120
-font = Hack 18
+font = Hack 13
 line_height = 0
 markup = full
 format = "<b>%s</b>\n%b"
@@ -138,7 +138,7 @@ EOF
 cat << EOF > "$HOME/.gtkrc-2.0"
 gtk-theme-name="Adwaita-dark"
 gtk-icon-theme-name="Adwaita"
-gtk-font-name="Hack 18"
+gtk-font-name="Hack 13"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_TEXT

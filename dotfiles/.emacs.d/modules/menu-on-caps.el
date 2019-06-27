@@ -1,9 +1,12 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; put hydra menus on <Caps Lock> via setxkbmap -option caps:menu and then bind hydra to <menu>
+
 (require 'hydra)
 
-;; put hydras on <Caps Lock>
-(with-eval-after-load 'exwm
+(global-set-key (kbd "<menu>") 'caps-hydra/body)
+
+(with-eval-after-load 'exwm ;; in case also using exwm
   (exwm-input-set-key (kbd "<menu>") 'caps-hydra/body))
 
 (defhydra caps-hydra (:exit t)

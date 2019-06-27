@@ -45,6 +45,7 @@
 (setq-default fill-column 80)
 
 (global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
 
 (setq vc-follow-symlinks t)
 

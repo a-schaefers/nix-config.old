@@ -11,10 +11,11 @@
 
 (defhydra caps-hydra (:exit t)
   "Menu"
+  ("#" (my-shell) "sh")
   ("!" (lambda (command)
          (interactive (list (read-shell-command "$ ")))
          (start-process-shell-command command nil command)) "cmd")
-  ("s" (my-shell) "sh")
+  ("a" (my-insert-contact) "abook")
   ("e" (gnus) "email")
   ("i" (my-erc) "irc")
   ("b" (call-interactively #'eww) "eww")

@@ -25,13 +25,14 @@
   ("w" (windows-hydra/body) "win")
   ("<menu>" nil))
 
-(defhydra abook-hydra (:exit t)
-  "contacts list"
-  ("i" (my-insert-contact) "insert email address")
-  ("e" (lambda ()
-         (interactive)
-         (when (file-exists-p "~/Private/contacts.el")
-           (find-file "~/Private/contacts.el"))) "edit contacts"))
+(with-eval-after-load 'email
+  (defhydra abook-hydra (:exit t)
+    "contacts list"
+    ("i" (my-insert-contact) "insert email address")
+    ("e" (lambda ()
+           (interactive)
+           (when (file-exists-p my-contacts-file)
+             (find-file my-contacts-file))) "edit contacts")))
 
 (defhydra emms-hydra (:exit t)
   "EMMS"

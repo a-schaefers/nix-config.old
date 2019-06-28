@@ -16,7 +16,7 @@
          (start-process-shell-command command nil command)) "cmd")
   ("s" (my-shell) "sh")
   ("e" (gnus) "email")
-  ("i" (my-irc) "irc")
+  ("i" (my-erc) "irc")
   ("w" (windows-hydra/body) "win")
   ("<menu>" nil))
 

@@ -1,6 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; put hydra menus on <Caps Lock> via setxkbmap -option caps:menu and then bind hydra to <menu>
+;; put <menu> on <caps lock> and then bind hydra to <menu>
+
+(start-process-shell-command "setxkbmap" nil "setxkbmap -option caps:menu")
 
 (require 'hydra)
 
@@ -15,13 +17,21 @@
   ("!" (lambda (command)
          (interactive (list (read-shell-command "$ ")))
          (start-process-shell-command command nil command)) "cmd")
-  ("a" (my-insert-contact) "abook")
+  ("c" (abook-hydra/body) "contacts")
   ("e" (gnus) "email")
   ("i" (my-erc) "irc")
   ("b" (call-interactively #'eww) "eww")
   ("m" (emms-hydra/body) "emms")
   ("w" (windows-hydra/body) "win")
   ("<menu>" nil))
+
+(defhydra abook-hydra (:exit t)
+  "contacts list"
+  ("i" (my-insert-contact) "insert email address")
+  ("e" (lambda ()
+         (interactive)
+         (when (file-exists-p "~/Private/contacts.el")
+           (find-file "~/Private/contacts.el"))) "edit contacts"))
 
 (defhydra emms-hydra (:exit t)
   "EMMS"

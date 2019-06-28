@@ -16,13 +16,13 @@
     (unless prev-window (user-error "Last window not found"))
     (select-window prev-window)))
 
-(defun go-home-youre-drunk ()
+(defun my-home ()
   (interactive)
   (cd "~/")
-  (crux-create-scratch-buffer)
+  (about-emacs)
   (crux-kill-other-buffers))
 
-(global-set-key (kbd "<home>") 'go-home-youre-drunk)
+(global-set-key (kbd "<home>") 'my-home)
 (global-set-key (kbd "M-g") 'keyboard-quit)
 (global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
@@ -87,4 +87,4 @@
 (defun eww-open-with-mpv ()
   (interactive)
   (eww-copy-page-url)
-  (start-process-shell-command "mpv" nil (concat "mpv " (nth 0 kill-ring))))
+  (start-process-shell-command "vlc" nil (concat "vlc " (nth 0 kill-ring))))

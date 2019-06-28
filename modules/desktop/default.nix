@@ -26,18 +26,14 @@ terminus_font
 environment.systemPackages = with pkgs; [
 gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme
 glxinfo libva-utils vdpauinfo
-
-ffmpeg gstreamer vlc
+ffmpeg phonon-backend-vlc vlc youtube-dl
 ];
 
 programs.firejail = {
 enable = true;
 wrappedBinaries = {
-# chromium = "${lib.getBin pkgs.chromium}/bin/chromium";
 google-chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
 thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
-mpv = "${lib.getBin pkgs.mpv}/bin/mpv";
-youtube-dl= "${lib.getBin pkgs.youtube-dl}/bin/youtube-dl";
 };
 };
 

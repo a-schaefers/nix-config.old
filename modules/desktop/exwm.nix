@@ -79,60 +79,21 @@ gtk-xft-rgba=rgb
 EOF
 
 mkdir -p "$HOME/.config/dunst"
-cat << EOF > "$HOME/.config/dunst/dunstrc
+cat << EOF > "$HOME/.config/dunst/dunstrc"
 frame_color = "#000000"
 separator_color = "#000000"
 [my_low]
 msg_urgency = low
-background = "#3a3432"
-foreground = "#ffffff"
+background = "#000000"
+foreground = "#4870a1"
 [my_normal]
 msg_urgency = normal
-background = "#4a4543"
-foreground = "#ffffff"
+background = "#000000"
+foreground = "#4870a1"
 [my_critical]
 msg_urgency = critical
-background = "#db2d20"
-foreground = "#ffffff"
-[global]
-monitor = 0
-follow = mouse
-geometry = "300x5-30+20"
-indicate_hidden = yes
-shrink = no
-transparency = 0
-notification_height = 0
-separator_height = 2
-padding = 8
-horizontal_padding = 8
-frame_width = 0
-sort = yes
-idle_threshold = 120
-font = Hack 13
-line_height = 0
-markup = full
-format = "<b>%s</b>\n%b"
-alignment = left
-show_age_threshold = 60
-word_wrap = yes
-ellipsize = middle
-ignore_newline = no
-stack_duplicates = true
-hide_duplicate_count = false
-show_indicators = yes
-icon_position = off
-max_icon_size = 32
-#icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
-sticky_history = yes
-history_length = 20
-#dmenu = /usr/bin/dmenu -p dunst:
-#browser = /usr/bin/firefox -new-tab
-always_run_script = true
-title = Dunst
-class = Dunst
-startup_notification = false
-verbosity = mesg
-corner_radius = 0
+background = "#000000"
+foreground = "#4870a1"
 EOF
 
 cat << EOF > "$HOME/.gtkrc-2.0"

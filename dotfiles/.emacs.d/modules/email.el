@@ -23,14 +23,15 @@
   "Insert an email address from `my-contact-list' to the current buffer."
   (interactive)
   (let ((item my-contact-keys))
-    ;; support helm and ido
+    ;; support helm/ivy
+    (fset 'my-read 'completing-read)
     (when (fboundp 'helm)
-      (fset 'helm-or-ido-read 'helm-comp-read))
+      (fset 'my-read 'helm-comp-read))
     (when (fboundp 'ivy-mode)
-      (fset 'helm-or-ido-read 'ivy-completing-read))
+      (fset 'my-read 'ivy-completing-read))
 
     ;; interactive menu + convert chosen item (key) from string to data
-    (setq interactive-chosen-key (intern (helm-or-ido-read "Contact Name:" item)))
+    (setq interactive-chosen-key (intern (my-read "Contact Name:" item)))
     ;; match key to list and get associated email (value), convert back to string
     (setq email (format "%s" (cdr (assq interactive-chosen-key my-contact-list))))
 

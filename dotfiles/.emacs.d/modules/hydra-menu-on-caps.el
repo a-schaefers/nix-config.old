@@ -17,6 +17,7 @@
   ("s" (my-shell) "sh")
   ("e" (gnus) "email")
   ("i" (my-erc) "irc")
+  ("b" (call-interactively #'eww) "eww")
   ("w" (windows-hydra/body) "win")
   ("<menu>" nil))
 

@@ -73,14 +73,11 @@
 (require 'winner)
 (winner-mode 1)
 
-(require 'edit-server)
-(edit-server-start)
-
 (setq browse-url-browser-function 'eww-browse-url)
-
+(setq browse-url-default-browser "google-chrome") ;; opened by eww with "&" key
+(with-eval-after-load 'eww
+  (define-key eww-mode-map (kbd "^") 'eww-open-with-mpv))
 (defun eww-open-with-mpv ()
   (interactive)
   (eww-copy-page-url)
   (start-process-shell-command "mpv" nil (concat "mpv " (nth 0 kill-ring))))
-
-(define-key eww-mode-map (kbd "^") 'eww-open-with-mpv)

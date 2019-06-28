@@ -199,6 +199,14 @@ environment.systemPackages = with pkgs; [
 myDots
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+epkgs.xelb
+epkgs.exwm
+epkgs.desktop-environment
+epkgs.pdf-tools
+epkgs.emms
+epkgs.hydra
+epkgs.transpose-frame
+
 epkgs.better-defaults
 epkgs.magit
 epkgs.projectile
@@ -212,15 +220,6 @@ epkgs.rich-minority
 epkgs.sexy-monochrome-theme
 epkgs.diff-hl
 epkgs.browse-kill-ring
-
-epkgs.xelb
-epkgs.exwm
-epkgs.desktop-environment
-epkgs.edit-server
-epkgs.pdf-tools
-epkgs.emms
-epkgs.transpose-frame
-epkgs.hydra
 
 epkgs.bash-completion
 epkgs.xterm-color

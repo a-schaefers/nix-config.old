@@ -19,8 +19,15 @@
   ("e" (gnus) "email")
   ("i" (my-erc) "irc")
   ("b" (call-interactively #'eww) "eww")
+  ("m" (emms-hydra/body) "emms")
   ("w" (windows-hydra/body) "win")
   ("<menu>" nil))
+
+(defhydra emms-hydra (:exit t)
+  "EMMS"
+  ("r" (emms-streams) "radio streams")
+  ("f" (call-interactively #'emms-play-file) "open file")
+  ("l" (emms) "playlist"))
 
 ;; a nested window mgmt hydra
 (require 'transpose-frame)

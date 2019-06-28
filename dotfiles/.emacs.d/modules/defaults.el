@@ -75,3 +75,12 @@
 
 (require 'edit-server)
 (edit-server-start)
+
+(setq browse-url-browser-function 'eww-browse-url)
+
+(defun eww-open-with-mpv ()
+  (interactive)
+  (eww-copy-page-url)
+  (start-process-shell-command "mpv" nil (concat "mpv " (nth 0 kill-ring))))
+
+(define-key eww-mode-map (kbd "^") 'eww-open-with-mpv)

@@ -6,7 +6,7 @@
 
 (setq user-full-name "Adam Schaefers"
       user-mail-address "paxchristi888@gmail.com"
-      inhibit-startup-screen nil
+      inhibit-startup-screen t
       initial-major-mode 'emacs-lisp-mode
       gc-cons-threshold 100000000
       debug-on-error nil)

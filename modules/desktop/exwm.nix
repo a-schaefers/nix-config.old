@@ -47,37 +47,6 @@ image/jpeg; emacsclient %s
 image/gif; emacsclient %s
 EOF
 
-mkdir -p "$HOME/.config/mpv"
-cat << EOF > "$HOME/.config/mpv/mpv.conf"
-profile=gpu-hq
-scale=ewa_lanczossharp
-cscale=ewa_lanczossharp
-video-sync=display-resample
-interpolation
-tscale=oversample
-x11-bypass-compositor=yes
-EOF
-
-mkdir -p "$HOME/.config/gtk-3.0"
-cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
-[Settings]
-gtk-theme-name=Adwaita-dark
-gtk-icon-theme-name=Adwaita
-gtk-font-name=Hack 13
-gtk-cursor-theme-name=Adwaita
-gtk-cursor-theme-size=0
-gtk-toolbar-style=GTK_TOOLBAR_TEXT
-gtk-toolbar-icon-size=GTK_ICON_SIZE_MENU
-gtk-button-images=0
-gtk-menu-images=0
-gtk-enable-event-sounds=0
-gtk-enable-input-feedback-sounds=0
-gtk-xft-antialias=1
-gtk-xft-hinting=1
-gtk-xft-hintstyle=hintslight
-gtk-xft-rgba=rgb
-EOF
-
 mkdir -p "$HOME/.config/dunst"
 cat << EOF > "$HOME/.config/dunst/dunstrc"
 frame_color = "#000000"
@@ -94,24 +63,6 @@ foreground = "#4870a1"
 msg_urgency = critical
 background = "#000000"
 foreground = "#4870a1"
-EOF
-
-cat << EOF > "$HOME/.gtkrc-2.0"
-gtk-theme-name="Adwaita-dark"
-gtk-icon-theme-name="Adwaita"
-gtk-font-name="Hack 13"
-gtk-cursor-theme-name="Adwaita"
-gtk-cursor-theme-size=0
-gtk-toolbar-style=GTK_TOOLBAR_TEXT
-gtk-toolbar-icon-size=GTK_ICON_SIZE_MENU
-gtk-button-images=0
-gtk-menu-images=0
-gtk-enable-event-sounds=0
-gtk-enable-input-feedback-sounds=0
-gtk-xft-antialias=1
-gtk-xft-hinting=1
-gtk-xft-hintstyle="hintslight"
-gtk-xft-rgba="rgb"
 EOF
 
 cat << EOF > "$HOME/.Xresources"

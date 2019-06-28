@@ -87,4 +87,4 @@
 (defun eww-open-with-mpv ()
   (interactive)
   (eww-copy-page-url)
-  (start-process-shell-command "vlc" nil (concat "vlc " (nth 0 kill-ring))))
+  (start-process-shell-command "mpv" nil (concat "mpv " (nth 0 kill-ring))))

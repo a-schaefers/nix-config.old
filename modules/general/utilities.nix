@@ -41,6 +41,7 @@ syslinux
 efibootmgr
 unetbootin
 wimlib
+bind
 ];
 
 }

@@ -26,6 +26,8 @@ terminus_font
 environment.systemPackages = with pkgs; [
 gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme
 glxinfo libva-utils vdpauinfo
+
+ffmpeg gstreamer vlc
 ];
 
 programs.firejail = {

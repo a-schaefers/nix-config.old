@@ -71,6 +71,7 @@
 (global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
 (global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
 (global-set-key (kbd "C-c D") #'crux-delete-buffer-and-file)
+(global-set-key (kbd "C-c K") #'crux-kill-other-buffers)
 (global-set-key (kbd "C-c I") 'crux-find-user-init-file)
 
 (require 'ace-window)

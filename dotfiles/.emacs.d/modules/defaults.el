@@ -16,6 +16,13 @@
     (unless prev-window (user-error "Last window not found"))
     (select-window prev-window)))
 
+(defun go-home-youre-drunk ()
+  (interactive)
+  (cd "~/")
+  (crux-create-scratch-buffer)
+  (crux-kill-other-buffers))
+
+(global-set-key (kbd "<home>") 'go-home-youre-drunk)
 (global-set-key (kbd "M-g") 'keyboard-quit)
 (global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)

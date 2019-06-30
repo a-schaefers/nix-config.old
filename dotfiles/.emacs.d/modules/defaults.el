@@ -2,6 +2,11 @@
 
 (require 'better-defaults)
 
+(add-hook 'text-mode-hook 'goto-address-mode)
+
+(global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
+(global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
+
 (defun spacemacs/alternate-buffer (&optional window)
   (interactive)
   (let ((current-buffer (window-buffer window)))
@@ -21,22 +26,16 @@
   (cd "~/")
   (about-emacs)
   (crux-kill-other-buffers))
-
 (global-set-key (kbd "<home>") 'my-home)
-(global-set-key (kbd "M-g") 'keyboard-quit)
-(global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
+
+(global-set-key (kbd "<s-tab>") 'ace-window)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
-(with-eval-after-load 'org
-  (define-key org-mode-map (kbd "<C-tab>") 'spacemacs/alternate-buffer))
 (global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (global-set-key (kbd "s--") 'kill-this-buffer)
 (global-set-key (kbd "s-1") 'delete-other-windows)
 (global-set-key (kbd "s-2") 'split-window-below)
 (global-set-key (kbd "s-3") 'split-window-right)
 (global-set-key (kbd "s-0") 'delete-window)
-(global-set-key (kbd "<s-tab>") 'ace-window)
-(global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
-(global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
 
 (delete-selection-mode 1)
 (blink-cursor-mode -1)
@@ -80,11 +79,20 @@
 (require 'winner)
 (winner-mode 1)
 
+;; use eww as the default web browser
+(require 'eww)
 (setq browse-url-browser-function 'eww-browse-url)
-(setq browse-url-default-browser "google-chrome") ;; opened by eww with "&" key
-(with-eval-after-load 'eww
-  (define-key eww-mode-map (kbd "^") 'eww-open-with-mpv))
+
+(defun my-external-browser (url)
+  (start-process-shell-command "brave" nil (concat "brave " url)))
+
 (defun eww-open-with-mpv ()
   (interactive)
   (eww-copy-page-url)
   (start-process-shell-command "mpv" nil (concat "mpv " (nth 0 kill-ring))))
+
+;; opened by eww with "&" key
+(setq shr-external-browser 'my-external-browser)
+
+;; browse youtube videos from eww/mpv/youtube-dl with "^" key
+(define-key eww-mode-map (kbd "^") 'eww-open-with-mpv)

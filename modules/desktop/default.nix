@@ -32,7 +32,7 @@ ffmpeg phonon-backend-vlc vlc mpv youtube-dl
 programs.firejail = {
 enable = true;
 wrappedBinaries = {
-google-chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
+brave = "${lib.getBin pkgs.brave}/bin/brave";
 thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
 };
 };

@@ -64,14 +64,15 @@
           (lambda ()
             (exwm-workspace-rename-buffer exwm-class-name)))
 
+(exwm-input-set-key (kbd "<s-tab>") 'ace-window)
 (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
+(exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
+(exwm-input-set-key (kbd "s--") 'kill-this-buffer)
 (exwm-input-set-key (kbd "s-1") 'delete-other-windows)
 (exwm-input-set-key (kbd "s-2") 'split-window-below)
 (exwm-input-set-key (kbd "s-3") 'split-window-right)
 (exwm-input-set-key (kbd "s-0") 'delete-window)
-(exwm-input-set-key (kbd "<s-tab>") 'ace-window)
-(exwm-input-set-key (kbd "s--") 'kill-this-buffer)
-(exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
+
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
 (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
 

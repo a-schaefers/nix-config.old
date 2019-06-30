@@ -60,7 +60,6 @@
 (add-hook 'prog-mode-hook 'rainbow-mode)
 
 (require 'crux)
-(crux-reopen-as-root-mode 1)
 (global-set-key [remap move-beginning-of-line] #'crux-move-beginning-of-line)
 (global-set-key [remap kill-whole-line] #'crux-kill-whole-line)
 (global-set-key (kbd "<C-S-return>") #'crux-smart-open-line-above)
@@ -73,6 +72,8 @@
 (global-set-key (kbd "C-c D") #'crux-delete-buffer-and-file)
 (global-set-key (kbd "C-c K") #'crux-kill-other-buffers)
 (global-set-key (kbd "C-c I") 'crux-find-user-init-file)
+(global-set-key (kbd "C-c s") 'crux-sudo-edit)
+
 
 (require 'ace-window)
 (global-set-key [remap other-window] 'ace-window)

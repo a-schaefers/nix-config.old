@@ -22,11 +22,11 @@ cat << EOF > "$HOME/.config/mimeapps.list"
 application/pdf=emacsclient-usercreated-1.desktop;
 inode/directory=emacsclient-usercreated-1.desktop;
 inode/mount-point=emacsclient-usercreated-1.desktop;
-text/html=google-chrome.desktop
-x-scheme-handler/http=google-chrome.desktop
-x-scheme-handler/https=google-chrome.desktop
-x-scheme-handler/about=google-chrome.desktop
-x-scheme-handler/unknown=google-chrome.desktop
+text/html=brave-browser.desktop
+x-scheme-handler/http=brave-browser.desktop
+x-scheme-handler/https=brave-browser.desktop
+x-scheme-handler/about=brave-browser.desktop
+x-scheme-handler/unknown=brave-browser.desktop
 EOF
 
 mkdir -p "$HOME/.local/share/applications"
@@ -49,6 +49,8 @@ EOF
 
 mkdir -p "$HOME/.config/dunst"
 cat << EOF > "$HOME/.config/dunst/dunstrc"
+[global]
+font = "Hack 13"
 frame_color = "#000000"
 separator_color = "#000000"
 [my_low]
@@ -63,6 +65,22 @@ foreground = "#4870a1"
 msg_urgency = critical
 background = "#000000"
 foreground = "#4870a1"
+EOF
+
+cat << EOF > "$HOME/.gtkrc-2.0"
+gtk-theme-name="Adwaita-dark"
+gtk-icon-theme-name="Adwaita"
+gtk-font-name="Hack 13"
+gtk-cursor-theme-name="Adwaita"
+EOF
+
+mkdir -p "$HOME/.config/gtk-3.0"
+cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
+[Settings]
+gtk-theme-name=Adwaita-dark
+gtk-icon-theme-name=Adwaita
+gtk-font-name=Hack 13
+gtk-cursor-theme-name=Adwaita
 EOF
 
 cat << EOF > "$HOME/.Xresources"

@@ -42,6 +42,7 @@ efibootmgr
 unetbootin
 wimlib
 bind
+openvpn
 ];
 
 }

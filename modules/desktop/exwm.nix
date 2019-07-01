@@ -4,7 +4,7 @@ let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
-dmesgNotifier = pkgs.writeScriptBin "dmesg-notify" ''
+dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''
 #!/usr/bin/env python
 
 import os
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     main()
 '';
 
-stupidPowerManager = pkgs.writeScriptBin "stupid-power-manager" ''
+stupid-power-manager = pkgs.writeScriptBin "stupid-power-manager" ''
 die() {
     [ $# -gt 0 ] && printf -- "%s\n" "(SPM) $*"
     exit 1
@@ -77,7 +77,7 @@ while true; do
 done
 '';
 
-myDots = pkgs.writeScriptBin "my-dotfiles" ''
+my-dots = pkgs.writeScriptBin "my-dotfiles" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 
 mkdir "$HOME/.emacs.d"
@@ -251,7 +251,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-myDots stupidPowerManager dmesgNotifier
+myDots stupid-power-manager dmesgNotifier
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb

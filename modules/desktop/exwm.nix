@@ -4,6 +4,20 @@ let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
+my-nixos-upgrade = pkgs.writeScriptBin "my-nixos-upgrade" ''
+nixos-rebuild switch --upgrade
+mount /dev/sdb2 /mnt
+cp -a /boot/* /mnt
+umount /mnt
+'';
+
+my-nixos-switch = pkgs.writeScriptBin "my-nixos-switch" ''
+nixos-rebuild switch
+mount /dev/sdb2 /mnt
+cp -a /boot/* /mnt
+umount /mnt
+'';
+
 dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''
 #!/usr/bin/env python
 
@@ -251,7 +265,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-my-dots stupid-power-manager dmesg-notify
+my-dots stupid-power-manager dmesg-notify my-nixos-upgrade my-nixos-switch
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb
@@ -310,6 +324,7 @@ emacs_dumb_term() {
     watch() { while true ; do "$@" ; sleep 2;  echo ; done }
 }
 [[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" ]] && emacs_dumb_term
+
 '';
 
 # .bash_profile

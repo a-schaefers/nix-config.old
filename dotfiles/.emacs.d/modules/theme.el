@@ -11,7 +11,7 @@
 
 (setq display-time-default-load-average nil
       display-time-24hr-format t)
-(display-time-mode -1)
+(display-time-mode 1)
 
 (when (bound-and-true-p mode-line-format)
   (setcdr (assq 'vc-mode mode-line-format)

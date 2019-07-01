@@ -5,17 +5,27 @@ myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
 my-nixos-upgrade = pkgs.writeScriptBin "my-nixos-upgrade" ''
+[[ ! -d "/sys/firmware/efi/efivars" ]] && exit 1
+blkid | grep /dev/sda2 | grep EFI -q || exit 1
+blkid | grep /dev/sdb2 | grep EFI -q || exit 1
+findmnt /mnt && exit 1
+
 nixos-rebuild switch --upgrade
 mount /dev/sdb2 /mnt
-cp -a /boot/* /mnt
-umount /mnt
+cp -a /boot/* /mnt && echo "/boot files copied to /dev/sdb mirror"
+umount -lR /mnt
 '';
 
 my-nixos-switch = pkgs.writeScriptBin "my-nixos-switch" ''
+[[ ! -d "/sys/firmware/efi/efivars" ]] && exit 1
+blkid | grep /dev/sda2 | grep EFI -q || exit 1
+blkid | grep /dev/sdb2 | grep EFI -q || exit 1
+findmnt /mnt && exit 1
+
 nixos-rebuild switch
 mount /dev/sdb2 /mnt
-cp -a /boot/* /mnt
-umount /mnt
+cp -a /boot/* /mnt && echo "/boot files copied to /dev/sdb mirror"
+umount -lR /mnt
 '';
 
 dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''

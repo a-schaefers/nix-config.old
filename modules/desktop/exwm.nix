@@ -4,6 +4,36 @@ let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
+dmesgNotifier = pkgs.writeScriptBin "dmesg-notify" ''
+#!/usr/bin/env python
+
+import os
+import time
+
+def executeCommand(the_command):
+    temp_list = os.popen(the_command).read()
+    return temp_list
+
+def getDMESG():
+    return executeCommand("dmesg | tail -n 1")
+
+def compareStatus(current_status):
+    temp_var=getDMESG()
+    if (temp_var!=current_status):
+        current_status=temp_var
+        os.system("notify-send \"" + current_status + "\"")
+    time.sleep(2)
+    return current_status
+
+def main():
+    current_status=getDMESG()
+    while (2<3):
+        current_status=compareStatus(current_status)
+
+if __name__ == "__main__":
+    main()
+'';
+
 stupidPowerManager = pkgs.writeScriptBin "stupid-power-manager" ''
 die() {
     [ $# -gt 0 ] && printf -- "%s\n" "(SPM) $*"
@@ -43,11 +73,11 @@ while true; do
             user_custom_battery_normal_hook
         fi
     fi
-    sleep 5
+    sleep 2
 done
 '';
 
-myDots = pkgs.writeScriptBin "myDots" ''
+myDots = pkgs.writeScriptBin "my-dotfiles" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 
 mkdir "$HOME/.emacs.d"
@@ -201,8 +231,9 @@ start = ''
 xset +dpms
 xset s 1800
 xset dpms 0 0 1860
-myDots
+my-dotfiles
 stupid-power-manager &
+dmesg-notify &
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 emacs &
@@ -220,7 +251,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-myDots stupidPowerManager
+myDots stupidPowerManager dmesgNotifier
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb

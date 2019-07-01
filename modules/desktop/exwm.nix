@@ -251,7 +251,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-myDots stupid-power-manager dmesgNotifier
+my-dots stupid-power-manager dmesg-notify
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb

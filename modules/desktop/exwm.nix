@@ -4,30 +4,6 @@ let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
-my-nixos-upgrade = pkgs.writeScriptBin "my-nixos-upgrade" ''
-[[ ! -d "/sys/firmware/efi/efivars" ]] && exit 1
-blkid | grep /dev/sda2 | grep EFI -q || exit 1
-blkid | grep /dev/sdb2 | grep EFI -q || exit 1
-findmnt /mnt && exit 1
-
-nixos-rebuild switch --upgrade
-mount /dev/sdb2 /mnt
-cp -a /boot/* /mnt && echo "/boot files copied to /dev/sdb mirror"
-umount -lR /mnt
-'';
-
-my-nixos-switch = pkgs.writeScriptBin "my-nixos-switch" ''
-[[ ! -d "/sys/firmware/efi/efivars" ]] && exit 1
-blkid | grep /dev/sda2 | grep EFI -q || exit 1
-blkid | grep /dev/sdb2 | grep EFI -q || exit 1
-findmnt /mnt && exit 1
-
-nixos-rebuild switch
-mount /dev/sdb2 /mnt
-cp -a /boot/* /mnt && echo "/boot files copied to /dev/sdb mirror"
-umount -lR /mnt
-'';
-
 dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''
 #!/usr/bin/env python
 
@@ -275,7 +251,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-my-dots stupid-power-manager dmesg-notify my-nixos-upgrade my-nixos-switch
+my-dots stupid-power-manager dmesg-notify
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb

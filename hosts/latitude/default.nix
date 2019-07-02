@@ -15,10 +15,11 @@ modules.hardware.platform.latitudeE6430.enable = true;
 modules.desktop.enable = true;
 
 # Services
+modules.services.copyboot.enable = true;
 # modules.services.libvirtd.enable = true;
 
 # Experimental
-# system.autoUpgrade.enable = true;
+system.autoUpgrade.enable = true;
 boot.zfs.enableUnstable = true;
 boot.zfs.requestEncryptionCredentials = true;
 }

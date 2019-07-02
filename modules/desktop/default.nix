@@ -5,9 +5,9 @@ with import ../../util;
 options.modules.desktop.enable = mkEnableOption "modules.desktop";
 config = mkIf config.modules.desktop.enable {
 
-# don't keep logs for more than a week
+# don't keep desktop logs for more than a day
 services.journald.extraConfig = ''
-MaxRetentionSec=7day
+MaxRetentionSec=1day
 '';
 
 # windows 10 dual-boot compat

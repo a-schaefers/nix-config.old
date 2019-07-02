@@ -1,23 +1,31 @@
 { config, pkgs, lib, ... }:
 with lib;
+let
+copyBootScript = pkgs.writeScriptBin "copyBootScript" ''
+while inotifywait -r -e modify,create,delete /boot
+do
+rm -rf /boot2/* ; cp -a /boot/* /boot2
+done
+'';
+in
 {
 imports = [  ];
 
-options.modules.services.copyboot.enable = mkEnableOption "modules.services.copyboot";
-config = mkIf config.modules.services.copyboot.enable {
+options.modules.services.copy-boot.enable = mkEnableOption "modules.services.copy-boot";
+config = mkIf config.modules.services.copy-boot.enable {
 
-systemd.services.copyBoot = {
-path = [ pkgs.inotify-tools pkgs.rsync ];
+systemd.services.copy-boot = {
+path = [ pkgs.inotify-tools ];
 
 after = [ "multi-user.target" ];
 wantedBy = [ "multi-user.target" ];
-script = "while inotifywait -r -e modify,create,delete /boot ; do rsync -av --delete /boot/ /boot2 ; done";
+script = "${copyBootScript}/bin/copyBootScript";
 serviceConfig = {
 User = "root";
 };
 };
 
-systemd.services.copyBoot.enable = true;
+systemd.services.copy-boot.enable = true;
 
 };
 }

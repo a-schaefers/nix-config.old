@@ -13,34 +13,19 @@ bash.enableCompletion = true;
 };
 
 environment.systemPackages = with pkgs; [
-nix-prefetch-scripts
-nixops
-nix-index
-coreutils
-pciutils
+nix-prefetch-scripts nixops nix-index
+coreutils pciutils
+parted
 gptfdisk
 dosfstools
 unzip
 zip
-psmisc
-lsof
-htop
-iotop
-powertop
-tree
-pstree
-ltrace
-strace
-linuxPackages.perf
+lsof tree pstree psmisc
+ltrace strace linuxPackages.perf
 wget
-tmux
 cryptsetup
-parted
-gparted
-syslinux
 efibootmgr
 bind
-openvpn
 inotify-tools
 ];
 

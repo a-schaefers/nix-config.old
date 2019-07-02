@@ -5,6 +5,11 @@ with import ../../util;
 options.modules.desktop.enable = mkEnableOption "modules.desktop";
 config = mkIf config.modules.desktop.enable {
 
+# don't keep logs for more than a week
+services.journald.extraConfig = ''
+MaxRetentionSec=7day
+'';
+
 # windows 10 dual-boot compat
 time.hardwareClockInLocalTime = true;
 

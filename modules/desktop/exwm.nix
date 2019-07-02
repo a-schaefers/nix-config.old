@@ -4,36 +4,6 @@ let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
-dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''
-#!/usr/bin/env python
-
-import os
-import time
-
-def executeCommand(the_command):
-    temp_list = os.popen(the_command).read()
-    return temp_list
-
-def getDMESG():
-    return executeCommand("dmesg | tail -n 1")
-
-def compareStatus(current_status):
-    temp_var=getDMESG()
-    if (temp_var!=current_status):
-        current_status=temp_var
-        os.system("notify-send \"" + current_status + "\"")
-    time.sleep(2)
-    return current_status
-
-def main():
-    current_status=getDMESG()
-    while (2<3):
-        current_status=compareStatus(current_status)
-
-if __name__ == "__main__":
-    main()
-'';
-
 stupid-power-manager = pkgs.writeScriptBin "stupid-power-manager" ''
 die() {
     [ $# -gt 0 ] && printf -- "%s\n" "(SPM) $*"
@@ -169,7 +139,7 @@ EOF
 mkdir -p "$HOME/.config/stupid-power-manager/state"
 cat << EOF > "$HOME/.config/stupid-power-manager/config"
 # example desktop notification command
-notifycmd() { notify-send "Battery: \$batt_status \$batt_percent%"; }
+notifycmd() { emacsclient -e '(battery)' }
 
 # example backlight commands
 # backlightcmd="xbacklight -set"
@@ -233,7 +203,6 @@ xset s 1800
 xset dpms 0 0 1860
 my-dotfiles
 stupid-power-manager &
-dmesg-notify &
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 emacs &
@@ -251,7 +220,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-my-dots stupid-power-manager dmesg-notify
+my-dots stupid-power-manager
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb
@@ -290,7 +259,7 @@ epkgs.haskell-mode
 
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 wmctrl xclip xsel scrot imagemagick
-udiskie libnotify dunst perlPackages.FileMimeInfo
+udiskie perlPackages.FileMimeInfo
 redshift networkmanagerapplet volumeicon
 ];
 

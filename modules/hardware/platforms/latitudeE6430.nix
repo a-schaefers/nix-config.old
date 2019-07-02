@@ -10,7 +10,7 @@ modules.hardware = enableMultiple [
 "metal"
 "powerSave"
 "intelgfx"
-# "touchpad" # my touchpad broke
+"touchpad" # my touchpad broke
 "intel-microcode"
 ];
 

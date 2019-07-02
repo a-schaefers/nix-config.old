@@ -39,10 +39,9 @@ parted
 gparted
 syslinux
 efibootmgr
-unetbootin
-wimlib
 bind
 openvpn
+inotify-tools
 ];
 
 }

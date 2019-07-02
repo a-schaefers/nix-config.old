@@ -47,22 +47,8 @@
   ad-do-it
   (if (erc-query-buffer-p) (setq erc-track-priority-faces-only 'all)))
 
-(defun erc-global-notify (matched-type nick msg)
-  (interactive)
-  (when (or (eq matched-type 'current-nick) (eq matched-type 'keyword)))
-  (if (string-match "^adamantium.[-_A-Za-z0-9 ]+$" msg)
-      (shell-command
-       (concat "notify-send '" nick " "
-               (replace-regexp-in-string "^adamantium." "" msg) "'"))))
-(add-hook 'erc-text-matched-hook 'erc-global-notify)
-
 (defun my-erc-multi-line-disable (string)
-  "disable multi-line erc messages"
+  "disable sending of multi-line messages"
   (if (string-match-p "\n+" string)
       (setq str nil)))
 (add-hook 'erc-send-pre-hook 'my-erc-multi-line-disable)
-
-(defun reset-erc-track-mode ()
-  (interactive)
-  (setq erc-modified-channels-alist nil)
-  (erc-modified-channels-update))

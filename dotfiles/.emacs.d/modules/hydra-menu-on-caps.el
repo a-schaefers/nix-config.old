@@ -21,6 +21,7 @@
   ("e" (gnus) "email")
   ("i" (my-erc) "irc")
   ("b" (call-interactively 'eww) "eww")
+  ("B" (start-process-shell-command "brave" nil "brave google.com") "brave")
   ("m" (emms-hydra/body) "emms")
   ("w" (windows-hydra/body) "win")
   ("<menu>" nil))

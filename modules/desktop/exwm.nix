@@ -1,6 +1,7 @@
-{ config, pkgs, lib, callPackage, ... }:
+{ config, pkgs, lib, ... }:
 with lib;
 let
+
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
@@ -9,12 +10,6 @@ mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 
 mkdir "$HOME/.emacs.d"
 ln -sf "/nix-config/dotfiles/.emacs.d"/* "$HOME/.emacs.d"
-
-cat << EOF > "$HOME/.gitconfig"
-[user]
-name = Adam Schaefers
-email = paxchristi888@gmail.com
-EOF
 
 mkdir -p "$HOME/.config"
 cat << EOF > "$HOME/.config/mimeapps.list"
@@ -46,55 +41,10 @@ image/png; emacsclient %s
 image/jpeg; emacsclient %s
 image/gif; emacsclient %s
 EOF
-
-mkdir -p "$HOME/.config/dunst"
-cat << EOF > "$HOME/.config/dunst/dunstrc"
-[global]
-font = "Hack 13"
-frame_color = "#000000"
-separator_color = "#000000"
-[my_low]
-msg_urgency = low
-background = "#000000"
-foreground = "#4870a1"
-[my_normal]
-msg_urgency = normal
-background = "#000000"
-foreground = "#4870a1"
-[my_critical]
-msg_urgency = critical
-background = "#000000"
-foreground = "#4870a1"
-EOF
-
-cat << EOF > "$HOME/.gtkrc-2.0"
-gtk-theme-name="Adwaita-dark"
-gtk-icon-theme-name="Adwaita"
-gtk-font-name="Hack 13"
-gtk-cursor-theme-name="Adwaita"
-EOF
-
-mkdir -p "$HOME/.config/gtk-3.0"
-cat << EOF > "$HOME/.config/gtk-3.0/settings.ini"
-[Settings]
-gtk-theme-name=Adwaita-dark
-gtk-icon-theme-name=Adwaita
-gtk-font-name=Hack 13
-gtk-cursor-theme-name=Adwaita
-EOF
-
-cat << EOF > "$HOME/.Xresources"
-Xcursor.theme: Adwaita
-EOF
-
-mkdir -p "$HOME/.icons/default"
-cat << EOF > "$HOME/.icons/default/index.theme"
-[icon theme]
-Inherits=Adwaita
-EOF
 '';
 in
 {
+
 options.modules.desktop.exwm.enable = mkEnableOption "modules.desktop.exwm";
 config = mkIf config.modules.desktop.exwm.enable {
 
@@ -163,8 +113,7 @@ epkgs.haskell-mode
 ])))
 
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-wmctrl xclip xsel scrot imagemagick
-udiskie perlPackages.FileMimeInfo
+wmctrl xclip xsel scrot imagemagick libnotify udiskie perlPackages.FileMimeInfo
 redshift networkmanagerapplet volumeicon
 ];
 

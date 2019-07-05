@@ -10,8 +10,8 @@ xterm.enable = false;
 };
 displayManager = {
 sddm.enable = true;
-sddm.autoLogin.enable = true;
-sddm.autoLogin.relogin = true;
+sddm.autoLogin.enable = false;
+sddm.autoLogin.relogin = false;
 sddm.autoLogin.user = "adam";
 };
 };

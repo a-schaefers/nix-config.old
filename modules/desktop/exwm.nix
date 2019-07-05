@@ -5,6 +5,36 @@ let
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
 emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
+dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''
+#!/usr/bin/env python
+
+import os
+import time
+
+def executeCommand(the_command):
+    temp_list = os.popen(the_command).read()
+    return temp_list
+
+def getDMESG():
+    return executeCommand("dmesg | tail -n 1")
+
+def compareStatus(current_status):
+    temp_var=getDMESG()
+    if (temp_var!=current_status):
+        current_status=temp_var
+        os.system("notify-send \"" + current_status + "\"")
+    time.sleep(2)
+    return current_status
+
+def main():
+    current_status=getDMESG()
+    while (2<3):
+        current_status=compareStatus(current_status)
+
+if __name__ == "__main__":
+    main()
+'';
+
 my-dots = pkgs.writeScriptBin "my-dotfiles" ''
 mkdir -p "$HOME"/{Downloads,Pictures,Documents}
 
@@ -34,13 +64,6 @@ Name=emacsclient
 NoDisplay=true
 Exec=emacsclient
 EOF
-
-cat << EOF > "$HOME/.mailcap"
-application/pdf; emacsclient %s
-image/png; emacsclient %s
-image/jpeg; emacsclient %s
-image/gif; emacsclient %s
-EOF
 '';
 in
 {
@@ -58,6 +81,7 @@ xset +dpms
 xset s 1800
 xset dpms 0 0 1860
 my-dotfiles
+dmesg-notify &
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 emacs &
@@ -75,7 +99,7 @@ _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
 environment.systemPackages = with pkgs; [
-my-dots
+my-dots dmesg-notify
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
 epkgs.xelb
@@ -113,32 +137,8 @@ epkgs.haskell-mode
 ])))
 
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-wmctrl xclip xsel scrot imagemagick libnotify udiskie perlPackages.FileMimeInfo
-redshift networkmanagerapplet volumeicon
+redshift networkmanagerapplet volumeicon udiskie
 ];
 
-programs.slock.enable = true;
-programs.xss-lock.enable = true;
-programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
-
-services.udisks2.enable = true;
-
-# .bashrc
-programs.bash.interactiveShellInit = ''
-emacs_dumb_term() {
-    export PAGER="cat"
-    export TERM="xterm-256color"
-    man () { /usr/bin/man "$@" | col -bx ; }
-    grep -q "nixos" /etc/issue && man () { /run/current-system/sw/bin/man "$@" | col -bx ; }
-    watch() { while true ; do "$@" ; sleep 2;  echo ; done }
-}
-[[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" ]] && emacs_dumb_term
-
-'';
-
-# .bash_profile
-programs.bash.loginShellInit = ''
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-'';
 };
 }

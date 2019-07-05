@@ -12,7 +12,6 @@ modules.desktop = enableMultiple [
 "xorg"
 "opengl"
 "sddm"
-"exwm"
 "home"
 ];
 

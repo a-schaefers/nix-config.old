@@ -2,8 +2,9 @@
 
 ;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
 (start-process-shell-command "setxkbmap" nil
-                             "setxkbmap -option ctrl:swap_lalt_lctl")(require 'server)
+                             "setxkbmap -option ctrl:swap_lalt_lctl")
 
+(require 'server)
 (unless (server-running-p)
   (server-start))
 

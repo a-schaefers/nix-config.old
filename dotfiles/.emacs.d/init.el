@@ -1,5 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
+(setq debug-on-error nil)
+(toggle-frame-fullscreen)
+
 (defun load-directory (directory)
   (dolist (element (directory-files-and-attributes directory nil nil nil))
     (let* ((path (car element))

@@ -1,6 +1,12 @@
 { config, pkgs, lib, ... }:
 with lib;
 let
+my-dotfile-dir = "/nix-config/external";
+home-manager = builtins.fetchGit {
+url = "https://github.com/rycee/home-manager.git";
+ref = "master";
+};
+myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false;});
 stupid-power-manager = pkgs.writeScriptBin "stupid-power-manager" ''
 die() {
     [ $# -gt 0 ] && printf -- "%s\n" "(SPM) $*"
@@ -101,12 +107,6 @@ def main():
 if __name__ == "__main__":
     main()
 '';
-myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false;});
-my-dotfile-dir = "/nix-config/external";
-home-manager = builtins.fetchGit {
-url = "https://github.com/rycee/home-manager.git";
-ref = "master";
-};
 in
 {
 imports = [
@@ -275,7 +275,7 @@ iconTheme.name = "Adwaita";
 settings = {
 global = {
 alignment = "right";
-geometry = "800x5-1+25";
+geometry = "800x5-1+1";
 transparency = "0";
 monitor = "0";
 follow = "mouse";

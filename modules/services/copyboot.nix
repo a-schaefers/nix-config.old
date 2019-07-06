@@ -1,4 +1,8 @@
 { config, pkgs, lib, ... }:
+# this is a workaround
+# UEFI ESP's have a limitation in that they cannot RAID.
+# this script monitors /boot for changes; and upon change, copies the files to /boot2
+# this keeps the systemd-boot loader in sync for multi-disk arrays.
 with lib;
 let
 copyBootScript = pkgs.writeScriptBin "copyBootScript" ''

@@ -12,13 +12,42 @@ def executeCommand(the_command):
     return temp_list
 
 def getDMESG():
-    return executeCommand("dmesg | tail -n 1")
+    return executeCommand("/run/current-system/sw/bin/dmesg | /run/current-system/sw/bin/tail -n 1")
 
 def compareStatus(current_status):
     temp_var=getDMESG()
     if (temp_var!=current_status):
         current_status=temp_var
-        os.system("notify-send \"" + current_status + "\"")
+        os.system("/run/current-system/sw/bin/notify-send \"" + current_status + "\"")
+    time.sleep(2)
+    return current_status
+
+def main():
+    current_status=getDMESG()
+    while (2<3):
+        current_status=compareStatus(current_status)
+
+if __name__ == "__main__":
+    main()
+'';
+journalctl-notify = pkgs.writeScriptBin "journalctl-notify" ''
+#!/usr/bin/env python
+
+import os
+import time
+
+def executeCommand(the_command):
+    temp_list = os.popen(the_command).read()
+    return temp_list
+
+def getDMESG():
+    return executeCommand("/run/current-system/sw/bin/journalctl | /run/current-system/sw/bin/tail -n 1 | /run/current-system/sw/bin/grep -v freedesktop.Notifications | /run/current-system/sw/bin/grep -v xsession")
+
+def compareStatus(current_status):
+    temp_var=getDMESG()
+    if (temp_var!=current_status):
+        current_status=temp_var
+        os.system("/run/current-system/sw/bin/notify-send \"" + current_status + "\"")
     time.sleep(2)
     return current_status
 
@@ -115,7 +144,7 @@ epkgs.nix-mode
 epkgs.haskell-mode
 ])))
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-redshift networkmanagerapplet volumeicon udiskie dmesg-notify
+redshift networkmanagerapplet volumeicon udiskie dmesg-notify journalctl-notify
 ];
 
 # firejail high-risk packages
@@ -160,7 +189,8 @@ services.dbus.packages = with pkgs; [ gnome3.dconf ]; # required by gtk / home-m
 home-manager.users.adam = {
 
 # pkgs
-home.packages = [
+home.packages = with pkgs; [
+gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme hicolor-icon-theme
 ];
 
 programs.home-manager = {
@@ -198,8 +228,12 @@ platformTheme = "gtk"; # gnome or gtk
 # notifications
 services.dunst = {
 enable = true;
+iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
+iconTheme.name = "Adwaita";
 settings = {
 global = {
+monitor = "0";
+follow = "mouse";
 font = "Hack 13";
 frame_color = "#000000";
 separator_color = "#000000";
@@ -235,10 +269,11 @@ home.file.".local/share/applications/emacsclient-usercreated-1.desktop".source =
 
 xsession.enable = true;
 xsession.windowManager.command = ''
+dmesg-notify &
+journalctl-notify &
 xset +dpms
 xset s 1800
 xset dpms 0 0 1860
-dmesg-notify &
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 emacs

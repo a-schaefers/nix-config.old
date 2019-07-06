@@ -16,7 +16,8 @@
       debug-on-error nil)
 
 (defun my-init ()
-  (find-file "/nix-config/dotfiles/.emacs.d/init.el"))
+  (shell)
+  (delete-other-windows))
 (add-hook 'after-init-hook 'my-init)
 
 (require 'better-defaults)

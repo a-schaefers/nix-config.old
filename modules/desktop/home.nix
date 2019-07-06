@@ -275,7 +275,7 @@ global = {
 transparency = "20";
 monitor = "0";
 follow = "mouse";
-font = "Noto Sans Mono 15";
+font = "Noto Sans Mono 10";
 frame_color = "#000000";
 separator_color = "#000000";
 };
@@ -314,6 +314,7 @@ xsession.windowManager.command = ''
 dmesg-notify &
 journalctl-notify &
 stupid-power-manager &
+feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
 xset +dpms
 xset s 1800
 xset dpms 0 0 1860

@@ -1,6 +1,48 @@
 { config, pkgs, lib, ... }:
 with lib;
 let
+stupid-power-manager = pkgs.writeScriptBin "stupid-power-manager" ''
+die() {
+    [ $# -gt 0 ] && printf -- "%s\n" "(SPM) $*"
+    exit 1
+}
+
+[ "$(pidof -o %PPID -x "''${0##*/}")" ] && die "Stupid Power Manager is already running"
+
+batt_thresholds="99 80 40 20 10 5"
+
+[ ! -d "$HOME/.config/stupid-power-manager/state" ] && \
+    mkdir -p "$HOME/.config/stupid-power-manager/state"
+[ ! -f "$HOME/.config/stupid-power-manager/config" ] && \
+    die "Please create $HOME/.config/stupid-power-manager/config and try again."
+
+rm -f "$HOME/.config/stupid-power-manager/state"/* > /dev/null 2>&1 #shh
+
+while true; do
+    . "$HOME/.config/stupid-power-manager/config"
+    batt_status="$(cat /sys/class/power_supply/BAT0/status)"
+    batt_percent="$(cat /sys/class/power_supply/BAT0/capacity)"
+    if [ "$batt_status" = "Discharging" ]; then
+        echo "$batt_thresholds" | tr ' ' '\n' | while read -r state; do
+            if [ "$batt_percent" -eq "$state" ] || [ "$batt_percent" -lt "$state" ]; then
+                if [ ! -f "$HOME/.config/stupid-power-manager/state/$state" ]; then
+                    rm -f "$HOME/.config/stupid-power-manager/state/100"
+                    touch "$HOME/.config/stupid-power-manager/state/$state"
+                    user_custom_low_battery_hook
+                fi
+            fi
+        done
+    fi
+    if [ "$batt_status" = "Charging" ] || [ "$batt_status" = "Full" ]; then
+        if [ ! -f "$HOME/.config/stupid-power-manager/state/100" ]; then
+            rm -f "$HOME/.config/stupid-power-manager/state"/* > /dev/null 2>&1 #shh
+            touch "$HOME/.config/stupid-power-manager/state/100"
+            user_custom_battery_normal_hook
+        fi
+    fi
+    sleep 2
+done
+'';
 dmesg-notify = pkgs.writeScriptBin "dmesg-notify" ''
 #!/usr/bin/env python
 
@@ -143,7 +185,7 @@ gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme
 wmctrl xclip xsel scrot imagemagick libnotify perlPackages.FileMimeInfo
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 redshift networkmanagerapplet volumeicon udiskie
-dmesg-notify journalctl-notify
+dmesg-notify journalctl-notify stupid-power-manager
 
 # misc apps
 gimp
@@ -261,12 +303,14 @@ home.file.".emacs.d/init.el".source = "${my-dotfile-dir}/.emacs.d/init.el";
 home.file.".emacs.d/modules".source = "${my-dotfile-dir}/.emacs.d/modules";
 home.file.".mailcap".source = "${my-dotfile-dir}/.mailcap";
 home.file.".config/mimeapps.list".source = "${my-dotfile-dir}/.config/mimeapps.list";
+home.file.".config/stupid-power-manager/config".source = "${my-dotfile-dir}/.config/stupid-power-manager/config";
 home.file.".local/share/applications/emacsclient-usercreated-1.desktop".source = "${my-dotfile-dir}/.local/share/applications/emacsclient-usercreated-1.desktop";
 
 xsession.enable = true;
 xsession.windowManager.command = ''
 dmesg-notify &
 journalctl-notify &
+stupid-power-manager &
 xset +dpms
 xset s 1800
 xset dpms 0 0 1860

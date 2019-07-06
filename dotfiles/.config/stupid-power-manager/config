@@ -1,0 +1,35 @@
+# example desktop notification command
+notifycmd() { notify-send "Battery: $batt_status ${batt_percent}%"; }
+
+# example backlight commands
+# backlightcmd="xbacklight -set"
+# backlightcmd="light -S"
+# backlightcmd="brightnessctl s" ; optPercent="%"
+
+user_custom_low_battery_hook() {
+    if [ "$batt_percent" -lt 100 ] && [ "$batt_percent" -gt 80 ]; then
+        # 80-99% batt_percentery
+        notifycmd
+        # $backlightcmd 100$optPercent
+    elif [ "$batt_percent" -lt 81 ] && [ "$batt_percent" -gt 40 ]; then
+        # 40-80% battery
+        notifycmd
+    elif [ "$batt_percent" -lt 41 ] && [ "$batt_percent" -gt 20 ]; then
+        # 20-40% battery
+        notifycmd
+    elif [ "$batt_percent" -lt 21 ] && [ "$batt_percent" -gt 10 ]; then
+        # 10-20% battery
+        notifycmd
+    elif [ "$batt_percent" -lt 11 ] && [ "$batt_percent" -gt 5 ]; then
+        # 5-10% battery
+        notifycmd
+    elif [ "$batt_percent" -lt 6 ]; then
+        # 5% battery or less
+        notifycmd
+        systemctl suspend
+    fi
+}
+user_custom_battery_normal_hook() {
+    # battery Charging / Full
+    notifycmd
+}

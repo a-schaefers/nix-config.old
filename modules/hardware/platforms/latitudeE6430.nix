@@ -10,8 +10,7 @@ modules.hardware = enableMultiple [
 "metal"
 "powerSave"
 "intel-sna"
-# "intel-modesetting"
-"touchpad" # my touchpad broke
+"touchpad"
 "intel-microcode"
 ];
 

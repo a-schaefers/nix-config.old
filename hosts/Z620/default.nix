@@ -7,10 +7,10 @@ imports = [
 ./quirks.nix
 ];
 
-system.stateVersion = "18.03";
+system.stateVersion = "18.09";
 
 # Computer name
-networking.hostName = "hpz";
+networking.hostName = "Z620";
 
 # Use a generic hpZ620 profile
 modules.hardware.platform.hpZ620.enable = true;
@@ -22,6 +22,7 @@ modules.hardware.amdgpu.enable = true;
 modules.desktop.enable = true;
 
 # Services
+modules.services.copy-boot.enable = true;
 modules.services.libvirtd.enable = true;
 
 # Experimental

@@ -132,6 +132,8 @@ source-code-pro
 noto-fonts
 ];
 
+environment.systemPackages = with pkgs; [ gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme hicolor-icon-theme ];
+
 # firejail high-risk packages
 programs.firejail = {
 enable = true;

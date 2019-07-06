@@ -8,6 +8,8 @@ ref = "master";
 };
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false;});
 stupid-power-manager = pkgs.writeScriptBin "stupid-power-manager" ''
+#!/bin/sh
+
 die() {
     [ $# -gt 0 ] && printf -- "%s\n" "(SPM) $*"
     exit 1
@@ -22,7 +24,7 @@ batt_thresholds="99 80 40 20 10 5"
 [ ! -f "$HOME/.config/stupid-power-manager/config" ] && \
     die "Please create $HOME/.config/stupid-power-manager/config and try again."
 
-rm -f "$HOME/.config/stupid-power-manager/state"/* > /dev/null 2>&1 #shh
+rm -f "$HOME/.config/stupid-power-manager/state"/*
 
 while true; do
     . "$HOME/.config/stupid-power-manager/config"
@@ -41,7 +43,7 @@ while true; do
     fi
     if [ "$batt_status" = "Charging" ] || [ "$batt_status" = "Full" ]; then
         if [ ! -f "$HOME/.config/stupid-power-manager/state/100" ]; then
-            rm -f "$HOME/.config/stupid-power-manager/state"/* > /dev/null 2>&1 #shh
+            rm -f "$HOME/.config/stupid-power-manager/state"/*
             touch "$HOME/.config/stupid-power-manager/state/100"
             user_custom_battery_normal_hook
         fi

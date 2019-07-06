@@ -303,7 +303,6 @@ userEmail = "paxchristi888@gmail.com";
 
 # symlinks for programs for which Home Manager doesn't have configuration options
 home.file.".emacs.d/init.el".source = "${my-dotfile-dir}/.emacs.d/init.el";
-home.file.".emacs.d/modules".source = "${my-dotfile-dir}/.emacs.d/modules";
 home.file.".mailcap".source = "${my-dotfile-dir}/.mailcap";
 home.file.".config/mimeapps.list".source = "${my-dotfile-dir}/.config/mimeapps.list";
 home.file.".config/stupid-power-manager/config".source = "${my-dotfile-dir}/.config/stupid-power-manager/config";
@@ -314,15 +313,15 @@ xsession.windowManager.command = ''
 dmesg-notify &
 journalctl-notify &
 stupid-power-manager &
-feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
-xset +dpms
-xset s 1800
-xset dpms 0 0 1860
-xrdb -merge ~/.Xresources
-xsetroot -cursor_name left_ptr
 internal="LVDS1"
 external="VGA1"
 if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi
+feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
+xrdb -merge ~/.Xresources
+xsetroot -cursor_name left_ptr
+xset +dpms
+xset s 1800
+xset dpms 0 0 1860
 emacs
 trap 'kill $(jobs -p)' EXIT
 '';

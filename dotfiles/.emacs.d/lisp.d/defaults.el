@@ -2,14 +2,21 @@
 
 ;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
 (start-process-shell-command "setxkbmap" nil
-                             "setxkbmap -option ctrl:swap_lalt_lctl")
+                             "setxkbmap -option ctrl:swap_lalt_lctl")(require 'server)
+
+(unless (server-running-p)
+  (server-start))
 
 (setq user-full-name "Adam Schaefers"
       user-mail-address "paxchristi888@gmail.com"
-      inhibit-startup-screen nil
+      inhibit-startup-screen t
       initial-major-mode 'emacs-lisp-mode
       gc-cons-threshold 100000000
       debug-on-error nil)
+
+(defun my-init ()
+  (find-file "/nix-config/dotfiles/.emacs.d/init.el"))
+(add-hook 'after-init-hook 'my-init)
 
 (require 'better-defaults)
 
@@ -34,8 +41,8 @@
 
 (defun my-home ()
   (interactive)
-  (cd "~/")
   (about-emacs)
+  (cd "~/")
   (crux-kill-other-buffers))
 (global-set-key (kbd "<home>") 'my-home)
 
@@ -107,3 +114,20 @@
 
 ;; browse youtube videos from eww/mpv/youtube-dl with "^" key
 (define-key eww-mode-map (kbd "^") 'eww-open-with-mpv)
+
+;; enforce tls using python/certifi + gnutls-cli
+(with-eval-after-load 'gnutls
+  (setq gnutls-log-level 0)
+  (setq gnutls-verify-error t)
+  (setq gnutls-min-prime-bits 3072))
+(setq tls-checktrust t)
+(let ((trustfile
+       (replace-regexp-in-string
+        "\\\\" "/"
+        (replace-regexp-in-string
+         "\n" ""
+         (shell-command-to-string "python -m certifi")))))
+  (setq tls-program
+        (list
+         (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
+                 (if (eq window-system 'w32) ".exe" "") trustfile))))

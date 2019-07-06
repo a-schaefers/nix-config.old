@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 (defun my-exwm-transparency-hook ()
-  (set-frame-parameter (selected-frame) 'alpha '(93 . 100)))
+  (set-frame-parameter (selected-frame) 'alpha '(90 . 100)))
 (with-eval-after-load 'exwm
   (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
 

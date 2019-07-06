@@ -7,7 +7,7 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(which-function-mode -1)
+(which-function-mode 1)
 
 (setq display-time-default-load-average nil
       display-time-24hr-format t)
@@ -27,7 +27,10 @@
 
 (require 'sexy-monochrome-theme)
 (load-theme 'sexy-monochrome t)
+
 (set-cursor-color "#4870a1")
+(set-face-attribute 'region nil :background "#4870a1")
+
 
 (custom-set-faces
  '(mode-line ((t (:box nil))))

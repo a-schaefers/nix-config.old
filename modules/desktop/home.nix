@@ -83,7 +83,7 @@ def executeCommand(the_command):
     return temp_list
 
 def getDMESG():
-    return executeCommand("journalctl | tail -n 1 | grep -v freedesktop.Notifications | grep -v xsession")
+    return executeCommand("journalctl --no-pager -n 1 | tail -n 1 | grep -v freedesktop.Notifications | grep -v xsession")
 
 def compareStatus(current_status):
     temp_var=getDMESG()
@@ -274,7 +274,9 @@ iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
 iconTheme.name = "Adwaita";
 settings = {
 global = {
-transparency = "10";
+alignment = "right";
+geometry = "800x5-1+25";
+transparency = "0";
 monitor = "0";
 follow = "mouse";
 font = "Noto Sans Mono 10";

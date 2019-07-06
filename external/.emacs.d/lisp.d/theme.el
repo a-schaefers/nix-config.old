@@ -14,15 +14,19 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(which-function-mode 1)
+(which-function-mode -1)
 
 (setq display-time-default-load-average nil
-      display-time-24hr-format t)
+      display-time-24hr-format nil
+      display-time-day-and-date t)
 (display-time-mode 1)
 
 (when (bound-and-true-p mode-line-format)
   (setcdr (assq 'vc-mode mode-line-format)
           '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode)))))
+
+(setcdr (assq 'vc-mode mode-line-format)
+        '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode))))
 
 (setq-default mode-line-mule-info nil
               mode-line-remote nil)
@@ -121,3 +125,7 @@
       :error-list-face 'flycheck-error-list-error)
     (setq flycheck-highlighting-mode nil)
     (set-face-attribute 'flycheck-warning nil :underline nil)))
+
+;; hack modeline to the top
+(setq-default header-line-format mode-line-format)
+(setq-default mode-line-format nil)

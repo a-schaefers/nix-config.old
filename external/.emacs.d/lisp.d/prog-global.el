@@ -74,7 +74,7 @@
 (global-set-key (kbd "C-c I") (lambda ()
                                 (interactive)
                                 (if (file-directory-p "/nix-config")
-                                    (find-file "/nix-config/dotfiles/.emacs.d/init.el")
+                                    (find-file "/nix-config/external/.emacs.d/init.el")
                                   (crux-find-user-init-file))))
 (global-set-key (kbd "C-c s") 'crux-sudo-edit)
 

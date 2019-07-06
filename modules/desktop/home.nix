@@ -102,7 +102,7 @@ if __name__ == "__main__":
     main()
 '';
 myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false;});
-my-dotfile-dir = "/nix-config/dotfiles";
+my-dotfile-dir = "/nix-config/external";
 home-manager = builtins.fetchGit {
 url = "https://github.com/rycee/home-manager.git";
 ref = "master";

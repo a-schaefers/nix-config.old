@@ -1,18 +1,12 @@
 { config, pkgs, lib, ... }:
 with lib;
 {
-options.modules.hardware.intelgfx.enable = mkEnableOption "modules.hardware.intelgfx";
-config = mkIf config.modules.hardware.intelgfx.enable {
+options.modules.hardware.intel-modesetting.enable = mkEnableOption "modules.hardware.intel-modesetting";
+config = mkIf config.modules.hardware.intel-modesetting.enable {
 
 boot.initrd.kernelModules = [ "i915" ];
 
-# services.xserver.videoDrivers = [ "modesetting" ];
-services.xserver.videoDrivers = [ "intel" ];
-services.xserver.deviceSection = ''
-Option "DRI" "3"
-Option "TearFree" "true"
-Option "AccelMethod" "sna"
-'';
+services.xserver.videoDrivers = [ "modesetting" ];
 
 hardware.opengl.extraPackages = with pkgs;
 [ vaapiIntel libvdpau-va-gl vaapiVdpau ];

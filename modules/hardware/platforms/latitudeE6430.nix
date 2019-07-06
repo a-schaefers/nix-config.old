@@ -9,7 +9,8 @@ config = mkIf config.modules.hardware.platform.latitudeE6430.enable {
 modules.hardware = enableMultiple [
 "metal"
 "powerSave"
-"intelgfx"
+"intel-sna"
+# "intel-modesetting"
 "touchpad" # my touchpad broke
 "intel-microcode"
 ];

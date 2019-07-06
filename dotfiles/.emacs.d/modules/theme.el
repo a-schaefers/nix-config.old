@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
+(set-face-attribute 'default nil :font "Noto Sans Mono-16")
+
 (defun disable-all-themes ()
   (interactive)
   (dolist (i custom-enabled-themes)

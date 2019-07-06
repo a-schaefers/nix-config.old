@@ -1,5 +1,16 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
+(start-process-shell-command "setxkbmap" nil
+                             "setxkbmap -option ctrl:swap_lalt_lctl")
+
+(setq user-full-name "Adam Schaefers"
+      user-mail-address "paxchristi888@gmail.com"
+      inhibit-startup-screen nil
+      initial-major-mode 'emacs-lisp-mode
+      gc-cons-threshold 100000000
+      debug-on-error nil)
+
 (require 'better-defaults)
 
 (add-hook 'text-mode-hook 'goto-address-mode)
@@ -18,7 +29,7 @@
 (defun spacemacs/alternate-window ()
   (interactive)
   (let ((prev-window (get-mru-window nil t t)))
-    (unless prev-window (user-error "Last window not found"))
+    (unless prev-window (user-error "Last window not found"))nn
     (select-window prev-window)))
 
 (defun my-home ()

@@ -1,18 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
-(start-process-shell-command "setxkbmap" nil "setxkbmap -option ctrl:swap_lalt_lctl")
-
 (toggle-frame-fullscreen)
-
-(set-face-attribute 'default nil :font "Hack-15")
-
-(setq user-full-name "Adam Schaefers"
-      user-mail-address "paxchristi888@gmail.com"
-      inhibit-startup-screen nil
-      initial-major-mode 'emacs-lisp-mode
-      gc-cons-threshold 100000000
-      debug-on-error nil)
 
 (defun load-directory (directory)
   (dolist (element (directory-files-and-attributes directory nil nil nil))

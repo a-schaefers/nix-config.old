@@ -27,6 +27,8 @@ cryptsetup
 efibootmgr
 bind
 inotify-tools
+gitAndTools.gitFull
+emacs
 ];
 
 }

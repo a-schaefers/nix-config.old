@@ -7,7 +7,6 @@ config = mkIf config.modules.desktop.enable {
 
 # components of my desktop setup
 modules.desktop = enableMultiple [
-"dev"
 "pulse"
 "xorg"
 "opengl"

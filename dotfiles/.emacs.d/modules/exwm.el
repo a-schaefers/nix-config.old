@@ -21,14 +21,6 @@
 
 (add-hook 'exwm-init-hook 'my-tray-apps)
 
-(require 'exwm-randr)
-(setq exwm-randr-workspace-output-plist '(0 "VGA-1" 1 "VGA-1" 2 "VGA-1" 3 "VGA-1"
-                                            4"LVDS-1" 5 "LVDS-1" 6 "LVDS-1" 7 "LVDS-1"))
-(add-hook 'exwm-randr-screen-change-hook
-          (lambda ()
-            (start-process-shell-command
-             "xrandr" nil "xrandr --output VGA-1 --left-of LVDS-1")))
-(exwm-randr-enable)
 (exwm-enable)
 
 (setq exwm-input-global-keys

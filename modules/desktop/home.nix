@@ -12,13 +12,13 @@ def executeCommand(the_command):
     return temp_list
 
 def getDMESG():
-    return executeCommand("/run/current-system/sw/bin/dmesg | /run/current-system/sw/bin/tail -n 1")
+    return executeCommand("dmesg | tail -n 1")
 
 def compareStatus(current_status):
     temp_var=getDMESG()
     if (temp_var!=current_status):
         current_status=temp_var
-        os.system("/run/current-system/sw/bin/notify-send \"" + current_status + "\"")
+        os.system("notify-send \"" + current_status + "\"")
     time.sleep(2)
     return current_status
 
@@ -41,13 +41,13 @@ def executeCommand(the_command):
     return temp_list
 
 def getDMESG():
-    return executeCommand("/run/current-system/sw/bin/journalctl | /run/current-system/sw/bin/tail -n 1 | /run/current-system/sw/bin/grep -v freedesktop.Notifications | /run/current-system/sw/bin/grep -v xsession")
+    return executeCommand("journalctl | tail -n 1 | grep -v freedesktop.Notifications | grep -v xsession")
 
 def compareStatus(current_status):
     temp_var=getDMESG()
     if (temp_var!=current_status):
         current_status=temp_var
-        os.system("/run/current-system/sw/bin/notify-send \"" + current_status + "\"")
+        os.system("notify-send \"" + current_status + "\"")
     time.sleep(2)
     return current_status
 
@@ -59,8 +59,7 @@ def main():
 if __name__ == "__main__":
     main()
 '';
-myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
-emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
+myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false;});
 my-dotfile-dir = "/nix-config/dotfiles";
 home-manager = builtins.fetchGit {
 url = "https://github.com/rycee/home-manager.git";
@@ -68,11 +67,9 @@ ref = "master";
 };
 in
 {
-
 imports = [
 "${home-manager}/nixos"
 ];
-
 options.modules.desktop.home.enable = mkEnableOption "modules.desktop.home";
 config = mkIf config.modules.desktop.home.enable {
 
@@ -83,33 +80,85 @@ services.journald.extraConfig = ''
 MaxRetentionSec=1day
 '';
 
-# fonts
+# system-wide available fonts
+fonts.fontconfig.enable = true;
 fonts.fonts = with pkgs; [
 liberation_ttf
 dejavu_fonts
+terminus_font
 source-code-pro
 noto-fonts
-hack-font
-fantasque-sans-mono
-terminus_font
 ];
 
-environment.systemPackages = with pkgs; [
+# firejail high-risk packages
+programs.firejail = {
+enable = true;
+wrappedBinaries = {
+brave = "${lib.getBin pkgs.brave}/bin/brave";
+thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
+};
+};
+
+# screen lock
+programs.slock.enable = true;
+programs.xss-lock.enable = true;
+programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
+
+# disk mount
+services.udisks2.enable = true;
+
+# BEGIN HOME-MANAGER USER SECTIONS
+
+services.dbus.packages = with pkgs; [ gnome3.dconf ]; # required by gtk / home-manager
+
+home-manager.users.adam = {
+programs.home-manager = { enable = true; path = "…"; };
+
+programs.bash = {
+enable = true;
+# .bashrc
+initExtra = ''
+emacs_dumb_term() {
+    export PAGER="cat"
+    export TERM="xterm-256color"
+    man () { /usr/bin/man "$@" | col -bx ; }
+    grep -q "nixos" /etc/issue && man () { /run/current-system/sw/bin/man "$@" | col -bx ; }
+    watch() { while true ; do "$@" ; sleep 2;  echo ; done }
+}
+[[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" ]] && emacs_dumb_term
+'';
+# .bash_profile -> .profile
+profileExtra = ''
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+'';
+};
+
+# pkgs
+home.packages = with pkgs; [
+
 # themes
 gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme hicolor-icon-theme
 
-# window-manager helpers
+# exwm helpers
 wmctrl xclip xsel scrot imagemagick libnotify perlPackages.FileMimeInfo
+gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
+redshift networkmanagerapplet volumeicon udiskie
+dmesg-notify journalctl-notify
+
+# misc apps
+gimp
 
 # multimedia players/libs
-glxinfo libva-utils vdpauinfo
 ffmpeg phonon-backend-vlc vlc mpv youtube-dl
 
-# apps
-gimp qbittorrent
+# misc. development things
+shellcheck
+];
 
-# exwm
-(emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+programs.emacs = {
+enable = true;
+package = myEmacs;
+extraPackages = epkgs: [
 epkgs.xelb
 epkgs.exwm
 epkgs.desktop-environment
@@ -142,60 +191,7 @@ epkgs.clojure-mode
 epkgs.cider
 epkgs.nix-mode
 epkgs.haskell-mode
-])))
-gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-redshift networkmanagerapplet volumeicon udiskie dmesg-notify journalctl-notify
 ];
-
-# firejail high-risk packages
-programs.firejail = {
-enable = true;
-wrappedBinaries = {
-brave = "${lib.getBin pkgs.brave}/bin/brave";
-thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
-};
-};
-
-# screen lock
-programs.slock.enable = true;
-programs.xss-lock.enable = true;
-programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
-
-# disk mount
-services.udisks2.enable = true;
-
-# .bashrc
-programs.bash.interactiveShellInit = ''
-emacs_dumb_term() {
-    export PAGER="cat"
-    export TERM="xterm-256color"
-    man () { /usr/bin/man "$@" | col -bx ; }
-    grep -q "nixos" /etc/issue && man () { /run/current-system/sw/bin/man "$@" | col -bx ; }
-    watch() { while true ; do "$@" ; sleep 2;  echo ; done }
-}
-[[ "$TERM" = dumb ]] && [[ "$INSIDE_EMACS" ]] && emacs_dumb_term
-
-'';
-
-# .bash_profile
-programs.bash.loginShellInit = ''
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-'';
-
-# BEGIN HOME-MANAGER USER SECTIONS
-
-services.dbus.packages = with pkgs; [ gnome3.dconf ]; # required by gtk / home-manager
-
-home-manager.users.adam = {
-
-# pkgs
-home.packages = with pkgs; [
-gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme hicolor-icon-theme
-];
-
-programs.home-manager = {
-enable = true;
-path = "…";
 };
 
 # themes
@@ -208,8 +204,8 @@ name = "Adwaita";
 gtk = {
 enable = true;
 font = {
-name = "Hack 13";
-package = pkgs.hack-font;
+name = "Noto Sans 10";
+package = pkgs.noto-fonts;
 };
 iconTheme = {
 name = "Adwaita";
@@ -234,7 +230,7 @@ settings = {
 global = {
 monitor = "0";
 follow = "mouse";
-font = "Hack 13";
+font = "Noto Sans Mono 10";
 frame_color = "#000000";
 separator_color = "#000000";
 };
@@ -276,6 +272,9 @@ xset s 1800
 xset dpms 0 0 1860
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
+internal="LVDS-1"
+external="VGA-1"
+if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi
 emacs
 trap 'kill $(jobs -p)' EXIT
 '';

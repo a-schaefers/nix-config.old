@@ -9,5 +9,6 @@ driSupport = true;
 driSupport32Bit = true;
 };
 
+environment.systemPackages = with pkgs; [ glxinfo libva-utils vdpauinfo ];
 };
 }

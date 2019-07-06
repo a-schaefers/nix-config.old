@@ -5,7 +5,7 @@
 (with-eval-after-load 'exwm
   (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
 
-(set-face-attribute 'default nil :font "Noto Sans Mono-16")
+(set-face-attribute 'default nil :font "Noto Sans Mono-14")
 
 (defun disable-all-themes ()
   (interactive)

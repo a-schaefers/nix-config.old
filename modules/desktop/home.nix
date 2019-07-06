@@ -191,7 +191,7 @@ dmesg-notify journalctl-notify stupid-power-manager
 gimp
 
 # multimedia players/libs
-ffmpeg phonon-backend-vlc vlc mpv youtube-dl
+ffmpeg phonon-backend-vlc vlc mpv youtube-dl feh
 
 # misc. development things
 shellcheck
@@ -263,6 +263,8 @@ enable = true;
 platformTheme = "gtk"; # gnome or gtk
 };
 
+services.compton.enable = true;
+
 # notifications
 services.dunst = {
 enable = true;
@@ -270,9 +272,10 @@ iconTheme.package = pkgs.gnome3.adwaita-icon-theme;
 iconTheme.name = "Adwaita";
 settings = {
 global = {
+transparency = "20";
 monitor = "0";
 follow = "mouse";
-font = "Noto Sans Mono 10";
+font = "Noto Sans Mono 15";
 frame_color = "#000000";
 separator_color = "#000000";
 };
@@ -316,8 +319,8 @@ xset s 1800
 xset dpms 0 0 1860
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
-internal="LVDS-1"
-external="VGA-1"
+internal="LVDS1"
+external="VGA1"
 if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi
 emacs
 trap 'kill $(jobs -p)' EXIT

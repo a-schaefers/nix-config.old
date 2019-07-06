@@ -31,8 +31,7 @@
 (load-theme 'sexy-monochrome t)
 
 (set-cursor-color "#4870a1")
-(set-face-attribute 'region nil :background "#4870a1")
-
+(set-face-attribute 'region nil :background "gray10")
 
 (custom-set-faces
  '(mode-line ((t (:box nil))))

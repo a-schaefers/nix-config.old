@@ -335,6 +335,8 @@ XDG_CURRENT_DESKTOP = "EXWM";
 _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
+home.keyboard = null;
+
 }; # end home-manager.users.adam section
 
 };

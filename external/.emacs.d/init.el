@@ -9,15 +9,17 @@
 
 (toggle-frame-fullscreen)
 
-(defun my-init ()
+(defun my-home ()
+  (interactive)
   (when (get-buffer "*scratch*")
     (kill-buffer "*scratch*"))
-  (shell)
-  (delete-other-windows))
+  (if (get-buffer "*shell*")
+      (switch-to-buffer "*shell*")
+    (shell))
+  (delete-other-windows)
+  (cd "~/"))
 
-(add-hook 'after-init-hook 'my-init)
-
-(require 'better-defaults)
+(add-hook 'after-init-hook 'my-home)
 
 (defun load-directory (directory)
   (dolist (element (directory-files-and-attributes directory nil nil nil))

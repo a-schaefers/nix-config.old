@@ -1,5 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
+(require 'better-defaults)
+
 ;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
 (start-process-shell-command "setxkbmap" nil
                              "setxkbmap -option ctrl:swap_lalt_lctl")
@@ -27,11 +29,6 @@
     (unless prev-window (user-error "Last window not found"))nn
     (select-window prev-window)))
 
-(defun my-home ()
-  (interactive)
-  (about-emacs)
-  (cd "~/")
-  (crux-kill-other-buffers))
 (global-set-key (kbd "<home>") 'my-home)
 
 (global-set-key (kbd "<s-tab>") 'ace-window)

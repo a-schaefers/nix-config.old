@@ -1,25 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
 
-(setq user-full-name "Adam Schaefers"
-      user-mail-address "paxchristi888@gmail.com"
-      inhibit-startup-screen t
-      initial-major-mode 'emacs-lisp-mode
-      gc-cons-threshold 100000000
+(setq gc-cons-threshold 100000000
       debug-on-error nil)
 
 (toggle-frame-fullscreen)
-
-(defun my-home ()
-  (interactive)
-  (when (get-buffer "*scratch*")
-    (kill-buffer "*scratch*"))
-  (if (get-buffer "*shell*")
-      (switch-to-buffer "*shell*")
-    (shell))
-  (delete-other-windows)
-  (cd "~/"))
-
-(add-hook 'after-init-hook 'my-home)
 
 (defun load-directory (directory)
   (dolist (element (directory-files-and-attributes directory nil nil nil))
@@ -43,18 +27,26 @@
 (unless (server-running-p)
   (server-start))
 
-(with-eval-after-load 'gnutls
-  (setq gnutls-log-level 0)
-  (setq gnutls-verify-error t)
-  (setq gnutls-min-prime-bits 3072))
-(setq tls-checktrust t)
-(let ((trustfile
-       (replace-regexp-in-string
-        "\\\\" "/"
-        (replace-regexp-in-string
-         "\n" ""
-         (shell-command-to-string "python -m certifi")))))
-  (setq tls-program
-        (list
-         (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
-                 (if (eq window-system 'w32) ".exe" "") trustfile))))
+;; enforce TLS
+(if (and (executable-find "gnutls-cli")
+         (eq (call-process "python" nil nil nil "-m" "certifi") 0))
+    (progn
+      (with-eval-after-load 'gnutls
+        (setq gnutls-log-level 0)
+        (setq gnutls-verify-error t)
+        (setq gnutls-min-prime-bits 3072))
+      (setq tls-checktrust t)
+      (let ((trustfile
+             (replace-regexp-in-string
+              "\\\\" "/"
+              (replace-regexp-in-string
+               "\n" ""
+               (shell-command-to-string "python -m certifi")))))
+        (setq tls-program
+              (list
+               (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
+                       (if (eq window-system 'w32) ".exe" "") trustfile)))))
+  (progn
+    (setq xbuff (generate-new-buffer "*INSECURE DEFAULTS WARNING*"))
+    (with-output-to-temp-buffer xbuff
+      (print "Ensure python, certifi and gnutls-cli are installed to enforce TLS..."))))

@@ -25,6 +25,7 @@
 (require 'elec-pair)
 (electric-pair-mode 1)
 
+(require 'diff-hl)
 (require 'magit)
 (global-set-key (kbd "C-c g") 'magit-status)
 (setq magit-diff-refine-hunk t)

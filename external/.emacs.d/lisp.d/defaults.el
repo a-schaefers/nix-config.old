@@ -1,10 +1,27 @@
 ;;; -*- lexical-binding: t; -*-
 
+;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
+;; (start-process-shell-command "setxkbmap" nil
+;;                              "setxkbmap -option ctrl:swap_lalt_lctl")
+
 (require 'better-defaults)
 
-;; swapping left-ctl with left-alt is the best way to "ergo" Emacs.
-(start-process-shell-command "setxkbmap" nil
-                             "setxkbmap -option ctrl:swap_lalt_lctl")
+(setq user-full-name "Adam Schaefers"
+      user-mail-address "paxchristi888@gmail.com"
+      inhibit-startup-screen t
+      initial-major-mode 'emacs-lisp-mode)
+
+(defun my-home ()
+  (interactive)
+  (when (get-buffer "*scratch*")
+    (kill-buffer "*scratch*"))
+  (if (get-buffer "*shell*")
+      (switch-to-buffer "*shell*")
+    (shell))
+  (delete-other-windows)
+  (cd "~/"))
+
+(add-hook 'after-init-hook 'my-home)
 
 (add-hook 'text-mode-hook 'goto-address-mode)
 

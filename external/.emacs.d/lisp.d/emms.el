@@ -14,6 +14,3 @@
   (setq emms-source-file-default-directory "~/Downloads"))
 
 (setq emms-player-list '(emms-player-vlc emms-player-vlc-playlist))
-
-(emms-playing-time -1)
-(emms-mode-line -1)

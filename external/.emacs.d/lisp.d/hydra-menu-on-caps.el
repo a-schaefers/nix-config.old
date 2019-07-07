@@ -1,8 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;; put <menu> on <caps lock> and then bind hydra to <menu>
-
-(start-process-shell-command "setxkbmap" nil "setxkbmap -option caps:menu")
+;; (start-process-shell-command "setxkbmap" nil "setxkbmap -option caps:menu")
 
 (require 'hydra)
 

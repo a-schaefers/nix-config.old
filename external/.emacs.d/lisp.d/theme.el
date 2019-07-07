@@ -14,38 +14,28 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
-(which-function-mode -1)
-
-(setq display-time-default-load-average nil
-      display-time-24hr-format nil
-      display-time-day-and-date t)
-(display-time-mode 1)
-
-(when (bound-and-true-p mode-line-format)
-  (setcdr (assq 'vc-mode mode-line-format)
-          '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode)))))
-
-(setcdr (assq 'vc-mode mode-line-format)
-        '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode))))
-
-(setq-default mode-line-mule-info nil
-              mode-line-remote nil)
-
-(require 'rich-minority)
-(if (bound-and-true-p rich-minority-mode) nil
-  (rich-minority-mode 1))
-(setf rm-blacklist "")
+;; (when (bound-and-true-p mode-line-format)
+;; (setcdr (assq 'vc-mode mode-line-format)
+;; '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode)))))
+;; (setcdr (assq 'vc-mode mode-line-format)
+;; '((:eval (replace-regexp-in-string "[a-z]+\." "" vc-mode))))
+;; (setq-default mode-line-mule-info nil
+;; mode-line-remote nil)
+;; (require 'rich-minority)
+;; (if (bound-and-true-p rich-minority-mode) nil
+;; (rich-minority-mode 1))
+;; (setf rm-blacklist "")
 
 (require 'sexy-monochrome-theme)
 (load-theme 'sexy-monochrome t)
-
-(set-cursor-color "#4870a1")
-(set-face-attribute 'region nil :background "gray10")
-
-(custom-set-faces
- '(mode-line ((t (:box nil))))
- '(mode-line-highlight ((t (:box nil))))
- '(mode-line-inactive ((t (:box nil)))))
+(with-eval-after-load 'sexy-monochrome-theme
+  (set-cursor-color "#4870a1")
+  (set-face-attribute 'region nil :background "gray10")
+  (set-face-attribute 'vertical-border nil :foreground "black")
+  (custom-set-faces
+   '(mode-line ((t (:box nil))))
+   '(mode-line-highlight ((t (:box nil))))
+   '(mode-line-inactive ((t (:box nil))))))
 
 (with-eval-after-load 'company
   (require 'color)
@@ -71,12 +61,7 @@
    '(whitespace-line ((t (:background "gray0" :foreground "dim gray" :underline t))))
    '(header-line ((t (:box nil))))))
 
-(set-face-attribute 'vertical-border nil :foreground "black")
-
 (fringe-mode '(3 . 3))
-
-(custom-set-faces
- '(which-func ((t (:foreground "#3a81c3")))))
 
 (require 'diff-hl)
 (setq diff-hl-side "right")
@@ -126,6 +111,13 @@
     (setq flycheck-highlighting-mode nil)
     (set-face-attribute 'flycheck-warning nil :underline nil)))
 
-;; super minimal modeline at the top
-(setq-default header-line-format '("%e" mode-line-modified " " mode-line-buffer-identification))
+;; super minimal modeline
+(setq display-time-default-load-average nil
+      display-time-24hr-format nil)
+(display-time-mode 1)
+(setq mode-line-original mode-line-format) ;; backup original
+(setq-default header-line-format '("%e"
+                                   mode-line-modified " "
+                                   mode-line-buffer-identification
+                                   mode-line-misc-info))
 (setq-default mode-line-format nil)

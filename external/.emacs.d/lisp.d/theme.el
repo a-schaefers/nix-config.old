@@ -126,6 +126,6 @@
     (setq flycheck-highlighting-mode nil)
     (set-face-attribute 'flycheck-warning nil :underline nil)))
 
-;; hack modeline to the top
-(setq-default header-line-format mode-line-format)
+;; super minimal modeline at the top
+(setq-default header-line-format '("%e" mode-line-modified " " mode-line-buffer-identification))
 (setq-default mode-line-format nil)

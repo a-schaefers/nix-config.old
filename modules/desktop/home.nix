@@ -205,6 +205,8 @@ programs.emacs = {
 enable = true;
 package = myEmacs;
 extraPackages = epkgs: [
+epkgs.better-defaults
+epkgs.sexy-monochrome-theme
 epkgs.xelb
 epkgs.exwm
 epkgs.desktop-environment
@@ -213,19 +215,16 @@ epkgs.emms
 epkgs.hydra
 epkgs.transpose-frame
 
-epkgs.better-defaults
-epkgs.magit
 epkgs.projectile
+epkgs.magit
+epkgs.diff-hl
 epkgs.flycheck
 epkgs.crux
 epkgs.ace-window
-epkgs.webpaste
 epkgs.aggressive-indent
 epkgs.dumb-jump
-epkgs.rich-minority
-epkgs.sexy-monochrome-theme
-epkgs.diff-hl
 epkgs.browse-kill-ring
+epkgs.webpaste
 
 epkgs.bash-completion
 epkgs.xterm-color

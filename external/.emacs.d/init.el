@@ -10,6 +10,8 @@
 (toggle-frame-fullscreen)
 
 (defun my-init ()
+  (when (get-buffer "*scratch*")
+    (kill-buffer "*scratch*"))
   (shell)
   (delete-other-windows))
 

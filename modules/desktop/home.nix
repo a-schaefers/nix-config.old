@@ -321,7 +321,7 @@ journalctl-notify &
 stupid-power-manager &
 internal="LVDS1"
 external="VGA1"
-if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi
+# if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi
 feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr

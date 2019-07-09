@@ -4,9 +4,12 @@
 
 (defun my-exwm-transparency-hook ()
   (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
-  (add-to-list 'default-frame-alist '(alpha . (90 . 90))))
+  (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+  (with-eval-after-load 'sexy-monochrome-theme
+    (my-cursor-color)))
 (with-eval-after-load 'exwm
   (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
+
 
 (defun disable-all-themes ()
   (interactive)
@@ -18,7 +21,8 @@
 (require 'sexy-monochrome-theme)
 (load-theme 'sexy-monochrome t)
 (with-eval-after-load 'sexy-monochrome-theme
-  (set-cursor-color "#4870a1")
+  (defun my-cursor-color ()
+    (set-cursor-color "#4870a1"))
   (set-face-attribute 'region nil :background "gray10")
   (set-face-attribute 'vertical-border nil :foreground "black")
   (custom-set-faces

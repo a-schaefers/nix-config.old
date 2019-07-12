@@ -114,12 +114,10 @@
 ;; browse youtube videos from eww  with "^" key
 (setq yt-dl-player "vlc") ;; video player used by `eww-open-yt-dl'
 
-(defun eww-open-yt-dl (player)
+(defun eww-open-yt-dl ()
   (interactive)
   (eww-copy-page-url)
   (start-process-shell-command "youtube-dl" nil
-                               (concat "youtube-dl -o - " (nth 0 kill-ring) " - | " player " -")))
+                               (concat "youtube-dl -o - " (nth 0 kill-ring) " - | " yt-dl-player " -")))
 
-(define-key eww-mode-map (kbd "^") (lambda ()
-                                     (interactive)
-                                     (eww-open-yt-dl yt-dl-player)))
+(define-key eww-mode-map (kbd "^") 'eww-open-yt-dl)

@@ -195,7 +195,7 @@ dmesg-notify journalctl-notify stupid-power-manager
 gimp
 
 # multimedia players/libs
-ffmpeg phonon-backend-vlc vlc mpv youtube-dl feh
+ffmpeg phonon-backend-vlc vlc youtube-dl feh
 
 # misc. development things
 shellcheck
@@ -308,7 +308,6 @@ userEmail = "paxchristi888@gmail.com";
 
 # symlinks for programs for which Home Manager doesn't have configuration options
 home.file.".emacs.d/init.el".source = "${my-dotfile-dir}/.emacs.d/init.el";
-home.file.".config/mpv/mpv.conf".source = "${my-dotfile-dir}/.config/mpv/mpv.conf";
 home.file.".mailcap".source = "${my-dotfile-dir}/.mailcap";
 home.file.".config/mimeapps.list".source = "${my-dotfile-dir}/.config/mimeapps.list";
 home.file.".config/stupid-power-manager/config".source = "${my-dotfile-dir}/.config/stupid-power-manager/config";
@@ -339,9 +338,10 @@ XDG_CURRENT_DESKTOP = "EXWM";
 _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
-home.keyboard = {
-options = [ "ctrl:swap_lalt_lctl" "caps:menu" ];
-};
+# prefer global
+# home.keyboard = {
+# options = [ "ctrl:swap_lalt_lctl" "caps:menu" ];
+# };
 
 }; # end home-manager.users.adam section
 

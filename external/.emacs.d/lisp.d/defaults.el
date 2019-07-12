@@ -108,13 +108,18 @@
 (defun my-external-browser (url)
   (start-process-shell-command "brave" nil (concat "brave " url)))
 
-(defun eww-open-with-mpv ()
-  (interactive)
-  (eww-copy-page-url)
-  (start-process-shell-command "mpv" nil (concat "mpv " (nth 0 kill-ring))))
-
 ;; opened by eww with "&" key
 (setq shr-external-browser 'my-external-browser)
 
-;; browse youtube videos from eww/mpv/youtube-dl with "^" key
-(define-key eww-mode-map (kbd "^") 'eww-open-with-mpv)
+;; browse youtube videos from eww  with "^" key
+(setq yt-dl-player "vlc") ;; video player used by `eww-open-yt-dl'
+
+(defun eww-open-yt-dl (player)
+  (interactive)
+  (eww-copy-page-url)
+  (start-process-shell-command "youtube-dl" nil
+                               (concat "youtube-dl -o - " (nth 0 kill-ring) " - | " player " -")))
+
+(define-key eww-mode-map (kbd "^") (lambda ()
+                                     (interactive)
+                                     (eww-open-yt-dl yt-dl-player)))

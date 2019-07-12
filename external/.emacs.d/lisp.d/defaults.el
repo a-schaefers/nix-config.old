@@ -111,13 +111,23 @@
 ;; opened by eww with "&" key
 (setq shr-external-browser 'my-external-browser)
 
-;; browse youtube videos from eww  with "^" key
-(setq yt-dl-player "vlc") ;; video player used by `eww-open-yt-dl'
+
+(defvar yt-dl-player "vlc"
+  "Video player used by `eww-open-yt-dl'")
 
 (defun eww-open-yt-dl ()
+  "Browse youtube videos using the Emacs `eww' browser and \"youtube-dl.\"
+Specify the video player to use by setting the value of `yt-dl-player'"
   (interactive)
-  (eww-copy-page-url)
-  (start-process-shell-command "youtube-dl" nil
-                               (concat "youtube-dl -o - " (nth 0 kill-ring) " - | " yt-dl-player " -")))
+  (if (executable-find "youtube-dl")
+      (progn
+        (eww-copy-page-url)
+        (start-process-shell-command "youtube-dl" nil
+                                     (concat "youtube-dl -o - " (nth 0 kill-ring) " - | " yt-dl-player " -")))
+    (progn
+      (setq xbuff (generate-new-buffer "*youtube-dl not found*"))
+      (with-output-to-temp-buffer xbuff
+        (print "Ensure youtube-dl is installed on the system and try again...")))))
 
+;; browse youtube videos from eww  with "^" key
 (define-key eww-mode-map (kbd "^") 'eww-open-yt-dl)

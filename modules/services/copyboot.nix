@@ -8,6 +8,7 @@ let
 copyBootScript = pkgs.writeScriptBin "copyBootScript" ''
 while inotifywait -r -e modify,create,delete /boot
 do
+sleep 2 # for good measure
 rm -rf /boot2/* ; cp -a /boot/* /boot2
 done
 '';
@@ -26,6 +27,7 @@ wantedBy = [ "multi-user.target" ];
 script = "${copyBootScript}/bin/copyBootScript";
 serviceConfig = {
 User = "root";
+Restart = "on-failure";
 };
 };
 

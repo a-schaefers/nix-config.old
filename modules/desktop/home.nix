@@ -148,7 +148,7 @@ thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
 # screen lock
 programs.slock.enable = true;
 programs.xss-lock.enable = true;
-programs.xss-lock.lockerCommand = "slock";
+programs.xss-lock.lockerCommand = "/run/wrappers/bin/slock";
 
 # disk mount
 services.udisks2.enable = true;

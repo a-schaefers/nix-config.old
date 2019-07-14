@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-services.openssh.enable = false;
+services.openssh.enable = true;
 
 networking = {
 

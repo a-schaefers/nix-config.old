@@ -2,7 +2,7 @@
 
 (require 'xelb)
 (require 'exwm)
-(setq exwm-workspace-number 8)
+(setq exwm-workspace-number 1)
 
 (require 'exwm-systemtray)
 (exwm-systemtray-enable)

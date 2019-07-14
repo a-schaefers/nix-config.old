@@ -338,7 +338,7 @@ xset s 1800
 xset dpms 0 0 1860
 
 emacs
-trap 'kill $(jobs -p)' EXIT INT ERR # kill forked jobs on exit
+trap 'kill $(jobs -p)' EXIT # kill forked jobs on exit
 '';
 
 home.sessionVariables = {

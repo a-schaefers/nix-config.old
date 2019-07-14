@@ -49,6 +49,8 @@
 (global-set-key (kbd "<home>") 'my-home)
 (with-eval-after-load 'exwm
   (exwm-input-set-key (kbd "<home>") 'my-home))
+(with-eval-after-load 'erc
+  (define-key erc-mode-map (kbd "<home>") 'my-home))
 
 (global-set-key (kbd "<s-tab>") 'ace-window)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)

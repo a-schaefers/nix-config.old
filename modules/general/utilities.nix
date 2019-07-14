@@ -29,6 +29,7 @@ bind
 inotify-tools
 gitAndTools.gitFull
 emacs
+file
 ];
 
 }

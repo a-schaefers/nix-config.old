@@ -317,7 +317,7 @@ xsession.enable = true;
 xsession.windowManager.command = ''
 dmesg-notify &
 journalctl-notify &
-stupid-power-manager &
+[ -n "$IS_A_LAPTOP" ] && stupid-power-manager &
 internal="LVDS1"
 external="VGA1"
 if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi

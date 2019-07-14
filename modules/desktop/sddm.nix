@@ -13,10 +13,10 @@ sddm.autoLogin.user = "adam";
 };
 desktopManager = {
 xterm.enable = false;
-default = "Xsession";
+default = "xsession";
 session = [ {
 manage = "desktop";
-name = "Xsession";
+name = "xsession";
 start = ''
 # edit .xsession file via xsession.windowManager.command in home.nix
 '';

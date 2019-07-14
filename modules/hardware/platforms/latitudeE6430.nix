@@ -7,7 +7,7 @@ options.modules.hardware.platform.latitudeE6430.enable = mkEnableOption "hardwar
 config = mkIf config.modules.hardware.platform.latitudeE6430.enable {
 
 environment.sessionVariables = {
-IS_A_LAPTOP = "YES";
+IS_LATITUDE = "YES";
 };
 
 modules.hardware = enableMultiple [

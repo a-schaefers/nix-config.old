@@ -315,20 +315,30 @@ home.file.".local/share/applications/emacsclient-usercreated-1.desktop".source =
 
 xsession.enable = true;
 xsession.windowManager.command = ''
-dmesg-notify &
-journalctl-notify &
-[ -n "$IS_A_LAPTOP" ] && stupid-power-manager &
+laptop_generic () {
+stupid-power-manager &
+}
+
+latitude () {
+laptop_generic
 internal="LVDS1"
 external="VGA1"
 if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --off --output "$external" --auto ; fi
+}
+[ -n "$IS_LATITUDE" ] && latitude
+
+dmesg-notify &
+journalctl-notify &
+
 feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 xset +dpms
 xset s 1800
 xset dpms 0 0 1860
+
 emacs
-trap 'kill $(jobs -p)' EXIT
+trap 'kill $(jobs -p)' EXIT # kill forked jobs on Emacs exit
 '';
 
 home.sessionVariables = {

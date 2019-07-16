@@ -10,7 +10,6 @@ sound.enable = true;
 # pulse
 nixpkgs.config.pulseaudio = true;
 hardware.pulseaudio.enable = true;
-hardware.pulseaudio.support32Bit = true;
 
 #pkgs
 environment.systemPackages = with pkgs; [ pulseaudioFull pavucontrol ];

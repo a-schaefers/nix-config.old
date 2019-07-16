@@ -6,7 +6,6 @@ config = mkIf config.modules.desktop.opengl.enable {
 
 hardware.opengl = {
 driSupport = true;
-driSupport32Bit = true;
 };
 
 environment.systemPackages = with pkgs; [ glxinfo libva-utils vdpauinfo ];

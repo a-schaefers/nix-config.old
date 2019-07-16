@@ -9,11 +9,10 @@ use_zero_disks="false"     # use dd if=/dev/zero ...
 # ZFS POOL SETTINGS #
 
 zfs_pool_name="rpool"
-zfs_pool_type="mirror"     # use "" for single, or "mirror", "raidz1", etc.
+zfs_pool_type=""     # use "" for single, or "mirror", "raidz1", etc.
 
 # Note: using /dev/disk/by-id is also preferable.
-zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76820C5544"
-                "/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76822C9FD0")
+zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76822C9FD0")
 
 # Datasets to be set with com.sun:auto-snapshot=true.
 zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT")

@@ -108,7 +108,7 @@
 (setq browse-url-browser-function 'eww-browse-url)
 
 (defun my-external-browser (url)
-  (start-process-shell-command "brave" nil (concat "brave " url)))
+  (start-process-shell-command "chrome" nil (concat "chrome " url)))
 
 ;; opened by eww with "&" key
 (setq shr-external-browser 'my-external-browser)

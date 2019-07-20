@@ -140,7 +140,6 @@ environment.systemPackages = with pkgs; [ gnome3.gnome-themes-standard gnome3.gn
 programs.firejail = {
 enable = true;
 wrappedBinaries = {
-brave = "${lib.getBin pkgs.brave}/bin/brave";
 chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
 thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
 };

@@ -12,7 +12,7 @@ zfs_pool_name="Z620"
 zfs_pool_type=""     # use "" for single, or "mirror", "raidz1", etc.
 
 # Note: using /dev/disk/by-id is also preferable.
-zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2629")
+zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2E9A")
 
 # Datasets to be set with com.sun:auto-snapshot=true.
 zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT")

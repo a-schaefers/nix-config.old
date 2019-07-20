@@ -3,7 +3,7 @@
 {
 imports = [ ../../modules ];
 
-system.stateVersion = "18.09";
+system.stateVersion = "19.09";
 
 # Computer name
 networking.hostName = "latitude";

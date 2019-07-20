@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-(set-face-attribute 'default nil :font "Noto Sans Mono-20")
+(set-face-attribute 'default nil :font "Noto Sans Mono-13")
 
 (defun my-exwm-transparency-hook ()
   (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
@@ -9,7 +9,6 @@
     (my-cursor-color)))
 (with-eval-after-load 'exwm
   (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
-
 
 (defun disable-all-themes ()
   (interactive)

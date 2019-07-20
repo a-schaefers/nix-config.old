@@ -6,8 +6,6 @@ imports = [
 ./quirks.nix
 ];
 
-system.stateVersion = "19.09";
-
 # Computer name
 networking.hostName = "Z620";
 

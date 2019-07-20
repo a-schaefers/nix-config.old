@@ -1,4 +1,4 @@
 { config, pkgs, ... }:
 {
-nix.useSandbox = true;
+nix.useSandbox = false;
 }

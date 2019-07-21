@@ -337,6 +337,20 @@ xset +dpms
 xset s 1800
 xset dpms 0 0 1860
 
+# startup tray-apps using emacsclient to workaround Exwm tray bug
+while true; do
+until wmctrl -m | grep -q "EXWM" ; do sleep 1 ; done
+emacsclient -e "(start-process-shell-command \"redshift-gtk\" nil
+                                             \"redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1\")"
+emacsclient -e "(start-process-shell-command \"nm-applet\" nil
+                                             \"nm-applet\")"
+emacsclient -e "(start-process-shell-command \"volumeicon\" nil
+                                             \"volumeicon\")"
+emacsclient -e "(start-process-shell-command \"udiskie\" nil
+                                             \"udiskie -t\")"
+break
+done &
+
 emacs
 trap 'kill $(jobs -p)' EXIT # kill forked jobs on exit
 '';

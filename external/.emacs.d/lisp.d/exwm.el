@@ -12,15 +12,6 @@
   (interactive)
   (start-process-shell-command "pkill" nil "pkill -USR1 '^redshift'"))
 
-(defun my-tray-apps ()
-  (start-process-shell-command "redshift-gtk" nil
-                               "redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1")
-  (start-process-shell-command "nm-applet" nil "nm-applet")
-  (start-process-shell-command "volumeicon" nil "volumeicon")
-  (start-process-shell-command "udiskie" nil "udiskie -t"))
-
-(add-hook 'exwm-init-hook 'my-tray-apps)
-
 (exwm-enable)
 
 (setq exwm-input-global-keys

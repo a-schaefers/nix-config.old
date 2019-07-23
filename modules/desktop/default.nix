@@ -10,7 +10,7 @@ modules.desktop = enableMultiple [
 "pulse"
 "xorg"
 "opengl"
-"gaming"
+# "gaming"
 "sddm"
 "home"
 ];

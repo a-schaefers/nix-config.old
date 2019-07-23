@@ -6,7 +6,6 @@ config = mkIf config.modules.desktop.gaming.enable {
 
 hardware.opengl.driSupport32Bit = true;
 hardware.pulseaudio.support32Bit = true;
-nixpkgs.config.allowUnfree = true;
 
 environment.systemPackages = with pkgs; [
 steam

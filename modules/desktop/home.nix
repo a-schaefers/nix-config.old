@@ -192,7 +192,7 @@ redshift networkmanagerapplet volumeicon udiskie
 dmesg-notify journalctl-notify stupid-power-manager
 
 # misc apps
-gimp
+gimp audacity
 
 # multimedia players/libs
 ffmpeg phonon-backend-vlc vlc youtube-dl feh

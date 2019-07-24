@@ -9,30 +9,14 @@ use_zero_disks="false"     # use dd if=/dev/zero ...
 # ZFS POOL SETTINGS #
 
 zfs_pool_name="z620pool"
-zfs_pool_type=""     # use "" for single, or "mirror", "raidz1", etc.
+zfs_pool_type="mirror"     # use "" for single, or "mirror", "raidz1", etc.
 
 # Note: using /dev/disk/by-id is also preferable.
-zfs_pool_disks=(
-    #"/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2629"
-    "/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2E9A")
+zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2629"
+                "/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2E9A")
 
 # Datasets to be set with com.sun:auto-snapshot=true.
 zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT")
-
-# If true, mount /nix outside of the / (root) dataset.
-# Recommended true for now due to https://github.com/a-schaefers/themelios/issues/1
-zfs_dataset_slashnix_no_root="true"
-
-# Todo allow true or false for this exception.
-zfs_use_atime="on"              # set to "on" or "off" (recommended "off" for ssd.)
-
-zfs_make_swap="false"            # creates a swap zvol (Not recommended in zfs-land.)
-zfs_swap_size="4G"
-
-# If set, themelios will source them if the files exist alongside configuration.sh
-zfs_pool_overlay_file=""         # override zpool_create()
-zfs_dataset_overlay_file=""      # override datasets_create()
-postinstall_overlay_file=""      # run arbritrary code after nixos-install and before umount /mnt.
 
 # NIX_OS BOOTSTRAP SETTINGS #
 
@@ -46,9 +30,6 @@ nix_repo_name="nix-config"
 
 # Optionally inserted as "nixos-install --root /mnt $nix_install_opts"
 nix_install_opts="--max-jobs 24 --cores 0 --no-root-passwd"
-
-# Creates /etc/nixos/zfs-configuration.nix with sensible settings.
-nix_zfs_configuration_enabled="true"
 
 # Enable "extra" options [below] in addition to zfs_configuration?
 nix_zfs_configuration_extra_enabled="true"

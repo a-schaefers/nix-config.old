@@ -12,7 +12,7 @@ modules.desktop = enableMultiple [
 "opengl"
 # "gaming"
 "sddm"
-# "home"
+"home"
 ];
 
 };

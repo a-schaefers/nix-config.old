@@ -1,52 +1,26 @@
 # Themelios configuration.sh
 
-# DISK PREPARATION SETTINGS #
-
-use_sgdisk_clear="true"    # use sgdisk --clear
-use_wipefs_all="true"      # use wipefs --all
-use_zero_disks="false"     # use dd if=/dev/zero ...
-
-# ZFS POOL SETTINGS #
-
+use_sgdisk_clear="true"
+use_wipefs_all="true"
+use_zero_disks="false"
+zfs_encrypt_home="true"
 zfs_pool_name="z620pool"
-zfs_pool_type="mirror"     # use "" for single, or "mirror", "raidz1", etc.
-
-# Note: using /dev/disk/by-id is also preferable.
+zfs_pool_type="mirror"
 zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2629"
                 "/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2E9A")
-
-# Datasets to be set with com.sun:auto-snapshot=true.
 zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT")
-
-# NIX_OS BOOTSTRAP SETTINGS #
-
-# Your top-level configuration.nix file to be bootstrapped-- (use the relative path from the project_root.)
 nix_top_level_configuration="hosts/Z620"
-
-# Directory name of to clone your git-remote in "/" (root). Do not use slashes.
-# This is intended to be the directory to operate the nix installation from.
-# For example, here is mine! https://github.com/a-schaefers/nix-config
 nix_repo_name="nix-config"
-
-# Enable "extra" options [below] in addition to zfs_configuration?
 nix_zfs_configuration_extra_enabled="true"
-
-# Enables periodic scrubbing of ZFS pools.
 nix_zfs_extra_auto_scrub="true"
-
-# Enable the (OpenSolaris-compatible) ZFS auto-snapshotting service.
 nix_zfs_extra_auto_snapshot_enabled="true"
 nix_zfs_extra_auto_snapshot_frequent="8"
 nix_zfs_extra_auto_snapshot_hourly="24"
 nix_zfs_extra_auto_snapshot_daily="0"
 nix_zfs_extra_auto_snapshot_weekly="0"
 nix_zfs_extra_auto_snapshot_monthly="0"
-
-# Use NixOs automatic garbage collection and autoOtimiseStore?
 nix_zfs_extra_auto_optimise_store="true"
 nix_zfs_extra_gc_automatic="true"
 nix_zfs_extra_gc_dates="weekly"
 nix_zfs_extra_gc_options="--delete-older-than 7d"
-
-# Clean /tmp automatically on boot.
 nix_zfs_extra_clean_tmp_dir="true"

@@ -20,6 +20,4 @@ modules.desktop.enable = true;
 
 # Experimental
 system.autoUpgrade.enable = true;
-boot.zfs.enableUnstable = true;
-boot.zfs.requestEncryptionCredentials = true;
 }

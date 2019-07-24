@@ -28,9 +28,6 @@ nix_top_level_configuration="hosts/Z620"
 # For example, here is mine! https://github.com/a-schaefers/nix-config
 nix_repo_name="nix-config"
 
-# Optionally inserted as "nixos-install --root /mnt $nix_install_opts"
-nix_install_opts="--max-jobs 24 --cores 0 --no-root-passwd"
-
 # Enable "extra" options [below] in addition to zfs_configuration?
 nix_zfs_configuration_extra_enabled="true"
 

@@ -7,7 +7,7 @@ themelios = pkgs.writeScriptBin "themelios" ''
 bash <(curl https://raw.githubusercontent.com/a-schaefers/themelios/master/themelios) $@
 '';
 myDots = pkgs.writeScriptBin "myDots" ''
-cat << EOF > /root/.emacs
+cat << EOF > ~/.emacs
 (setq gc-cons-threshold 100000000
       debug-on-error nil)
 
@@ -448,7 +448,7 @@ epkgs.webpaste
 ])))
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 phonon-backend-vlc vlc youtube-dl
-wmctrl xclip xsel scrot xorg.xrdb xorg.xsetroot
+wmctrl xclip xsel scrot
 shellcheck
 
 nix-prefetch-scripts nixops nix-index
@@ -513,7 +513,7 @@ break
 done &
 
 myDots
-/run/current-system/sw/bin/emacs &
+emacs &
 waitPID=$!
 '';
 } ];

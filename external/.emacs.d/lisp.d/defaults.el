@@ -113,7 +113,6 @@
 ;; opened by eww with "&" key
 (setq shr-external-browser 'my-external-browser)
 
-
 (defvar yt-dl-player "vlc"
   "Video player used by `eww-open-yt-dl'")
 

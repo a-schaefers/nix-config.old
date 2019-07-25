@@ -1,118 +1,413 @@
 # nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=myrescueiso.nix
-{config, pkgs, ...}:
+{config, pkgs, lib, ...}:
 let
-dotfiles-install = pkgs.writeScriptBin "dotfiles-install" ''
-cat << EOF > /root/.emacs
-;;; better-defaults.el --- Fixing weird quirks and poor defaults
-
-;; Copyright © 2013-2016 Phil Hagelberg and contributors
-
-;; Author: Phil Hagelberg
-;; URL: https://github.com/technomancy/better-defaults
-;; Version: 0.1.3
-;; Created: 2013-04-16
-;; Keywords: convenience
-
-;; This file is NOT part of GNU Emacs.
-
-;;; Commentary:
-
-;; There are a number of unfortunate facts about the way Emacs works
-;; out of the box. While all users will eventually need to learn their
-;; way around in order to customize it to their particular tastes,
-;; this package attempts to address the most obvious of deficiencies
-;; in uncontroversial ways that nearly everyone can agree upon.
-
-;; Obviously there are many further tweaks you could do to improve
-;; Emacs, (like those the Starter Kit and similar packages) but this
-;; package focuses only on those that have near-universal appeal.
-
-;;; License:
-
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 3, or (at your option)
-;; any later version.
-;;
-;; This program is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public License
-;; along with GNU Emacs; see the file COPYING.  If not, write to the
-;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
-
-;;; Code:
-
-(progn
-  (unless (fboundp 'helm-mode)
-    (ido-mode t)
-    (setq ido-enable-flex-matching t))
-
-  (unless (eq window-system 'ns)
-    (menu-bar-mode -1))
-  (when (fboundp 'tool-bar-mode)
-    (tool-bar-mode -1))
-  (when (fboundp 'scroll-bar-mode)
-    (scroll-bar-mode -1))
-  (when (fboundp 'horizontal-scroll-bar-mode)
-    (horizontal-scroll-bar-mode -1))
-
-  (autoload 'zap-up-to-char "misc"
-    "Kill up to, but not including ARGth occurrence of CHAR." t)
-
-  (require 'uniquify)
-  (setq uniquify-buffer-name-style 'forward)
-
-  (require 'saveplace)
-  (setq-default save-place t)
-
-  (global-set-key (kbd "M-/") 'hippie-expand)
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-  (global-set-key (kbd "M-z") 'zap-up-to-char)
-
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
-  (global-set-key (kbd "C-M-s") 'isearch-forward)
-  (global-set-key (kbd "C-M-r") 'isearch-backward)
-
-  (show-paren-mode 1)
-  (setq-default indent-tabs-mode nil)
-  (setq save-interprogram-paste-before-kill t
-        apropos-do-all t
-        mouse-yank-at-point t
-        require-final-newline t
-        visible-bell t
-        load-prefer-newer t
-        ediff-window-setup-function 'ediff-setup-windows-plain
-        save-place-file (concat user-emacs-directory "places")
-        backup-directory-alist '(("." . ,(concat user-emacs-directory
-                                                 "backups")))))
-
-(provide 'better-defaults)
-;;; better-defaults.el ends here
-EOF
-cat << EOF >> /root/.emacs
-(setq inhibit-startup-screen t
-      initial-major-mode 'emacs-lisp-mode)
-
-(defun my-home ()
-  (interactive)
-  (when (get-buffer "*scratch*")
-    (kill-buffer "*scratch*"))
-  (if (get-buffer "*shell*")
-      (switch-to-buffer "*shell*")
-    (shell))
-  (delete-other-windows)
-  (cd "~/"))
-
-(add-hook 'after-init-hook 'my-home)
-EOF
-'';
+myEmacs = (pkgs.emacs.override {withGTK3=false; withGTK2=false; withX=true;});
+emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 themelios = pkgs.writeScriptBin "themelios" ''
 bash <(curl https://raw.githubusercontent.com/a-schaefers/themelios/master/themelios) $@
+'';
+myDots = pkgs.writeScriptBin "myDots" ''
+cat << EOF > /root/.emacs
+(setq gc-cons-threshold 100000000
+      debug-on-error nil)
+
+(toggle-frame-fullscreen)
+
+(setq custom-file (expand-file-name (concat user-emacs-directory "custom.el")))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
+;; enforce TLS
+(if (and (executable-find "gnutls-cli")
+         (eq (call-process "python" nil nil nil "-m" "certifi") 0))
+    (progn
+      (with-eval-after-load 'gnutls
+        (setq gnutls-log-level 0)
+        (setq gnutls-verify-error t)
+        (setq gnutls-min-prime-bits 3072))
+      (setq tls-checktrust t)
+      (let ((trustfile
+             (replace-regexp-in-string
+              "\\\\" "/"
+              (replace-regexp-in-string
+               "\n" ""
+               (shell-command-to-string "python -m certifi")))))
+        (setq tls-program
+              (list
+               (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
+                       (if (eq window-system 'w32) ".exe" "") trustfile)))))
+  (progn
+    (setq xbuff (generate-new-buffer "*INSECURE DEFAULTS WARNING*"))
+    (with-output-to-temp-buffer xbuff
+      (print "Ensure python, certifi and gnutls-cli are installed to enforce TLS..."))))
+
+(defun spacemacs/alternate-buffer (&optional window)
+  (interactive)
+  (let ((current-buffer (window-buffer window)))
+    (switch-to-buffer
+     (cl-find-if (lambda (buffer)
+                   (not (eq buffer current-buffer)))
+                 (mapcar #'car (window-prev-buffers window))))))
+
+(defun spacemacs/alternate-window ()
+  (interactive)
+  (let ((prev-window (get-mru-window nil t t)))
+    (unless prev-window (user-error "Last window not found"))nn
+    (select-window prev-window)))
+
+(global-set-key (kbd "<home>") 'my-home)
+(with-eval-after-load 'exwm
+  (exwm-input-set-key (kbd "<home>") 'my-home))
+(with-eval-after-load 'erc
+  (define-key erc-mode-map (kbd "<home>") 'my-home))
+
+(global-set-key (kbd "<s-tab>") 'ace-window)
+(global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
+(global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
+(global-set-key (kbd "s--") 'kill-this-buffer)
+(global-set-key (kbd "s-1") 'delete-other-windows)
+(global-set-key (kbd "s-2") 'split-window-below)
+(global-set-key (kbd "s-3") 'split-window-right)
+(global-set-key (kbd "s-0") 'delete-window)
+
+(delete-selection-mode 1)
+(blink-cursor-mode -1)
+(setq visible-bell nil)
+
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 8)
+(setq-default fill-column 80)
+
+(global-unset-key (kbd "C-z"))
+(global-unset-key (kbd "C-x C-z"))
+
+(setq vc-follow-symlinks t)
+
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+
+(add-hook 'dired-load-hook
+          (function (lambda () (load "dired-x"))))
+
+(setq tab-always-indent 'complete)
+
+(setq tramp-default-method "ssh")
+(setq tramp-copy-size-limit nil)
+
+(require 'recentf)
+(setq recentf-max-saved-items 500
+      recentf-max-menu-items 15)
+(recentf-mode +1)
+
+(require 'midnight)
+(setq midnight-period 7200)
+(midnight-mode 1)
+
+(require 'winner)
+(winner-mode 1)
+
+;; use eww as the default web browser
+(require 'eww)
+(setq browse-url-browser-function 'eww-browse-url)
+
+(defun my-external-browser (url)
+  (start-process-shell-command "chrome" nil (concat "chrome " url)))
+
+;; opened by eww with "&" key
+(setq shr-external-browser 'my-external-browser)
+
+(defvar yt-dl-player "vlc"
+  "Video player used by `eww-open-yt-dl'")
+
+(defun eww-open-yt-dl ()
+  "Browse youtube videos using the Emacs `eww' browser and \"youtube-dl.\"
+Specify the video player to use by setting the value of `yt-dl-player'"
+  (interactive)
+  (if (executable-find "youtube-dl")
+      (progn
+        (eww-copy-page-url)
+        (start-process-shell-command "youtube-dl" nil
+                                     (concat "youtube-dl -o - " (nth 0 kill-ring) " - | " yt-dl-player " -")))
+    (progn
+      (setq xbuff (generate-new-buffer "*youtube-dl not found*"))
+      (with-output-to-temp-buffer xbuff
+        (print "Ensure youtube-dl is installed on the system and try again...")))))
+
+;; browse youtube videos from eww  with "^" key
+(define-key eww-mode-map (kbd "^") 'eww-open-yt-dl)
+
+(require 'xelb)
+(require 'exwm)
+(setq exwm-workspace-number 1)
+
+(require 'exwm-systemtray)
+(exwm-systemtray-enable)
+(setq exwm-systemtray-height 16)
+
+(exwm-enable)
+
+(setq exwm-input-global-keys
+      `(
+        ([?\s-&] . (lambda (command)
+                     (interactive (list (read-shell-command "$ ")))
+                     (start-process-shell-command command nil command)))
+        ,@(mapcar (lambda (i)
+                    `(,(kbd (format "<s-f%d>" (1+ i))) .
+                      (lambda ()
+                        (interactive)
+                        (exwm-workspace-switch-create ,i))))
+                  (number-sequence 0 9))))
+
+(setq exwm-input-simulation-keys
+      '(
+        ([?\C-b] . [left])
+        ([?\C-f] . [right])
+        ([?\C-p] . [up])
+        ([?\C-n] . [down])
+        ([?\C-a] . [home])
+        ([?\C-e] . [end])
+        ([?\M-v] . [prior])
+        ([?\C-v] . [next])
+        ([?\C-d] . [delete])
+        ([?\C-k] . [S-end delete])
+        ([?\C-w] . [?\C-x])
+        ([?\M-w] . [?\C-c])
+        ([?\C-y] . [?\C-v])
+        ([?\C-s] . [?\C-f])))
+
+(add-hook 'exwm-update-class-hook
+          (lambda ()
+            (exwm-workspace-rename-buffer exwm-class-name)))
+
+(exwm-input-set-key (kbd "<s-tab>") 'ace-window)
+(exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
+(exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
+(exwm-input-set-key (kbd "s--") 'kill-this-buffer)
+(exwm-input-set-key (kbd "s-1") 'delete-other-windows)
+(exwm-input-set-key (kbd "s-2") 'split-window-below)
+(exwm-input-set-key (kbd "s-3") 'split-window-right)
+(exwm-input-set-key (kbd "s-0") 'delete-window)
+
+(exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
+
+(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
+
+(require 'desktop-environment)
+(desktop-environment-mode)
+(exwm-input-set-key
+ (kbd "<s-kp-multiply>") 'desktop-environment-toggle-mute)
+(exwm-input-set-key
+ (kbd "<s-kp-add>") 'desktop-environment-volume-increment)
+(exwm-input-set-key
+ (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
+
+(set-face-attribute 'default nil :font "Noto Sans Mono-15")
+
+(defun my-exwm-transparency-hook ()
+  (set-frame-parameter (selected-frame) 'alpha '(100 . 100))
+  (add-to-list 'default-frame-alist '(alpha . (100 . 100)))
+  (with-eval-after-load 'sexy-monochrome-theme
+    (my-cursor-color)))
+(with-eval-after-load 'exwm
+  (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
+
+(defun disable-all-themes ()
+  (interactive)
+  (dolist (i custom-enabled-themes)
+    (disable-theme i)))
+(defadvice load-theme (before disable-themes-first activate)
+  (disable-all-themes))
+
+(require 'sexy-monochrome-theme)
+(load-theme 'sexy-monochrome t)
+(with-eval-after-load 'sexy-monochrome-theme
+  (defun my-cursor-color ()
+    (set-cursor-color "#4870a1"))
+  (set-face-attribute 'region nil :background "gray10")
+  (set-face-attribute 'vertical-border nil :foreground "black")
+  (custom-set-faces
+   '(mode-line ((t (:box nil))))
+   '(mode-line-highlight ((t (:box nil))))
+   '(mode-line-inactive ((t (:box nil)))))
+
+(setq display-time-default-load-average nil
+      display-time-24hr-format nil)
+(display-time-mode 1)
+(setq-default header-line-format '("%e"
+                                   mode-line-modified " "
+                                   mode-line-buffer-identification
+                                   mode-line-misc-info))
+(setq-default mode-line-format nil)
+
+(require 'crux)
+(global-set-key [remap move-beginning-of-line] 'crux-move-beginning-of-line)
+(global-set-key [remap kill-whole-line] 'crux-kill-whole-line)
+(global-set-key (kbd "<C-S-return>") 'crux-smart-open-line-above)
+(global-set-key (kbd "<S-return>") 'crux-smart-open-line)
+(global-set-key (kbd "C-c r") 'crux-recentf-find-file)
+(global-set-key (kbd "C-c R") 'crux-rename-buffer-and-file)
+(global-set-key (kbd "C-<backspace>") 'crux-kill-line-backwards)
+(global-set-key (kbd "C-c d") 'crux-duplicate-current-line-or-region)
+(global-set-key (kbd "C-c M-d") 'crux-duplicate-and-comment-current-line-or-region)
+(global-set-key (kbd "C-c D") 'crux-delete-buffer-and-file)
+(global-set-key (kbd "C-c K") 'crux-kill-other-buffers)
+(global-set-key (kbd "C-c I") (lambda ()
+                                (interactive)
+                                (if (file-directory-p "/nix-config")
+                                    (find-file "/nix-config/external/.emacs.d/init.el")
+                                  (crux-find-user-init-file))))
+(global-set-key (kbd "C-c s") 'crux-sudo-edit)
+
+(require 'ace-window)
+(global-set-key [remap other-window] 'ace-window)
+(setq aw-scope 'frame)
+(ace-window-display-mode -1)
+
+(defun my-prog-mode-hook ()
+  (goto-address-prog-mode 1)
+  (whitespace-mode 1))
+
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
+(global-set-key (kbd "<f5>") 'compile)
+
+(require 'browse-kill-ring)
+(global-set-key (kbd "M-y") 'browse-kill-ring)
+
+(require 'webpaste)
+(global-set-key (kbd "C-c <print>") 'webpaste-paste-region)
+
+(require 'whitespace)
+(add-hook 'before-save-hook 'whitespace-cleanup)
+(setq whitespace-line-column 80)
+(setq whitespace-style '(face tabs empty trailing lines-tail))
+
+(require 'paren)
+(show-paren-mode 1)
+
+(require 'elec-pair)
+(electric-pair-mode 1)
+
+(require 'flycheck)
+(setq flycheck-emacs-lisp-load-path 'inherit)
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+(setq flycheck-display-errors-function nil)
+(global-flycheck-mode 1)
+
+(with-eval-after-load 'flycheck
+    (progn
+      (define-fringe-bitmap 'flycheck-fringe-bitmap-nil
+        (vector #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111
+                #b00111111))
+      (flycheck-define-error-level 'error
+        :severity 100
+        :compilation-level 2
+        :overlay-category 'flycheck-error-overlay
+        :fringe-bitmap 'flycheck-fringe-bitmap-nil
+        :fringe-face 'flycheck-fringe-error
+        :error-list-face 'flycheck-error-list-error)
+      (flycheck-define-error-level 'warning
+        :severity 100
+        :compilation-level 2
+        :overlay-category 'flycheck-error-overlay
+        :fringe-bitmap 'flycheck-fringe-bitmap-nil
+        :fringe-face 'flycheck-fringe-error
+        :error-list-face 'flycheck-error-list-error)
+      (flycheck-define-error-level 'info
+        :severity 100
+        :compilation-level 2
+        :overlay-category 'flycheck-error-overlay
+        :fringe-bitmap 'flycheck-fringe-bitmap-nil
+        :fringe-face 'flycheck-fringe-error
+        :error-list-face 'flycheck-error-list-error)
+      (setq flycheck-highlighting-mode nil)
+      (set-face-attribute 'flycheck-warning nil :underline nil)))
+
+(defun my-shell ()
+  (interactive)
+  (if (get-buffer "*shell*")
+      (kill-buffer "*shell*"))
+  (shell))
+
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+(setq explicit-shell-file-name "bash")
+(require 'bash-completion)
+(autoload 'bash-completion-dynamic-complete
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+          'bash-completion-dynamic-complete)
+(defun my-shell-mode-hook()
+  (setq-local compile-command
+              '((lambda()
+                  (save-buffer)
+                  (async-shell-command (buffer-file-name))))))
+(add-hook 'sh-mode-hook 'my-shell-mode-hook)
+
+(require 'hydra)
+
+(global-set-key (kbd "<menu>") 'caps-hydra/body)
+
+(with-eval-after-load 'exwm ;; in case also using exwm
+  (exwm-input-set-key (kbd "<menu>") 'caps-hydra/body))
+
+(defhydra caps-hydra (:exit t)
+  "Menu"
+  ("#" (my-shell) "sh")
+  ("!" (lambda (command)
+         (interactive (list (read-shell-command "$ ")))
+         (start-process-shell-command command nil command)) "cmd")
+  ("i" (irc) "irc")
+  ("b" (call-interactively 'eww) "eww")
+    ("w" (windows-hydra/body) "win")
+  ("<menu>" nil))
+
+;; a nested window mgmt hydra
+(require 'transpose-frame)
+(defhydra windows-hydra ()
+  "Window Management"
+  ("v" (flip-frame) "flip-vertically")
+  ("h" (flop-frame) "flop-horizontally")
+  ("r" (rotate-frame-clockwise) "rotate clockwise")
+  ("<left>" (call-interactively 'shrink-window-horizontally)
+   "shrink-window-horizontally")
+  ("<right>" (call-interactively 'enlarge-window-horizontally)
+   "enlarge-window-horizontally")
+  ("<down>" (call-interactively 'shrink-window)
+   "shrink-window")
+  ("<up>" (call-interactively 'enlarge-window)
+   "enlarge-window")
+  ("q" nil "Quit"))
+
+(require 'aggressive-indent)
+(aggressive-indent-global-mode 1)
+EOF
 '';
 in {
 imports = [
@@ -124,20 +419,123 @@ networking = {
 networkmanager.enable = true;
 wireless.enable = false;
 nameservers = [ "8.8.8.8" "8.8.4.4" ];
+firewall.allowPing = true;
+firewall.allowedTCPPorts = [ 22 ];
+firewall.allowedUDPPorts = [ 22 ];
 };
 
-environment.systemPackages = with pkgs; [ git themelios emacs dotfiles-install ];
+fonts.fonts = with pkgs; [
+noto-fonts
+];
+
+environment.systemPackages = with pkgs; [
+git themelios myDots
+
+(emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
+epkgs.better-defaults
+epkgs.sexy-monochrome-theme
+epkgs.xelb
+epkgs.exwm
+epkgs.desktop-environment
+epkgs.transpose-frame
+epkgs.crux
+epkgs.flycheck
+epkgs.aggressive-indent
+epkgs.bash-completion
+epkgs.ace-window
+epkgs.browse-kill-ring
+epkgs.webpaste
+])))
+gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
+phonon-backend-vlc vlc youtube-dl
+wmctrl xclip xsel scrot xorg.xrdb xorg.xsetroot
+shellcheck
+
+nix-prefetch-scripts nixops nix-index
+coreutils pciutils
+parted
+gptfdisk
+dosfstools
+unzip
+zip
+lsof tree pstree psmisc
+ltrace strace linuxPackages.perf
+wget
+cryptsetup
+efibootmgr
+bind
+file
+
+pulseaudioFull pavucontrol
+
+udiskie
+];
+
+services.udisks2.enable = true;
 
 boot.supportedFilesystems = [ "zfs" ];
 boot.zfs.enableUnstable = true;
 boot.zfs.requestEncryptionCredentials = true;
 
+sound.enable = true;
+nixpkgs.config.pulseaudio = true;
+hardware.pulseaudio.enable = true;
+hardware.opengl = {
+driSupport = true;
+};
 services.xserver = {
+useGlamor = true;
 xkbOptions = "ctrl:swap_lalt_lctl, caps:menu";
 autoRepeatDelay = 200;
 autoRepeatInterval = 25;
 enable = true;
 layout = "us";
+displayManager = {
+sddm.enable = true;
+sddm.autoLogin.enable = true;
+sddm.autoLogin.user = "adam";
+};
+libinput = {
+enable = true;
+};
+desktopManager = {
+xterm.enable = false;
+default = "emacs";
+session = [ {
+manage = "desktop";
+name = "emacs";
+start = ''
+while true; do
+until wmctrl -m | grep -q "EXWM" ; do sleep 1 ; done
+emacsclient -e "(start-process-shell-command \"udiskie\" nil
+                                             \"udiskie -t\")"
+break
+done &
+
+myDots
+/run/current-system/sw/bin/emacs &
+waitPID=$!
+'';
+} ];
+};
+};
+
+security.sudo.wheelNeedsPassword = false;
+nix.allowedUsers = [ "root" "@wheel" ];
+nix.trustedUsers = [ "root" "@wheel" ];
+
+users.users.adam = {
+isNormalUser = true;
+createHome = true;
+extraGroups = [
+"wheel"
+"disk"
+"audio"
+"video"
+"systemd-journal"
+"networkmanager"
+];
+initialPassword = "password";
 };
 
 i18n = {
@@ -149,16 +547,26 @@ defaultLocale = "en_US.UTF-8";
 time.timeZone = "America/Los_Angeles";
 
 environment.sessionVariables = {
-EDITOR = "emacs";
-VISUAL = "emacs";
 PAGER = "cat";
+EDITOR = "emacsclient";
+VISUAL = "emacsclient";
+XDG_CURRENT_DESKTOP = "EXWM";
+_JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
-services.xserver = {
-displayManager = {
-lightdm.enable = true;
-lightdm.autoLogin.enable = true;
-lightdm.autoLogin.user = "root";
+boot.loader.grub.memtest86.enable = true;
+programs = {
+mtr.enable = true;
+bash.enableCompletion = true;
 };
 
+documentation = {
+info.enable = true;
+man.enable = true;
+};
+
+systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
+users.users.root.openssh.authorizedKeys.keys = [
+"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCz6zBuWvmgyvkpKqQcUdl7Wt48mvwPtWr+QWwjAF9dLUTJK6Qb7PcDUCjzpeM09cE7rqCXx+dleyxDZXao+ctS6/wgPGdQvcNukSjKxmrmNt407hnyNEIrNhUeHCYhN/cBuuANx90yuJRP6e8cQMIgNBaT6MhNN2ipYy157v++iN5Rm+gEp1CSPRNL9cp7guLGV9VT4T1URJO/b9XE43ca2Y2G6UhZqSAI1NON4jENzw6WW5QmaWNXHJOyKb5ArIHnM4QuyEz8dAfo3oK+l4VQfale0VDlK9k2ugrriLvOaQZt6a756e52cRPc+1r6yQO+YEVvZEGLYl/1cqQwE10OGpUCyFnctrVcot1OCsFnmNmZwgV95yyWAMg8ajACarm1W5Bs4rTLs7UhIgrnkpcAlPsuuWOxpCx9ws3dFMbnbp8O1G/uhKMn0PEotX6ZuAVH40hsMErTRHqnxl6t2rPhiS9sqq6ERFWM8Rci3gSEs+PnTDr5aJ3FGOZ4BeWqVAd4F9V5S1XHXGy4G8vh4Nn2/H7ZxhgHi+F07M0Mt/G8PgUON7qzRcq8V8kxNLpx4uTfNZaWmQWLNZ/hP0ieq++VULYaMCp6tq3kjBX+UKJD0CmBxz89JPyOMALZWoG/sKSasp2JNfdfwhoGS1Djixch3AM66hlT3f7dnmHvH5yE9Q=="
+];
 }

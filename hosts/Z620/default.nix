@@ -18,6 +18,9 @@ modules.hardware.amdgpu.enable = true;
 # Enable the modular desktop profile
 modules.desktop.enable = true;
 
+# Services
+modules.services.libvirtd.enable = true;
+
 # Experimental
 system.autoUpgrade.enable = true;
 }

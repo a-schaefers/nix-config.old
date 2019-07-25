@@ -445,6 +445,7 @@ epkgs.bash-completion
 epkgs.ace-window
 epkgs.browse-kill-ring
 epkgs.webpaste
+epkgs.hydra
 ])))
 gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
 phonon-backend-vlc vlc youtube-dl

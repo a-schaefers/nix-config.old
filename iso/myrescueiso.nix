@@ -21,30 +21,6 @@ cat << EOF > ~/.emacs
 (unless (server-running-p)
   (server-start))
 
-;; enforce TLS
-(if (and (executable-find "gnutls-cli")
-         (eq (call-process "python" nil nil nil "-m" "certifi") 0))
-    (progn
-      (with-eval-after-load 'gnutls
-        (setq gnutls-log-level 0)
-        (setq gnutls-verify-error t)
-        (setq gnutls-min-prime-bits 3072))
-      (setq tls-checktrust t)
-      (let ((trustfile
-             (replace-regexp-in-string
-              "\\\\" "/"
-              (replace-regexp-in-string
-               "\n" ""
-               (shell-command-to-string "python -m certifi")))))
-        (setq tls-program
-              (list
-               (format "gnutls-cli%s --x509cafile %s -p %%p %%h"
-                       (if (eq window-system 'w32) ".exe" "") trustfile)))))
-  (progn
-    (setq xbuff (generate-new-buffer "*INSECURE DEFAULTS WARNING*"))
-    (with-output-to-temp-buffer xbuff
-      (print "Ensure python, certifi and gnutls-cli are installed to enforce TLS..."))))
-
 (defun spacemacs/alternate-buffer (&optional window)
   (interactive)
   (let ((current-buffer (window-buffer window)))
@@ -127,11 +103,11 @@ cat << EOF > ~/.emacs
 (setq shr-external-browser 'my-external-browser)
 
 (defvar yt-dl-player "vlc"
-  "Video player used by `eww-open-yt-dl'")
+  "Video player used by eww-open-yt-dl")
 
 (defun eww-open-yt-dl ()
-  "Browse youtube videos using the Emacs `eww' browser and \"youtube-dl.\"
-Specify the video player to use by setting the value of `yt-dl-player'"
+  "Browse youtube videos using the Emacs eww' browser and \"youtube-dl.\"
+Specify the video player to use by setting the value of yt-dl-player'"
   (interactive)
   (if (executable-find "youtube-dl")
       (progn
@@ -149,45 +125,11 @@ Specify the video player to use by setting the value of `yt-dl-player'"
 (require 'xelb)
 (require 'exwm)
 (setq exwm-workspace-number 1)
-
+(require 'exwm-config)
+(exwm-config-default)
 (require 'exwm-systemtray)
 (exwm-systemtray-enable)
 (setq exwm-systemtray-height 16)
-
-(exwm-enable)
-
-(setq exwm-input-global-keys
-      `(
-        ([?\s-&] . (lambda (command)
-                     (interactive (list (read-shell-command "$ ")))
-                     (start-process-shell-command command nil command)))
-        ,@(mapcar (lambda (i)
-                    `(,(kbd (format "<s-f%d>" (1+ i))) .
-                      (lambda ()
-                        (interactive)
-                        (exwm-workspace-switch-create ,i))))
-                  (number-sequence 0 9))))
-
-(setq exwm-input-simulation-keys
-      '(
-        ([?\C-b] . [left])
-        ([?\C-f] . [right])
-        ([?\C-p] . [up])
-        ([?\C-n] . [down])
-        ([?\C-a] . [home])
-        ([?\C-e] . [end])
-        ([?\M-v] . [prior])
-        ([?\C-v] . [next])
-        ([?\C-d] . [delete])
-        ([?\C-k] . [S-end delete])
-        ([?\C-w] . [?\C-x])
-        ([?\M-w] . [?\C-c])
-        ([?\C-y] . [?\C-v])
-        ([?\C-s] . [?\C-f])))
-
-(add-hook 'exwm-update-class-hook
-          (lambda ()
-            (exwm-workspace-rename-buffer exwm-class-name)))
 
 (exwm-input-set-key (kbd "<s-tab>") 'ace-window)
 (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
@@ -197,6 +139,12 @@ Specify the video player to use by setting the value of `yt-dl-player'"
 (exwm-input-set-key (kbd "s-2") 'split-window-below)
 (exwm-input-set-key (kbd "s-3") 'split-window-right)
 (exwm-input-set-key (kbd "s-0") 'delete-window)
+(global-unset-key (kbd "s-4"))
+(global-unset-key (kbd "s-5"))
+(global-unset-key (kbd "s-6"))
+(global-unset-key (kbd "s-7"))
+(global-unset-key (kbd "s-8"))
+(global-unset-key (kbd "s-9"))
 
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
 
@@ -211,16 +159,6 @@ Specify the video player to use by setting the value of `yt-dl-player'"
 (exwm-input-set-key
  (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
 
-(set-face-attribute 'default nil :font "Noto Sans Mono-15")
-
-(defun my-exwm-transparency-hook ()
-  (set-frame-parameter (selected-frame) 'alpha '(100 . 100))
-  (add-to-list 'default-frame-alist '(alpha . (100 . 100)))
-  (with-eval-after-load 'sexy-monochrome-theme
-    (my-cursor-color)))
-(with-eval-after-load 'exwm
-  (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
-
 (defun disable-all-themes ()
   (interactive)
   (dolist (i custom-enabled-themes)
@@ -230,12 +168,10 @@ Specify the video player to use by setting the value of `yt-dl-player'"
 
 (require 'sexy-monochrome-theme)
 (load-theme 'sexy-monochrome t)
-(with-eval-after-load 'sexy-monochrome-theme
-  (defun my-cursor-color ()
-    (set-cursor-color "#4870a1"))
-  (set-face-attribute 'region nil :background "gray10")
-  (set-face-attribute 'vertical-border nil :foreground "black")
-  (custom-set-faces
+(set-cursor-color "#4870a1")
+(set-face-attribute 'region nil :background "gray10")
+(set-face-attribute 'vertical-border nil :foreground "black")
+(custom-set-faces
    '(mode-line ((t (:box nil))))
    '(mode-line-highlight ((t (:box nil))))
    '(mode-line-inactive ((t (:box nil)))))
@@ -424,10 +360,6 @@ firewall.allowedTCPPorts = [ 22 ];
 firewall.allowedUDPPorts = [ 22 ];
 };
 
-fonts.fonts = with pkgs; [
-noto-fonts
-];
-
 environment.systemPackages = with pkgs; [
 git themelios myDots
 
@@ -565,6 +497,8 @@ documentation = {
 info.enable = true;
 man.enable = true;
 };
+
+security.sudo.enable = true;
 
 systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
 users.users.root.openssh.authorizedKeys.keys = [

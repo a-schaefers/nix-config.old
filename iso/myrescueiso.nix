@@ -1,3 +1,5 @@
+# my over-kill custom rescue iso
+
 # nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=myrescueiso.nix
 {config, pkgs, lib, ...}:
 let
@@ -7,6 +9,18 @@ themelios = pkgs.writeScriptBin "themelios" ''
 bash <(curl https://raw.githubusercontent.com/a-schaefers/themelios/master/themelios) $@
 '';
 myDots = pkgs.writeScriptBin "myDots" ''
+cat << EOF > ~/.config/mimeapps.list
+[Default Applications]
+application/pdf=emacsclient-usercreated-1.desktop;
+inode/directory=emacsclient-usercreated-1.desktop;
+inode/mount-point=emacsclient-usercreated-1.desktop;
+text/html=google-chrome.desktop
+x-scheme-handler/http=google-chrome.desktop
+x-scheme-handler/https=google-chrome.desktop
+x-scheme-handler/about=google-chrome.desktop
+x-scheme-handler/unknown=google-chrome.desktop
+EOF
+
 cat << EOF > ~/.emacs
 (setq gc-cons-threshold 100000000
       debug-on-error nil)
@@ -102,7 +116,7 @@ cat << EOF > ~/.emacs
 ;; opened by eww with "&" key
 (setq shr-external-browser 'my-external-browser)
 
-(defvar yt-dl-player "vlc"
+(defvar yt-dl-player "mpv"
   "Video player used by eww-open-yt-dl")
 
 (defun eww-open-yt-dl ()
@@ -361,6 +375,7 @@ firewall.allowedUDPPorts = [ 22 ];
 };
 
 environment.systemPackages = with pkgs; [
+gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme hicolor-icon-theme
 git themelios myDots
 
 (emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
@@ -379,8 +394,8 @@ epkgs.browse-kill-ring
 epkgs.webpaste
 epkgs.hydra
 ])))
-gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-phonon-backend-vlc vlc youtube-dl
+gnupg pinentry
+mpv youtube-dl
 wmctrl xclip xsel scrot
 shellcheck
 
@@ -453,6 +468,7 @@ waitPID=$!
 };
 };
 
+security.sudo.enable = true;
 security.sudo.wheelNeedsPassword = false;
 nix.allowedUsers = [ "root" "@wheel" ];
 nix.trustedUsers = [ "root" "@wheel" ];
@@ -487,18 +503,24 @@ XDG_CURRENT_DESKTOP = "EXWM";
 _JAVA_AWT_WM_NONREPARENTING = "1";
 };
 
+nixpkgs.config.allowUnfree = true;
 boot.loader.grub.memtest86.enable = true;
 programs = {
 mtr.enable = true;
 bash.enableCompletion = true;
+firejail = {
+enable = true;
+wrappedBinaries = {
+chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
+thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
+};
+};
 };
 
 documentation = {
 info.enable = true;
 man.enable = true;
 };
-
-security.sudo.enable = true;
 
 systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
 users.users.root.openssh.authorizedKeys.keys = [

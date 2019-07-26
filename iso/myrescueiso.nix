@@ -9,16 +9,12 @@ themelios = pkgs.writeScriptBin "themelios" ''
 bash <(curl https://raw.githubusercontent.com/a-schaefers/themelios/master/themelios) $@
 '';
 myDots = pkgs.writeScriptBin "myDots" ''
+mkdir ~/.config
 cat << EOF > ~/.config/mimeapps.list
 [Default Applications]
 application/pdf=emacsclient-usercreated-1.desktop;
 inode/directory=emacsclient-usercreated-1.desktop;
 inode/mount-point=emacsclient-usercreated-1.desktop;
-text/html=google-chrome.desktop
-x-scheme-handler/http=google-chrome.desktop
-x-scheme-handler/https=google-chrome.desktop
-x-scheme-handler/about=google-chrome.desktop
-x-scheme-handler/unknown=google-chrome.desktop
 EOF
 
 cat << EOF > ~/.emacs
@@ -129,12 +125,6 @@ cat << EOF > ~/.emacs
 ;; use eww as the default web browser
 (require 'eww)
 (setq browse-url-browser-function 'eww-browse-url)
-
-(defun my-external-browser (url)
-  (start-process-shell-command "chrome" nil (concat "chrome " url)))
-
-;; opened by eww with "&" key
-(setq shr-external-browser 'my-external-browser)
 
 (defvar yt-dl-player "mpv"
   "Video player used by eww-open-yt-dl")
@@ -268,56 +258,6 @@ Specify the video player to use by setting the value of yt-dl-player'"
 (require 'elec-pair)
 (electric-pair-mode 1)
 
-(require 'flycheck)
-(setq flycheck-emacs-lisp-load-path 'inherit)
-(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-(setq flycheck-display-errors-function nil)
-(global-flycheck-mode 1)
-
-(with-eval-after-load 'flycheck
-    (progn
-      (define-fringe-bitmap 'flycheck-fringe-bitmap-nil
-        (vector #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111
-                #b00111111))
-      (flycheck-define-error-level 'error
-        :severity 100
-        :compilation-level 2
-        :overlay-category 'flycheck-error-overlay
-        :fringe-bitmap 'flycheck-fringe-bitmap-nil
-        :fringe-face 'flycheck-fringe-error
-        :error-list-face 'flycheck-error-list-error)
-      (flycheck-define-error-level 'warning
-        :severity 100
-        :compilation-level 2
-        :overlay-category 'flycheck-error-overlay
-        :fringe-bitmap 'flycheck-fringe-bitmap-nil
-        :fringe-face 'flycheck-fringe-error
-        :error-list-face 'flycheck-error-list-error)
-      (flycheck-define-error-level 'info
-        :severity 100
-        :compilation-level 2
-        :overlay-category 'flycheck-error-overlay
-        :fringe-bitmap 'flycheck-fringe-bitmap-nil
-        :fringe-face 'flycheck-fringe-error
-        :error-list-face 'flycheck-error-list-error)
-      (setq flycheck-highlighting-mode nil)
-      (set-face-attribute 'flycheck-warning nil :underline nil)))
-
 (defun my-shell ()
   (interactive)
   (if (get-buffer "*shell*")
@@ -374,9 +314,6 @@ Specify the video player to use by setting the value of yt-dl-player'"
   ("<up>" (call-interactively 'enlarge-window)
    "enlarge-window")
   ("q" nil "Quit"))
-
-(require 'aggressive-indent)
-(aggressive-indent-global-mode 1)
 EOF
 '';
 in {
@@ -406,8 +343,6 @@ epkgs.exwm
 epkgs.desktop-environment
 epkgs.transpose-frame
 epkgs.crux
-epkgs.flycheck
-epkgs.aggressive-indent
 epkgs.bash-completion
 epkgs.ace-window
 epkgs.browse-kill-ring
@@ -436,7 +371,7 @@ file
 
 pulseaudioFull pavucontrol
 
-udiskie
+networkmanagerapplet volumeicon udiskie
 ];
 
 services.udisks2.enable = true;
@@ -473,8 +408,13 @@ session = [ {
 manage = "desktop";
 name = "emacs";
 start = ''
+# startup tray-apps using emacsclient to workaround Exwm tray bug
 while true; do
 until wmctrl -m | grep -q "EXWM" ; do sleep 1 ; done
+emacsclient -e "(start-process-shell-command \"nm-applet\" nil
+                                             \"nm-applet\")"
+emacsclient -e "(start-process-shell-command \"volumeicon\" nil
+                                             \"volumeicon\")"
 emacsclient -e "(start-process-shell-command \"udiskie\" nil
                                              \"udiskie -t\")"
 break
@@ -528,13 +468,6 @@ boot.loader.grub.memtest86.enable = true;
 programs = {
 mtr.enable = true;
 bash.enableCompletion = true;
-firejail = {
-enable = true;
-wrappedBinaries = {
-chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
-thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
-};
-};
 };
 
 documentation = {

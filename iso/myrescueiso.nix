@@ -27,13 +27,33 @@ cat << EOF > ~/.emacs
 
 (toggle-frame-fullscreen)
 
-(setq custom-file (expand-file-name (concat user-emacs-directory "custom.el")))
-(when (file-exists-p custom-file)
-  (load custom-file))
-
 (require 'server)
 (unless (server-running-p)
   (server-start))
+
+(setq inhibit-startup-screen t
+      initial-major-mode 'emacs-lisp-mode)
+
+(defun my-home ()
+  (interactive)
+  (when (get-buffer "*scratch*")
+    (kill-buffer "*scratch*"))
+  (if (get-buffer "*shell*")
+      (switch-to-buffer "*shell*")
+    (shell))
+  (delete-other-windows)
+  (cd "~/"))
+
+(add-hook 'after-init-hook 'my-home)
+
+(add-hook 'text-mode-hook 'goto-address-mode)
+
+(global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-increase)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-_") 'text-scale-decrease)
 
 (defun spacemacs/alternate-buffer (&optional window)
   (interactive)

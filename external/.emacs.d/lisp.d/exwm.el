@@ -21,12 +21,6 @@
 (exwm-input-set-key (kbd "s-2") 'split-window-below)
 (exwm-input-set-key (kbd "s-3") 'split-window-right)
 (exwm-input-set-key (kbd "s-0") 'delete-window)
-(global-unset-key (kbd "s-4"))
-(global-unset-key (kbd "s-5"))
-(global-unset-key (kbd "s-6"))
-(global-unset-key (kbd "s-7"))
-(global-unset-key (kbd "s-8"))
-(global-unset-key (kbd "s-9"))
 
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
 (exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)

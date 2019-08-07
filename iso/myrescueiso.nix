@@ -17,17 +17,6 @@ inode/directory=emacsclient-usercreated-1.desktop;
 inode/mount-point=emacsclient-usercreated-1.desktop;
 EOF
 
-mkdir ~/.local/share/applications
-cat << EOF > ~/.local/share/applications/emacsclient-usercreated-1.desktop
-[Desktop Entry]
-Version=1.0
-Encoding=UTF-8
-Type=Application
-Name=emacsclient
-NoDisplay=true
-Exec=emacsclient
-EOF
-
 cat << EOF > ~/.emacs
 (setq gc-cons-threshold 100000000
       debug-on-error nil)
@@ -82,7 +71,7 @@ cat << EOF > ~/.emacs
 (with-eval-after-load 'erc
   (define-key erc-mode-map (kbd "<home>") 'my-home))
 
-(global-set-key (kbd "<s-tab>") 'ace-window)
+(global-set-key (kbd "<s-return>") 'ace-window)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (global-set-key (kbd "s--") 'kill-this-buffer)
@@ -166,7 +155,7 @@ Specify the video player to use by setting the value of yt-dl-player'"
 (exwm-systemtray-enable)
 (setq exwm-systemtray-height 16)
 
-(exwm-input-set-key (kbd "<s-tab>") 'ace-window)
+(exwm-input-set-key (kbd "<s-return>") 'ace-window)
 (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (exwm-input-set-key (kbd "s--") 'kill-this-buffer)
@@ -389,6 +378,7 @@ services.udisks2.enable = true;
 
 boot.supportedFilesystems = [ "zfs" ];
 boot.zfs.enableUnstable = true;
+boot.zfs.requestEncryptionCredentials = true;
 
 sound.enable = true;
 nixpkgs.config.pulseaudio = true;

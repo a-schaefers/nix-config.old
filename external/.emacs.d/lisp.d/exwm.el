@@ -70,7 +70,7 @@
 (setq exwm-systemtray-height 16)
 (exwm-systemtray-enable)
 
-(exwm-input-set-key (kbd "<s-tab>") 'ace-window)
+(exwm-input-set-key (kbd "<s-return>") 'ace-window)
 (exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 (exwm-input-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (exwm-input-set-key (kbd "s--") 'kill-this-buffer)

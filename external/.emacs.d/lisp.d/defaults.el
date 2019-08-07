@@ -52,7 +52,7 @@
 (with-eval-after-load 'erc
   (define-key erc-mode-map (kbd "<home>") 'my-home))
 
-(global-set-key (kbd "<s-tab>") 'ace-window)
+(global-set-key (kbd "<s-return>") 'ace-window)
 (global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
 (global-set-key (kbd "s--") 'kill-this-buffer)

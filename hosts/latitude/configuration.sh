@@ -7,7 +7,7 @@ zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76822C9FD0"
 zfs_pool_type="mirror"            # use "" for single, or "mirror", "raidz1", etc.
 zfs_encrypt_home="true"    # only set to true if you are using a nixos ISO with ZFS 0.8 or higher.
 zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT") # datasets to be set with com.sun:auto-snapshot=true
-nix_top_level_configuration="hosts/vm-example" # Your top-level nix file to be bootstrapped
+nix_top_level_configuration="hosts/latitude" # Your top-level nix file to be bootstrapped
 nix_zfs_configuration_extra_enabled="true" # uncomment below if set to true
 nix_zfs_extra_auto_scrub="true"
 nix_zfs_extra_auto_snapshot_enabled="true" # Enable the ZFS auto-snapshotting service

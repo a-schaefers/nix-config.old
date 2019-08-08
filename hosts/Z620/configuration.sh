@@ -1,19 +1,16 @@
-# Themelios configuration.sh
-
-use_sgdisk_clear="true"
-use_wipefs_all="true"
-use_zero_disks="false"
-zfs_encrypt_home="true"
-zfs_pool_name="z620pool"
-zfs_pool_type="mirror"
+use_sgdisk_clear="true"     # use sgdisk --clear
+use_wipefs_all="true"       # use wipefs --all
+use_zero_disks="false"      # use dd if=/dev/zero ...
+zfs_pool_name="rpool"
 zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2629"
                 "/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B77820D2E9A")
-zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT")
-nix_top_level_configuration="hosts/Z620"
-nix_repo_name="nix-config"
-nix_zfs_configuration_extra_enabled="true"
+zfs_pool_type="mirror"            # use "" for single, or "mirror", "raidz1", etc.
+zfs_encrypt_home="true"    # only set to true if you are using a nixos ISO with ZFS 0.8 or higher.
+zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT") # datasets to be set with com.sun:auto-snapshot=true
+nix_top_level_configuration="hosts/Z620" # Your top-level nix file to be bootstrapped
+nix_zfs_configuration_extra_enabled="true" # uncomment below if set to true
 nix_zfs_extra_auto_scrub="true"
-nix_zfs_extra_auto_snapshot_enabled="true"
+nix_zfs_extra_auto_snapshot_enabled="true" # Enable the ZFS auto-snapshotting service
 nix_zfs_extra_auto_snapshot_frequent="8"
 nix_zfs_extra_auto_snapshot_hourly="24"
 nix_zfs_extra_auto_snapshot_daily="0"

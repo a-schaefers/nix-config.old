@@ -1,6 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-(set-face-attribute 'default nil :font "Noto Sans Mono-13")
+(set-face-attribute 'default nil :font "Noto Sans Mono-15")
 
 (defun my-exwm-transparency-hook ()
   (set-frame-parameter (selected-frame) 'alpha '(90 . 90))

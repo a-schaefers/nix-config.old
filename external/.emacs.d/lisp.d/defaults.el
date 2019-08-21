@@ -86,6 +86,9 @@
 (add-hook 'dired-load-hook
           (function (lambda () (load "dired-x"))))
 
+(autoload 'dired-async-mode "dired-async.el" nil t)
+(dired-async-mode 1)
+
 (setq tab-always-indent 'complete)
 
 (setq tramp-default-method "ssh")

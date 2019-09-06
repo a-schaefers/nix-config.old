@@ -3,10 +3,10 @@
   services.openssh.enable = true;
 
   networking = {
-
     networkmanager = {
       enable = true;
-      insertNameservers = [ "1.1.1.1" "1.0.0.1" ];
+      dhcp = "dhcpcd";
+      insertNameservers = [ "8.8.8.8" "8.8.4.4" ];
     };
 
     firewall = {
@@ -15,8 +15,7 @@
       allowPing = true;
     };
 
-    nameservers = [ "1.1.1.1" "1.0.0.1" ];
-    enableIPv6 = false;
+    nameservers = [ "8.8.8.8" "8.8.4.4" ];
+    enableIPv6 = true;
   };
-
 }

@@ -194,7 +194,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         dmesg-notify journalctl-notify stupid-power-manager
 
         # misc apps
-        gimp audacity
+        gimp audacity libreoffice-still
 
         # multimedia players/libs
         ffmpeg phonon-backend-vlc vlc youtube-dl feh

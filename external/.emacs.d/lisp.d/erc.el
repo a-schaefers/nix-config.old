@@ -10,10 +10,6 @@
         erc-autojoin-channels-alist '(("freenode.net"
                                        "#emacs"
                                        "#nixos"
-                                       "#funtoo-report"
-                                       "#tinfoilhats"
-                                       "##apoptosis"
-                                       "#commanduser"
                                        )))
   (erc-tls :server "chat.freenode.net" :port "6697"))
 

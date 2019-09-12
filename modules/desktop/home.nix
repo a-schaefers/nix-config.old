@@ -91,7 +91,7 @@ def executeCommand(the_command):
     return temp_list
 
 def getDMESG():
-    return executeCommand("journalctl --no-pager -n 1 | tail -n 1 | grep -v freedesktop.Notifications | grep -v xsession | grep -v auto-snapshotting | grep zfs-snapshot")
+    return executeCommand("journalctl --no-pager -n 1 | tail -n 1 | grep -Ev 'freedesktop.Notifications|xsession|auto-snapshotting|zfs-snapshot'")
 
 def compareStatus(current_status):
     temp_var=getDMESG()

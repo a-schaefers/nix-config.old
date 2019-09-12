@@ -240,7 +240,6 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.clojure-mode
           epkgs.cider
           epkgs.nix-mode
-          epkgs.haskell-mode
         ];
       };
 

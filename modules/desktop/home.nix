@@ -201,6 +201,8 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
         # misc. development things
         shellcheck
+        clojure
+        leiningen
       ];
 
       programs.emacs = {
@@ -232,7 +234,6 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.bash-completion
           epkgs.xterm-color
           epkgs.elisp-slime-nav
-          epkgs.paredit
           epkgs.lispy
           epkgs.rainbow-delimiters
           epkgs.rainbow-mode

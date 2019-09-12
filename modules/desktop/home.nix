@@ -233,6 +233,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.xterm-color
           epkgs.elisp-slime-nav
           epkgs.paredit
+          epkgs.lispy
           epkgs.rainbow-delimiters
           epkgs.rainbow-mode
           epkgs.clojure-mode

@@ -57,13 +57,26 @@
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
   (add-hook hook 'elisp-slime-nav-mode))
 
-(require 'paredit)
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-;; enable in the *scratch* buffer
-(add-hook 'lisp-interaction-mode-hook 'paredit-mode)
-(add-hook 'ielm-mode-hook 'paredit-mode)
-(add-hook 'lisp-mode-hook 'paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook 'paredit-mode)
+;; (require 'paredit)
+;; (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+;; ;; enable in the *scratch* buffer
+;; (add-hook 'lisp-interaction-mode-hook 'paredit-mode)
+;; (add-hook 'ielm-mode-hook 'paredit-mode)
+;; (add-hook 'lisp-mode-hook 'paredit-mode)
+;; (add-hook 'eval-expression-minibuffer-setup-hook 'paredit-mode)
+
+(require 'lispy)
+(defun conditionally-enable-lispy ()
+  (when (eq this-command 'eval-expression)
+    (lispy-mode 1)))
+(add-hook 'minibuffer-setup-hook 'conditionally-enable-lispy)
+(add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+(add-hook 'lisp-interaction-mode-hook (lambda () (lispy-mode 1)))
+(add-hook 'ielm-mode-hook (lambda () (lispy-mode 1)))
+(add-hook 'lisp-mode-hook (lambda () (lispy-mode 1)))
+(add-hook 'eval-expression-minibuffer-setup-hook (lambda () (lispy-mode 1)))
+(setq lispy-compat '(edebug
+                     cider))
 
 (require 'clojure-mode)
 (add-hook 'clojure-mode-hook 'paredit-mode)

@@ -40,26 +40,14 @@
                    (not (eq buffer current-buffer)))
                  (mapcar #'car (window-prev-buffers window))))))
 
-(defun spacemacs/alternate-window ()
-  (interactive)
-  (let ((prev-window (get-mru-window nil t t)))
-    (unless prev-window (user-error "Last window not found"))nn
-    (select-window prev-window)))
+(global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
 
 (global-set-key (kbd "<home>") 'my-home)
 (with-eval-after-load 'exwm
   (exwm-input-set-key (kbd "<home>") 'my-home))
+
 (with-eval-after-load 'erc
   (define-key erc-mode-map (kbd "<home>") 'my-home))
-
-(global-set-key (kbd "<s-return>") 'ace-window)
-(global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
-(global-set-key (kbd "<s-backspace>") 'kill-buffer-and-window)
-(global-set-key (kbd "s--") 'kill-this-buffer)
-(global-set-key (kbd "s-1") 'delete-other-windows)
-(global-set-key (kbd "s-2") 'split-window-below)
-(global-set-key (kbd "s-3") 'split-window-right)
-(global-set-key (kbd "s-0") 'delete-window)
 
 (delete-selection-mode 1)
 (blink-cursor-mode -1)

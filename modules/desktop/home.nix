@@ -211,6 +211,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         extraPackages = epkgs: [
           epkgs.better-defaults
           epkgs.async
+          epkgs.openwith
           epkgs.sexy-monochrome-theme
           epkgs.xelb
           epkgs.exwm

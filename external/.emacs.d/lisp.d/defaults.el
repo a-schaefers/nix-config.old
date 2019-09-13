@@ -68,11 +68,33 @@
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
+(require 'dired-x)
 (add-hook 'dired-load-hook
           (function (lambda () (load "dired-x"))))
 
 (autoload 'dired-async-mode "dired-async.el" nil t)
 (dired-async-mode 1)
+
+(setq large-file-warning-threshold '100000000000000)
+(require 'openwith)
+(setq openwith-associations
+      (list
+       (list (openwith-make-extension-regexp
+              '("mpg" "mpeg" "mp3" "mp4"
+                "avi" "wmv" "wav" "mov" "flv"
+                "ogm" "ogg" "mkv"))
+             "vlc"
+             '(file))
+       (list (openwith-make-extension-regexp
+              '("xbm" "pbm" "pgm" "ppm" "pnm"
+                "png" "gif" "bmp" "tif" "jpeg" "jpg"))
+             "feh"
+             '(file))
+       (list (openwith-make-extension-regexp
+              '("doc" "xls" "ppt" "odt" "ods" "odg" "odp"))
+             "libreoffice"
+             '(file))))
+(openwith-mode 1)
 
 (setq tab-always-indent 'complete)
 

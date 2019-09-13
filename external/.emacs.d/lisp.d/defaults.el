@@ -26,11 +26,7 @@
 (add-hook 'text-mode-hook 'goto-address-mode)
 
 (global-set-key (kbd "<C-kp-add>") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-increase)
-(global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "<C-kp-subtract>") 'text-scale-decrease)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-(global-set-key (kbd "C-_") 'text-scale-decrease)
 
 (defun spacemacs/alternate-buffer (&optional window)
   (interactive)

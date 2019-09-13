@@ -113,8 +113,25 @@
   (let* ((available-width (- (window-width) (length left) 2)))
     (format (format " %%s %%%ds " available-width) left right)))
 
+(defun random-choice (items)
+  (let* ((size (length items))
+         (index (random size)))
+    (nth index items)))
+
+
+(defvar random-quote
+  (random-choice
+   '("[♥][♦] Hacker's Delight [♣][♠] "
+     "ℓ٥ﻻ ﻉ√٥υ "
+     "☩ In hoc signo vinces ☩ "
+     "><> ΙΧΘΥΣ ><> "
+     "✝ Agnus dei, qui tolis peccata mundi. ✝ "
+     )))
+
 (setq-default mode-line-format '((:eval (simple-mode-line-render
                                          ;; left
                                          (format-mode-line "%* %b %l:%c")
                                          ;; right
-                                         (format-mode-line (format-time-string "%Y-%m-%d %I:%M%p"))))))
+                                         (format-mode-line (concat
+                                                            random-quote
+                                                            (format-time-string "%Y-%m-%d %I:%M%p")))))))

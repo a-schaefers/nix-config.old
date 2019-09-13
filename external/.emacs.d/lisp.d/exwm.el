@@ -6,7 +6,6 @@
 
 (require 'xelb)
 (require 'exwm)
-(setq exwm-workspace-number 1)
 (require 'exwm-config)
 (defun exwm-config-default ()
   "Default configuration of EXWM."

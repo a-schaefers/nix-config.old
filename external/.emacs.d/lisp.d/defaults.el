@@ -40,6 +40,7 @@
                    (not (eq buffer current-buffer)))
                  (mapcar #'car (window-prev-buffers window))))))
 
+(global-set-key (kbd "C-x TAB") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
 
 (global-set-key (kbd "<home>") 'my-home)

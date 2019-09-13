@@ -1,15 +1,9 @@
 ;;; -*- lexical-binding: t; -*-
 
-(set-face-attribute 'default nil :font "Noto Sans Mono-15")
+;; font
+(set-face-attribute 'default nil :font "Noto Sans Mono-20")
 
-(defun my-exwm-transparency-hook ()
-  (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
-  (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
-  (with-eval-after-load 'sexy-monochrome-theme
-    (my-cursor-color)))
-(with-eval-after-load 'exwm
-  (add-hook 'exwm-workspace-switch-hook 'my-exwm-transparency-hook))
-
+;; seamlessly switch themes
 (defun disable-all-themes ()
   (interactive)
   (dolist (i custom-enabled-themes)
@@ -17,11 +11,12 @@
 (defadvice load-theme (before disable-themes-first activate)
   (disable-all-themes))
 
+;;  theme
 (require 'sexy-monochrome-theme)
 (load-theme 'sexy-monochrome t)
 (with-eval-after-load 'sexy-monochrome-theme
-  (defun my-cursor-color ()
-    (set-cursor-color "#4870a1"))
+  ;; my theme changes
+  (set-cursor-color "#4870a1")
   (set-face-attribute 'region nil :background "gray10")
   (set-face-attribute 'vertical-border nil :foreground "black")
   (custom-set-faces
@@ -29,16 +24,7 @@
    '(mode-line-highlight ((t (:box nil))))
    '(mode-line-inactive ((t (:box nil)))))
 
-  (with-eval-after-load 'company
-    (require 'color)
-    (let ((bg (face-attribute 'default :background)))
-      (custom-set-faces
-       `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-       `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-       `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-       `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-       `(company-tooltip-common ((t (:inherit font-lock-constant-face)))))))
-
+  ;; uninvasive diff-hl
   (with-eval-after-load 'diff-hl
     (custom-set-faces
      '(diff-hl-change ((t (:foreground "#3a81c3" :background "#3a81c3"))))
@@ -53,12 +39,13 @@
      '(whitespace-line ((t (:background "gray0" :foreground "dim gray" :underline t))))
      '(header-line ((t (:box nil))))))
 
+  ;; fringe settings
   (fringe-mode '(3 . 3))
-
   (with-eval-after-load 'diff-hl
     (setq diff-hl-side "right")
     (global-diff-hl-mode 1))
 
+  ;; uninvasive flycheck
   (with-eval-after-load 'flycheck
     (progn
       (define-fringe-bitmap 'flycheck-fringe-bitmap-nil
@@ -103,15 +90,23 @@
       (setq flycheck-highlighting-mode nil)
       (set-face-attribute 'flycheck-warning nil :underline nil))))
 
+
+;; minimalist modeline
 (setq display-time-default-load-average nil
       display-time-24hr-format nil)
-(display-time-mode -1)
-(setq-default header-line-format '("%e"
-                                   mode-line-modified " "
-                                   mode-line-buffer-identification
-                                   mode-line-misc-info))
+(display-time-mode 1)
+(defun simple-mode-line-render (left right)
+  "Return a string of `window-width' length containing LEFT, and RIGHT
+ aligned respectively."
+  (let* ((available-width (- (window-width) (length left) 2)))
+    (format (format " %%s %%%ds " available-width) left right)))
+(setq-default header-line-format
+              '((:eval (simple-mode-line-render
+                        ;; left
+                        (format-mode-line "[%*] %b %l:%c")
+                        ;; right
+                        (format-mode-line 'mode-line-misc-info)))))
 (setq-default mode-line-format nil)
-
 (with-eval-after-load 'emms-setup
   (emms-playing-time -1)
   (emms-mode-line -1))

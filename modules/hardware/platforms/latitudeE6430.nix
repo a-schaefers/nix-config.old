@@ -13,7 +13,8 @@ IS_LATITUDE = "YES";
 modules.hardware = enableMultiple [
 "metal"
 "powerSave"
-"intel-sna"
+# "intel-sna"
+"intel-modesetting"
 "touchpad"
 "intel-microcode"
 ];

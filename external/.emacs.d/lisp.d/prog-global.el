@@ -44,11 +44,6 @@
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 (projectile-mode 1)
 
-(require 'dumb-jump)
-(global-set-key (kbd "C-c .") 'dumb-jump-go)
-(global-set-key (kbd "C-c ,") 'dumb-jump-back)
-(dumb-jump-mode 1)
-
 (require 'flycheck)
 (setq flycheck-emacs-lisp-load-path 'inherit)
 (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))

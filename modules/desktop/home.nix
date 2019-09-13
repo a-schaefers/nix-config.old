@@ -227,7 +227,6 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.crux
           epkgs.ace-window
           epkgs.aggressive-indent
-          epkgs.dumb-jump
           epkgs.browse-kill-ring
           epkgs.webpaste
 
@@ -270,7 +269,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         platformTheme = "gtk"; # gnome or gtk
       };
 
-      services.compton.enable = true;
+      # services.compton.enable = true;
 
       # notifications
       services.dunst = {
@@ -280,7 +279,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         settings = {
           global = {
             alignment = "right";
-            geometry = "800x10-1+25";
+            geometry = "800x10-1+30";
             transparency = "0";
             monitor = "0";
             follow = "mouse";
@@ -335,7 +334,7 @@ if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --
 dmesg-notify &
 journalctl-notify &
 
-feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
+# feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 xset +dpms

@@ -209,6 +209,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         enable = true;
         package = myEmacs;
         extraPackages = epkgs: [
+          # general
           epkgs.better-defaults
           epkgs.async
           epkgs.openwith
@@ -220,7 +221,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.emms
           epkgs.hydra
           epkgs.transpose-frame
-
+          # dev general tools
           epkgs.projectile
           epkgs.magit
           epkgs.diff-hl
@@ -230,9 +231,9 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.aggressive-indent
           epkgs.browse-kill-ring
           epkgs.webpaste
-
-          epkgs.bash-completion
           epkgs.xterm-color
+          epkgs.bash-completion
+          # dev lang tools
           epkgs.elisp-slime-nav
           epkgs.lispy
           epkgs.rainbow-delimiters

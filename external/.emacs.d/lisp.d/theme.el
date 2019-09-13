@@ -102,21 +102,19 @@
       (set-face-attribute 'flycheck-warning nil :underline nil))))
 
 
-;; minimalist modeline
+;; extremely minimal modeline
 (setq display-time-default-load-average nil
       display-time-24hr-format nil)
 (display-time-mode 1)
+
 (defun simple-mode-line-render (left right)
   "Return a string of `window-width' length containing LEFT, and RIGHT
  aligned respectively."
   (let* ((available-width (- (window-width) (length left) 2)))
     (format (format " %%s %%%ds " available-width) left right)))
-(setq-default mode-line-format
-              '((:eval (simple-mode-line-render
-                        ;; left
-                        (format-mode-line "[%*] %b %l:%c")
-                        ;; right
-                        (format-mode-line 'mode-line-misc-info)))))
-(with-eval-after-load 'emms-setup
-  (emms-playing-time -1)
-  (emms-mode-line -1))
+
+(setq-default mode-line-format '((:eval (simple-mode-line-render
+                                         ;; left
+                                         (format-mode-line "%* %b %l:%c")
+                                         ;; right
+                                         (format-mode-line (format-time-string "%Y-%m-%d %I:%M%p"))))))

@@ -2,13 +2,13 @@
 
 (require 'erc)
 
-(setq erc-autojoin-timing "ident"
+(setq erc-hide-list '("JOIN" "PART" "QUIT")
+      erc-autojoin-timing "ident"
       erc-prompt-for-password nil
       erc-nick "adamantium"
       erc-autojoin-channels-alist '(("freenode.net"
                                      "#emacs"
                                      "#nixos")))
-
 (defun my-erc ()
   (interactive)
   (erc-tls :server "chat.freenode.net" :port "6697"))

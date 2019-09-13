@@ -2,19 +2,15 @@
 
 (require 'cl-lib)
 
-;; remember to 'G p' on INBOX and insert (modeline-notify t)
-
 ;; use my custom address inserter
 (setq my-contacts-file "~/Private/contacts.el")
 (when (file-exists-p my-contacts-file)
   (load-file my-contacts-file))
 
 ;; e.g. dummy address book (key . value) list
-;; (setq my-contact-list '(
-;;                         (adam . sch@efers.org)
+;; (setq my-contact-list '((name . foo@bar.email)
 ;;                         (nick . nick@nick.com)
-;;                         (john . john@doe.com)
-;;                         ))
+;;                         (john . john@doe.com)))
 
 (setq my-contact-keys (cl-loop for (key . value) in my-contact-list
                                collect key))

@@ -3,6 +3,17 @@
 ;; font
 (set-face-attribute 'default nil :font "Noto Sans Mono-15")
 
+;; cursor color (if not set by theme)
+(defun my-cursor-color ()
+  (set-cursor-color "#4870a1"))
+
+(defun my-exwm-workspace-switch-hook ()
+  ;; (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
+  ;; (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+  (my-cursor-color))
+(with-eval-after-load 'exwm
+  (add-hook 'exwm-workspace-switch-hook 'my-exwm-workspace-switch-hook))
+
 ;; seamlessly switch themes
 (defun disable-all-themes ()
   (interactive)

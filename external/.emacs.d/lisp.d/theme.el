@@ -103,15 +103,15 @@
       (setq flycheck-highlighting-mode nil)
       (set-face-attribute 'flycheck-warning nil :underline nil))))
 
-;; use a super minimal headerline instead of the modeline
 (setq display-time-default-load-average nil
       display-time-24hr-format nil)
-(display-time-mode 1)
+(display-time-mode -1)
 (setq-default header-line-format '("%e"
                                    mode-line-modified " "
                                    mode-line-buffer-identification
                                    mode-line-misc-info))
 (setq-default mode-line-format nil)
+
 (with-eval-after-load 'emms-setup
   (emms-playing-time -1)
   (emms-mode-line -1))

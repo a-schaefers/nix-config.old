@@ -1,9 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(defun my-toggle-redshift ()
-  (interactive)
-  (start-process-shell-command "pkill" nil "pkill -USR1 '^redshift'"))
-
 (require 'xelb)
 (require 'exwm)
 (require 'exwm-config)

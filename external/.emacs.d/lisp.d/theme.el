@@ -1,7 +1,7 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;; font
-(set-face-attribute 'default nil :font "Noto Sans Mono-20")
+(set-face-attribute 'default nil :font "Noto Sans Mono-15")
 
 ;; seamlessly switch themes
 (defun disable-all-themes ()

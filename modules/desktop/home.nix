@@ -269,8 +269,6 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         platformTheme = "gtk"; # gnome or gtk
       };
 
-      # services.compton.enable = true;
-
       # notifications
       services.dunst = {
         enable = true;
@@ -334,7 +332,6 @@ if xrandr | grep -q "$external connected" ; then  xrandr --output "$internal" --
 dmesg-notify &
 journalctl-notify &
 
-# feh --bg-scale --no-fehbg --randomize ${my-dotfile-dir}/wallpaper/*
 xrdb -merge ~/.Xresources
 xsetroot -cursor_name left_ptr
 xset +dpms

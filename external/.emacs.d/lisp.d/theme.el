@@ -100,13 +100,12 @@
  aligned respectively."
   (let* ((available-width (- (window-width) (length left) 2)))
     (format (format " %%s %%%ds " available-width) left right)))
-(setq-default header-line-format
+(setq-default mode-line-format
               '((:eval (simple-mode-line-render
                         ;; left
                         (format-mode-line "[%*] %b %l:%c")
                         ;; right
                         (format-mode-line 'mode-line-misc-info)))))
-(setq-default mode-line-format nil)
 (with-eval-after-load 'emms-setup
   (emms-playing-time -1)
   (emms-mode-line -1))

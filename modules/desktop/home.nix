@@ -190,7 +190,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         # exwm helpers
         wmctrl xclip xsel scrot imagemagick libnotify perlPackages.FileMimeInfo
         gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
-        redshift networkmanagerapplet volumeicon udiskie
+        networkmanagerapplet volumeicon udiskie
         dmesg-notify journalctl-notify stupid-power-manager
 
         # misc apps
@@ -277,7 +277,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         settings = {
           global = {
             alignment = "right";
-            geometry = "800x10-1+30";
+            geometry = "800x10-1+1";
             transparency = "0";
             monitor = "0";
             follow = "mouse";
@@ -341,8 +341,6 @@ xset dpms 0 0 1860
 # startup tray-apps using emacsclient to workaround Exwm tray bug
 while true; do
 until wmctrl -m | grep -q "EXWM" ; do sleep 1 ; done
-emacsclient -e "(start-process-shell-command \"redshift-gtk\" nil
-                                             \"redshift-gtk -l 43.3665:-124.2179 -t 5500:2000 -b 1:1\")"
 emacsclient -e "(start-process-shell-command \"nm-applet\" nil
                                              \"nm-applet\")"
 emacsclient -e "(start-process-shell-command \"volumeicon\" nil

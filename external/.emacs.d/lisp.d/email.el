@@ -104,4 +104,6 @@
         (3 (message "Gnus timed out."))
       ad-do-it)))
 
+(add-to-list 'mm-inhibit-file-name-handlers 'openwith-file-handler)
+
 (provide 'email)

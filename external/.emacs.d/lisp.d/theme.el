@@ -103,10 +103,6 @@
 
 
 ;; extremely minimal modeline
-(setq display-time-default-load-average nil
-      display-time-24hr-format nil)
-(display-time-mode 1)
-
 (defun simple-mode-line-render (left right)
   "Return a string of `window-width' length containing LEFT, and RIGHT
  aligned respectively."
@@ -118,15 +114,12 @@
          (index (random size)))
     (nth index items)))
 
-
 (defvar random-quote
   (random-choice
-   '("[♥][♦] Hacker's Delight [♣][♠] "
-     "ℓ٥ﻻ ﻉ√٥υ "
-     "☩ In hoc signo vinces ☩ "
-     "><> ΙΧΘΥΣ ><> "
-     "✝ Agnus dei, qui tolis peccata mundi. ✝ "
-     )))
+   '("[♥][♦] Hacker's Delight [♣][♠]"
+     "☩ In hoc signo vinces ☩"
+     "><> ΙΧΘΥΣ ><>"
+     "✝ Agnus dei, qui tolis peccata mundi. ✝")))
 
 (setq-default mode-line-format '((:eval (simple-mode-line-render
                                          ;; left
@@ -134,4 +127,4 @@
                                          ;; right
                                          (format-mode-line (concat
                                                             random-quote
-                                                            (format-time-string "%Y-%m-%d %I:%M%p")))))))
+                                                            (format-time-string " %Y-%m-%d %I:%M%p")))))))

@@ -62,7 +62,7 @@ def executeCommand(the_command):
     return temp_list
 
 def getDMESG():
-    return executeCommand("dmesg | tail -n 1")
+    return executeCommand("dmesg | tail -n 1 | grep -Ev 'iwlwifi|wlp2s0|IPv6|trap|NET|bridge|virbr|audit|keycodes'")
 
 def compareStatus(current_status):
     temp_var=getDMESG()
@@ -90,11 +90,11 @@ def executeCommand(the_command):
     temp_list = os.popen(the_command).read()
     return temp_list
 
-def getDMESG():
-    return executeCommand("journalctl --no-pager -n 1 | tail -n 1 | grep -Ev 'freedesktop.Notifications|xsession|auto-snapshotting|zfs-snapshot'")
+def getJOURNAL():
+    return executeCommand("journalctl --no-pager -n 1 | tail -n 1 | grep -Ev 'freedesktop|xsession|auto-snapshotting|zfs-snapshot|keycodes|wlp2s0|dbus|Network Manager|NetworkManager|X|xkb|SMART'")
 
 def compareStatus(current_status):
-    temp_var=getDMESG()
+    temp_var=getJOURNAL()
     if (temp_var!=current_status):
         current_status=temp_var
         os.system("notify-send \"" + current_status + "\"")
@@ -102,7 +102,7 @@ def compareStatus(current_status):
     return current_status
 
 def main():
-    current_status=getDMESG()
+    current_status=getJOURNAL()
     while (2<3):
         current_status=compareStatus(current_status)
 

@@ -66,11 +66,9 @@
 (exwm-systemtray-enable)
 
 (exwm-input-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
-
+(exwm-input-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
+(exwm-input-set-key (kbd "<insert>") 'crux-create-scratch-buffer)
 (exwm-input-set-key (kbd "<f9>") 'exwm-input-toggle-keyboard)
-(exwm-input-set-key (kbd "<f10>") 'my-toggle-redshift)
-
-(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)
 
 (require 'desktop-environment)
 (desktop-environment-mode)
@@ -80,3 +78,5 @@
  (kbd "<s-kp-add>") 'desktop-environment-volume-increment)
 (exwm-input-set-key
  (kbd "<s-kp-subtract>") 'desktop-environment-volume-decrement)
+
+(define-key minibuffer-inactive-mode-map [mouse-1] #'ignore)

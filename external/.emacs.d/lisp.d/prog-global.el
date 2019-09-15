@@ -58,6 +58,7 @@
 (require 'crux)
 (global-set-key [remap move-beginning-of-line] 'crux-move-beginning-of-line)
 (global-set-key [remap kill-whole-line] 'crux-kill-whole-line)
+(global-set-key (kbd "<insert>") 'crux-create-scratch-buffer)
 (global-set-key (kbd "<C-S-return>") 'crux-smart-open-line-above)
 (global-set-key (kbd "<S-return>") 'crux-smart-open-line)
 (global-set-key (kbd "C-c r") 'crux-recentf-find-file)

@@ -38,6 +38,7 @@
 
 (global-set-key (kbd "C-x TAB") 'spacemacs/alternate-buffer)
 (global-set-key (kbd "C-x <tab>") 'spacemacs/alternate-buffer)
+(global-set-key (kbd "<C-tab>") 'spacemacs/alternate-buffer)
 
 (global-set-key (kbd "<home>") 'my-home)
 (with-eval-after-load 'exwm

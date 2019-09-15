@@ -236,6 +236,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           # dev lang tools
           epkgs.elisp-slime-nav
           epkgs.lispy
+          epkgs.smartparens
           epkgs.rainbow-delimiters
           epkgs.rainbow-mode
           epkgs.clojure-mode

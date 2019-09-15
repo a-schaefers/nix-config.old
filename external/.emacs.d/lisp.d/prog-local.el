@@ -57,6 +57,10 @@
 (dolist (hook '(emacs-lisp-mode-hook ielm-mode-hook))
   (add-hook hook 'elisp-slime-nav-mode))
 
+(require 'smartparens)
+(define-key lisp-mode-shared-map (kbd "C-(") 'sp-wrap-round)
+(define-key lisp-mode-shared-map (kbd "C-)") 'sp-unwrap-sexp)
+
 (require 'lispy)
 (defun conditionally-enable-lispy ()
   (when (eq this-command 'eval-expression)

@@ -143,6 +143,7 @@ MaxRetentionSec=1day
       enable = true;
       wrappedBinaries = {
         chrome = "${lib.getBin pkgs.google-chrome}/bin/google-chrome-stable";
+        brave = "${lib.getBin pkgs.brave}/bin/brave";
         thunderbird = "${lib.getBin pkgs.thunderbird}/bin/thunderbird";
       };
     };

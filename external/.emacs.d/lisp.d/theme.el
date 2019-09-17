@@ -123,7 +123,7 @@
 
 (setq-default mode-line-format '((:eval (simple-mode-line-render
                                          ;; left
-                                         (format-mode-line "%* %b %m %l:%c")
+                                         (format-mode-line "%* %b %l:%c")
                                          ;; right
                                          (format-mode-line (concat
                                                             random-quote

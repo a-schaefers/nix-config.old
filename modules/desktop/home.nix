@@ -208,7 +208,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
       programs.emacs = {
         enable = true;
-        package = pkgs.emacsGit; # use emacsNoGtk (stable) or emacsGit (bleeding edge)
+        package = myEmacs; 
         extraPackages = epkgs: [
           # general
           epkgs.better-defaults

@@ -208,7 +208,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
       programs.emacs = {
         enable = true;
-        package = myEmacs;
+        package = pkgs.emacsGit; # use emacsNoGtk (stable) or emacsGit (bleeding edge)
         extraPackages = epkgs: [
           # general
           epkgs.better-defaults
@@ -243,6 +243,9 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.clojure-mode
           epkgs.cider
           epkgs.nix-mode
+          epkgs.json-mode
+          epkgs.js2-mode
+          epkgs.web-mode
         ];
       };
 

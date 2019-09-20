@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
 {
-nixpkgs.config.allowUnfree = true;
-nix.useSandbox = false;
+  nixpkgs.config.allowUnfree = true;
+  nix.useSandbox = false;
 }

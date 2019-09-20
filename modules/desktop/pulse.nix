@@ -1,18 +1,18 @@
 { config, pkgs, lib, callPackage, ... }:
 with lib;
 {
-options.modules.desktop.pulse.enable = mkEnableOption "modules.desktop.pulse";
-config = mkIf config.modules.desktop.pulse.enable {
+  options.modules.desktop.pulse.enable = mkEnableOption "modules.desktop.pulse";
+  config = mkIf config.modules.desktop.pulse.enable {
 
-# alsa
-sound.enable = true;
+    # alsa
+    sound.enable = true;
 
-# pulse
-nixpkgs.config.pulseaudio = true;
-hardware.pulseaudio.enable = true;
+    # pulse
+    nixpkgs.config.pulseaudio = true;
+    hardware.pulseaudio.enable = true;
 
-#pkgs
-environment.systemPackages = with pkgs; [ pulseaudioFull pavucontrol ];
+    #pkgs
+    environment.systemPackages = with pkgs; [ pulseaudioFull pavucontrol ];
 
-};
+  };
 }

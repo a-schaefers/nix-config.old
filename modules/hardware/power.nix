@@ -2,13 +2,13 @@
 # generic desktop power settings
 with lib;
 {
-options.modules.hardware.power.enable = mkEnableOption "modules.hardware.power.desktops";
-config = mkIf config.modules.hardware.power.enable {
+  options.modules.hardware.power.enable = mkEnableOption "modules.hardware.power.desktops";
+  config = mkIf config.modules.hardware.power.enable {
 
-powerManagement = {
-enable = true;
-cpuFreqGovernor = "performance";
-};
+    powerManagement = {
+      enable = true;
+      cpuFreqGovernor = "performance";
+    };
 
-};
+  };
 }

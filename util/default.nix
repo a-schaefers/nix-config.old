@@ -11,15 +11,15 @@ let
 
   dirFiles =
     dir: collect isString
-    (mapAttrsRecursive
-      (path: type: concatStringsSep "/" path)
-      (getDir dir));
+      (mapAttrsRecursive
+        (path: type: concatStringsSep "/" path)
+        (getDir dir));
 
   recImport = dir:
     map (file: dir + "/${file}")
-    (filter (file:
-      ((hasSuffix ".nix" file) && (!(hasSuffix ".lib.nix" file)) && (file != "default.nix")))
-      (dirFiles dir));
+      (filter (file:
+        ((hasSuffix ".nix" file) && (!(hasSuffix ".lib.nix" file)) && (file != "default.nix")))
+        (dirFiles dir));
 
   utilPackages = map (m: callPackage (import m) {}) (recImport ./.);
 

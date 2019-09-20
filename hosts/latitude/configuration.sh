@@ -2,9 +2,8 @@ use_sgdisk_clear="true"     # use sgdisk --clear
 use_wipefs_all="true"       # use wipefs --all
 use_zero_disks="false"      # use dd if=/dev/zero ...
 zfs_pool_name="rpool"
-zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76822C9FD0"
-                "/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76820C5544") # Note: using /dev/disk/by-id is also preferable.
-zfs_pool_type="mirror"            # use "" for single, or "mirror", "raidz1", etc.
+zfs_pool_disks=("/dev/disk/by-id/ata-KINGSTON_SA400S37120G_50026B76820C5544") # Note: using /dev/disk/by-id is also preferable.
+zfs_pool_type=""            # use "" for single, or "mirror", "raidz1", etc.
 zfs_encrypt_home="true"    # only set to true if you are using a nixos ISO with ZFS 0.8 or higher.
 zfs_auto_snapshot=("$zfs_pool_name/HOME" "$zfs_pool_name/ROOT") # datasets to be set with com.sun:auto-snapshot=true
 nix_top_level_configuration="hosts/latitude" # Your top-level nix file to be bootstrapped

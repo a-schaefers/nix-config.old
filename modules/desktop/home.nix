@@ -188,7 +188,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
         # themes
         gnome3.gnome-themes-standard gnome3.gnome-themes-extra gnome3.adwaita-icon-theme hicolor-icon-theme
 
-        # exwm helpers
+        # wm helpers
         wmctrl xclip xsel scrot imagemagick libnotify perlPackages.FileMimeInfo
         gnupg pinentry gnutls (python36.withPackages(ps: with ps; [ certifi ]))
         networkmanagerapplet volumeicon udiskie
@@ -208,7 +208,7 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
       programs.emacs = {
         enable = true;
-        package = myEmacs; 
+        package = myEmacs;
         extraPackages = epkgs: [
           # general
           epkgs.better-defaults
@@ -243,9 +243,12 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
           epkgs.clojure-mode
           epkgs.cider
           epkgs.nix-mode
+          epkgs.haskell-mode
           epkgs.json-mode
           epkgs.js2-mode
           epkgs.web-mode
+          epkgs.markdown-mode
+          epkgs.inf-ruby
         ];
       };
 

@@ -1,4 +1,4 @@
-;;;; BASH
+;;; BASH
 
 (defun my-shell ()
   (interactive)
@@ -35,7 +35,7 @@
             (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
 
 
-;;;; EMACS LISP & CLOJURE
+;;; EMACS LISP & CLOJURE
 
 (require 'lisp-mode)
 (defun my-ielm ()
@@ -86,12 +86,19 @@
 (add-hook 'cider-repl-mode-hook (lambda () (lispy-mode 1)))
 (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)
 
-;;;; NIX
+;;; NIX
 
 (require 'nix-mode)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 
-;;;; WEB / JS
+;;; HASKELL
+
+(require 'haskell-mode)
+(add-hook 'haskell-mode-hook #'subword-mode)
+(add-hook 'haskell-mode-hook #'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook #'haskell-doc-mode)
+
+;;; WEB / JS
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -113,3 +120,20 @@
     (add-to-list 'auto-mode-alist '("\\.js\\'"  . js2-mode))
     (add-to-list 'auto-mode-alist '("\\.pac\\'"   . js2-mode))
     (add-to-list 'interpreter-mode-alist '("node" . js2-mode))))
+
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(setq markdown-fontify-code-blocks-natively t)
+
+;;; RUBY
+
+(add-to-list 'auto-mode-alist
+             '("\\.\\(?:cap\\|gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist
+             '("\\(?:Brewfile\\|Capfile\\|Gemfile\\(?:\\.[a-zA-Z0-9._-]+\\)?\\|[rR]akefile\\)\\'" . ruby-mode))
+(setq ruby-insert-encoding-magic-comment nil)
+(add-hook 'ruby-mode-hook 'subword-mode)
+
+(require 'inf-ruby)
+(add-hook 'ruby-mode-hook 'inf-ruby-minor-mode)
